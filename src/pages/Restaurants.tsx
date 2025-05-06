@@ -6,6 +6,10 @@ import SearchInput from '@/components/SearchInput';
 import RestaurantCard from '@/components/RestaurantCard';
 import RestaurantFilters from '@/components/RestaurantFilters';
 import { getFilteredRestaurants, Restaurant } from '@/data/restaurants';
+import { Button } from '@/components/ui/button';
+import { Shuffle } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Restaurants = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,15 +17,27 @@ const Restaurants = () => {
   const [filters, setFilters] = useState({
     cuisine: [] as string[],
     priceRange: [] as string[],
-    region: [] as string[]
+    region: [] as string[],
+    franchise: null as boolean | null,
+    designation: [] as string[],
+    country: [] as string[],
+    minRating: undefined as number | undefined,
+    zipCode: '',
+    city: ''
   });
   const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>([]);
+  const { toast } = useToast();
+  const navigate = useNavigate();
   
   // Initialize from URL params
   useEffect(() => {
     const searchFromUrl = searchParams.get('search') || '';
     const cuisineFromUrl = searchParams.get('cuisine') || '';
     const regionFromUrl = searchParams.get('region') || '';
+    const countryFromUrl = searchParams.get('country') || '';
+    const minRatingFromUrl = searchParams.get('minRating');
+    const zipCodeFromUrl = searchParams.get('zipCode') || '';
+    const cityFromUrl = searchParams.get('city') || '';
     
     setSearchTerm(searchFromUrl);
     
@@ -31,6 +47,18 @@ const Restaurants = () => {
     }
     if (regionFromUrl) {
       newFilters.region = [regionFromUrl];
+    }
+    if (countryFromUrl) {
+      newFilters.country = [countryFromUrl];
+    }
+    if (minRatingFromUrl) {
+      newFilters.minRating = parseFloat(minRatingFromUrl);
+    }
+    if (zipCodeFromUrl) {
+      newFilters.zipCode = zipCodeFromUrl;
+    }
+    if (cityFromUrl) {
+      newFilters.city = cityFromUrl;
     }
     
     setFilters(newFilters);
@@ -42,7 +70,13 @@ const Restaurants = () => {
       searchTerm, 
       filters.cuisine, 
       filters.priceRange,
-      filters.region
+      filters.region,
+      filters.franchise,
+      filters.designation,
+      filters.country,
+      filters.minRating,
+      filters.zipCode,
+      filters.city
     );
     
     setFilteredRestaurants(results);
@@ -52,6 +86,10 @@ const Restaurants = () => {
     if (searchTerm) newSearchParams.set('search', searchTerm);
     if (filters.cuisine.length === 1) newSearchParams.set('cuisine', filters.cuisine[0]);
     if (filters.region.length === 1) newSearchParams.set('region', filters.region[0]);
+    if (filters.country.length === 1) newSearchParams.set('country', filters.country[0]);
+    if (filters.minRating !== undefined) newSearchParams.set('minRating', filters.minRating.toString());
+    if (filters.zipCode) newSearchParams.set('zipCode', filters.zipCode);
+    if (filters.city) newSearchParams.set('city', filters.city);
     
     setSearchParams(newSearchParams);
   }, [searchTerm, filters, setSearchParams]);
@@ -60,7 +98,7 @@ const Restaurants = () => {
     setSearchTerm(term);
   };
   
-  const handleFilterChange = (type: 'cuisine' | 'priceRange' | 'region', value: string[]) => {
+  const handleFilterChange = <T,>(type: string, value: T) => {
     setFilters(prev => ({
       ...prev,
       [type]: value
@@ -71,8 +109,19 @@ const Restaurants = () => {
     setFilters({
       cuisine: [],
       priceRange: [],
-      region: []
+      region: [],
+      franchise: null,
+      designation: [],
+      country: [],
+      minRating: undefined,
+      zipCode: '',
+      city: ''
     });
+  };
+
+  const handlePickForMe = () => {
+    // Redirect to the pick-for-me page
+    navigate('/pick-for-me');
   };
   
   return (
@@ -82,7 +131,18 @@ const Restaurants = () => {
       <main className="flex-grow bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Find Restaurants</h1>
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">Find Restaurants</h1>
+              
+              <Button 
+                onClick={handlePickForMe}
+                variant="outline" 
+                className="bg-filipino-red hover:bg-filipino-red/90 text-white border-none"
+              >
+                <Shuffle className="h-4 w-4 mr-2" />
+                Pick For Me
+              </Button>
+            </div>
             
             <div className="md:flex md:justify-between md:items-start gap-4">
               <div className="mb-6 md:mb-0 w-full md:max-w-md">
