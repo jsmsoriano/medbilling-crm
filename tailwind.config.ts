@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+                // Filipino-inspired color palette
+                filipino: {
+                    red: '#CF0A2C',      // Filipino flag red
+                    blue: '#0038A8',     // Filipino flag blue
+                    yellow: '#FCD116',   // Filipino flag yellow/sun
+                    brown: '#8C5E3C',    // For lechon/adobo brown
+                    orange: '#FF7800',   // For Filipino desserts
+                    green: '#4F7942',    // For vegetables in Filipino dishes
+                    purple: '#642F6C',   // For ube/purple yam
+                    beige: '#F5F5DC',    // For rice color
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
