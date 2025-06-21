@@ -1,114 +1,76 @@
 
-import { Card } from '@/components/ui/card';
-import { 
-  DollarSign, 
-  FileText, 
-  Clock, 
-  TrendingUp,
-  Users,
-  CheckCircle,
-  AlertCircle,
-  Activity
-} from 'lucide-react';
+import { useSpreadsheetData } from '@/hooks/useSpreadsheetData';
 import MetricCard from '@/components/MetricCard';
 import RevenueChart from '@/components/RevenueChart';
 import ClaimStatusChart from '@/components/ClaimStatusChart';
 import RecentActivity from '@/components/RecentActivity';
-import ClientOverview from '@/components/ClientOverview';
+import FileImport from '@/components/FileImport';
+import { DollarSign, Users, TrendingUp, FileText } from 'lucide-react';
 
 const Dashboard = () => {
+  const { clients, claims, loading, importFromFile, exportToCSV, loadData } = useSpreadsheetData();
+
+  // Calculate metrics from spreadsheet data
+  const totalRevenue = clients.reduce((sum, client) => sum + client.value, 0);
+  const totalClients = clients.length;
+  const activeClaims = claims.filter(claim => claim.status === 'processing' || claim.status === 'pending').length;
+  const approvedClaims = claims.filter(claim => claim.status === 'approved').length;
+
   const metrics = [
     {
-      title: 'Monthly Revenue',
-      value: '$87,430',
+      title: 'Total Revenue',
+      value: `$${totalRevenue.toLocaleString()}`,
       change: '+12.5%',
-      trend: 'up' as const,
       icon: DollarSign,
-      color: 'green'
-    },
-    {
-      title: 'Claims Processed',
-      value: '1,247',
-      change: '+8.2%',
-      trend: 'up' as const,
-      icon: FileText,
-      color: 'blue'
-    },
-    {
-      title: 'Avg. Processing Time',
-      value: '2.3 days',
-      change: '-15.3%',
-      trend: 'down' as const,
-      icon: Clock,
-      color: 'purple'
-    },
-    {
-      title: 'Collection Rate',
-      value: '94.2%',
-      change: '+2.1%',
-      trend: 'up' as const,
-      icon: TrendingUp,
-      color: 'emerald'
     },
     {
       title: 'Active Clients',
-      value: '48',
-      change: '+6',
-      trend: 'up' as const,
+      value: totalClients.toString(),
+      change: '+3.2%',
       icon: Users,
-      color: 'orange'
     },
     {
-      title: 'Claims Approved',
-      value: '1,156',
-      change: '+9.1%',
-      trend: 'up' as const,
-      icon: CheckCircle,
-      color: 'green'
+      title: 'Claims Processed',
+      value: approvedClaims.toString(),
+      change: '+8.1%',
+      icon: TrendingUp,
     },
     {
-      title: 'Claims Denied',
-      value: '73',
-      change: '-12.5%',
-      trend: 'down' as const,
-      icon: AlertCircle,
-      color: 'red'
+      title: 'Pending Claims',
+      value: activeClaims.toString(),
+      change: '-2.4%',
+      icon: FileText,
     },
-    {
-      title: 'AR Days',
-      value: '28.5',
-      change: '-5.2%',
-      trend: 'down' as const,
-      icon: Activity,
-      color: 'indigo'
-    }
   ];
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">Monitor your medical billing performance and key metrics</p>
+        <div className="text-sm text-gray-500">
+          Data from spreadsheet imports
+        </div>
       </div>
 
-      {/* Key Metrics Grid */}
+      <FileImport
+        onFileImport={importFromFile}
+        onExport={exportToCSV}
+        onRefresh={loadData}
+        loading={loading}
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {metrics.map((metric) => (
-          <MetricCard key={metric.title} {...metric} />
+        {metrics.map((metric, index) => (
+          <MetricCard key={index} {...metric} />
         ))}
       </div>
 
-      {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <RevenueChart />
         <ClaimStatusChart />
       </div>
 
-      {/* Bottom Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentActivity />
-        <ClientOverview />
-      </div>
+      <RecentActivity />
     </div>
   );
 };

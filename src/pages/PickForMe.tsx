@@ -1,11 +1,9 @@
 
-import Navbar from '@/components/Navbar';
 import PickForMeHeader from '@/components/PickForMe/PickForMeHeader';
+import LocationInput from '@/components/PickForMe/LocationInput';
 import CuisineSelection from '@/components/PickForMe/CuisineSelection';
 import PriceRangeSelection from '@/components/PickForMe/PriceRangeSelection';
-import LocationInput from '@/components/PickForMe/LocationInput';
 import PickButton from '@/components/PickForMe/PickButton';
-import PickForMeFooter from '@/components/PickForMe/PickForMeFooter';
 import { usePickForMe } from '@/hooks/usePickForMe';
 
 const PickForMe = () => {
@@ -21,42 +19,32 @@ const PickForMe = () => {
   } = usePickForMe();
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-gray-50">
+      <PickForMeHeader />
       
-      <main className="flex-grow bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <PickForMeHeader />
-            
-            <div className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <CuisineSelection 
-                  selectedCuisines={selectedCuisines}
-                  onCuisineToggle={handleCuisineToggle}
-                />
-                
-                <PriceRangeSelection 
-                  priceRange={priceRange}
-                  onPriceToggle={handlePriceToggle}
-                />
-                
-                <LocationInput 
-                  location={location}
-                  onLocationChange={setLocation}
-                />
-                
-                <PickButton 
-                  loading={loading}
-                  onSubmit={handleSubmit}
-                />
-              </form>
-            </div>
-          </div>
-        </div>
-      </main>
-      
-      <PickForMeFooter />
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <LocationInput 
+            location={location} 
+            onLocationChange={setLocation} 
+          />
+          
+          <CuisineSelection 
+            selectedCuisines={selectedCuisines}
+            onCuisineToggle={handleCuisineToggle}
+          />
+          
+          <PriceRangeSelection 
+            priceRange={priceRange}
+            onPriceToggle={handlePriceToggle}
+          />
+          
+          <PickButton 
+            loading={loading} 
+            onSubmit={() => handleSubmit(new Event('submit') as any)}
+          />
+        </form>
+      </div>
     </div>
   );
 };
