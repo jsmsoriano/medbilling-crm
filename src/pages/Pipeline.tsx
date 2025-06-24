@@ -1,7 +1,9 @@
 
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import ProspectDialog, { Prospect } from '@/components/ProspectDialog';
 import { 
   Plus, 
   Clock, 
@@ -10,44 +12,12 @@ import {
   TrendingUp,
   Calendar,
   Phone,
-  Mail
+  Mail,
+  FileText
 } from 'lucide-react';
 
 const Pipeline = () => {
-  const pipelineStages = [
-    {
-      name: 'Prospects',
-      count: 12,
-      value: 180000,
-      color: 'blue'
-    },
-    {
-      name: 'Qualified',
-      count: 8,
-      value: 140000,
-      color: 'yellow'
-    },
-    {
-      name: 'Proposal',
-      count: 5,
-      value: 95000,
-      color: 'orange'
-    },
-    {
-      name: 'Negotiation',
-      count: 3,
-      value: 58000,
-      color: 'red'
-    },
-    {
-      name: 'Closed Won',
-      count: 2,
-      value: 35000,
-      color: 'green'
-    }
-  ];
-
-  const prospects = [
+  const [prospects, setProspects] = useState<Prospect[]>([
     {
       id: 1,
       name: 'Valley Medical Group',
@@ -60,7 +30,8 @@ const Pipeline = () => {
       nextAction: 'Send proposal',
       nextActionDate: '2024-01-15',
       lastContact: '2024-01-10',
-      source: 'Referral'
+      source: 'Referral',
+      notes: 'Interested in comprehensive billing services. Follow up on insurance credentialing requirements.'
     },
     {
       id: 2,
@@ -74,7 +45,8 @@ const Pipeline = () => {
       nextAction: 'Follow up call',
       nextActionDate: '2024-01-12',
       lastContact: '2024-01-08',
-      source: 'Website'
+      source: 'Website',
+      notes: 'Reviewing our proposal. Concerns about transition timeline. Need to address staff training.'
     },
     {
       id: 3,
@@ -88,7 +60,8 @@ const Pipeline = () => {
       nextAction: 'Contract review',
       nextActionDate: '2024-01-14',
       lastContact: '2024-01-09',
-      source: 'Cold Outreach'
+      source: 'Cold Outreach',
+      notes: 'Contract under legal review. Very interested. Expect to close within 2 weeks.'
     },
     {
       id: 4,
@@ -102,7 +75,8 @@ const Pipeline = () => {
       nextAction: 'Initial meeting',
       nextActionDate: '2024-01-16',
       lastContact: '2024-01-05',
-      source: 'LinkedIn'
+      source: 'LinkedIn',
+      notes: 'Initial contact made. Scheduled discovery call to understand their current billing challenges.'
     },
     {
       id: 5,
@@ -116,9 +90,47 @@ const Pipeline = () => {
       nextAction: 'Needs assessment',
       nextActionDate: '2024-01-13',
       lastContact: '2024-01-11',
-      source: 'Referral'
+      source: 'Referral',
+      notes: 'Strong referral from existing client. Looking to improve denial rates and AR management.'
     }
+  ]);
+
+  const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
+  const [dialogMode, setDialogMode] = useState<'edit' | 'stage'>('edit');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const pipelineStages = [
+    { name: 'Prospects', count: 0, value: 0, color: 'blue' },
+    { name: 'Qualified', count: 0, value: 0, color: 'yellow' },
+    { name: 'Proposal', count: 0, value: 0, color: 'orange' },
+    { name: 'Negotiation', count: 0, value: 0, color: 'red' },
+    { name: 'Closed Won', count: 0, value: 0, color: 'green' }
   ];
+
+  // Calculate stage metrics
+  pipelineStages.forEach(stage => {
+    const stageProspects = prospects.filter(p => p.stage === stage.name);
+    stage.count = stageProspects.length;
+    stage.value = stageProspects.reduce((sum, p) => sum + p.value, 0);
+  });
+
+  const handleEditProspect = (prospect: Prospect) => {
+    setSelectedProspect(prospect);
+    setDialogMode('edit');
+    setIsDialogOpen(true);
+  };
+
+  const handleUpdateStage = (prospect: Prospect) => {
+    setSelectedProspect(prospect);
+    setDialogMode('stage');
+    setIsDialogOpen(true);
+  };
+
+  const handleSaveProspect = (updatedProspect: Prospect) => {
+    setProspects(prev => 
+      prev.map(p => p.id === updatedProspect.id ? updatedProspect : p)
+    );
+  };
 
   const getStageColor = (stage: string) => {
     const colors: { [key: string]: string } = {
@@ -211,6 +223,18 @@ const Pipeline = () => {
                 </div>
               </div>
 
+              {prospect.notes && (
+                <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                  <div className="flex items-start">
+                    <FileText className="w-4 h-4 mr-2 mt-0.5 text-gray-500" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">Notes</p>
+                      <p className="text-sm text-gray-600">{prospect.notes}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center text-sm text-gray-600">
@@ -223,14 +247,33 @@ const Pipeline = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button size="sm" variant="outline">Edit</Button>
-                  <Button size="sm">Update Stage</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => handleEditProspect(prospect)}
+                  >
+                    Edit
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={() => handleUpdateStage(prospect)}
+                  >
+                    Update Stage
+                  </Button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </Card>
+
+      <ProspectDialog
+        prospect={selectedProspect}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSave={handleSaveProspect}
+        mode={dialogMode}
+      />
     </div>
   );
 };

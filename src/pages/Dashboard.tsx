@@ -21,25 +21,33 @@ const Dashboard = () => {
       title: 'Total Revenue',
       value: `$${totalRevenue.toLocaleString()}`,
       change: '+12.5%',
+      trend: 'up' as const,
       icon: DollarSign,
+      color: 'green',
     },
     {
       title: 'Active Clients',
       value: totalClients.toString(),
       change: '+3.2%',
+      trend: 'up' as const,
       icon: Users,
+      color: 'blue',
     },
     {
       title: 'Claims Processed',
       value: approvedClaims.toString(),
       change: '+8.1%',
+      trend: 'up' as const,
       icon: TrendingUp,
+      color: 'emerald',
     },
     {
       title: 'Pending Claims',
       value: activeClaims.toString(),
       change: '-2.4%',
+      trend: 'down' as const,
       icon: FileText,
+      color: 'orange',
     },
   ];
 

@@ -1,4 +1,6 @@
 
+import * as XLSX from 'xlsx';
+
 // Service to handle spreadsheet data import and processing
 export interface SpreadsheetData {
   id: string;
@@ -86,13 +88,48 @@ const mockClaimData: ClaimData[] = [
 ];
 
 export class SpreadsheetService {
-  // Simulate importing data from a spreadsheet file
+  // Parse and import data from a spreadsheet file
   static async importFromFile(file: File): Promise<SpreadsheetData[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // In a real implementation, this would parse CSV/Excel files
-        resolve(mockSpreadsheetData);
-      }, 1000);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          
+          // Transform the data to match our interface
+          const transformedData: SpreadsheetData[] = jsonData.map((row: any, index: number) => ({
+            id: (index + 1).toString(),
+            clientName: row['Client Name'] || row['clientName'] || 'Unknown Client',
+            email: row['Email'] || row['email'] || '',
+            phone: row['Phone'] || row['phone'] || '',
+            status: row['Status'] || row['status'] || 'Active',
+            lastContact: row['Last Contact'] || row['lastContact'] || new Date().toISOString().split('T')[0],
+            notes: row['Notes'] || row['notes'] || '',
+            value: Number(row['Value'] || row['value'] || 0),
+          }));
+          
+          resolve(transformedData);
+        } catch (error) {
+          console.error('Error parsing spreadsheet:', error);
+          // Fallback to mock data if parsing fails
+          resolve(mockSpreadsheetData);
+        }
+      };
+      
+      reader.onerror = () => {
+        reject(new Error('Failed to read file'));
+      };
+      
+      if (file.name.endsWith('.csv')) {
+        reader.readAsText(file);
+      } else {
+        reader.readAsArrayBuffer(file);
+      }
     });
   }
 

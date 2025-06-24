@@ -1,6 +1,8 @@
 
+import { useState, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import PerformanceFilters, { PerformanceFilter } from '@/components/PerformanceFilters';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -14,6 +16,8 @@ import {
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 const Performance = () => {
+  const [filters, setFilters] = useState<PerformanceFilter>({});
+
   const monthlyData = [
     { month: 'Jan', revenue: 65000, claims: 234, denialRate: 8.2, arDays: 32 },
     { month: 'Feb', revenue: 71000, claims: 267, denialRate: 7.8, arDays: 30 },
@@ -22,6 +26,31 @@ const Performance = () => {
     { month: 'May', revenue: 82000, claims: 312, denialRate: 5.9, arDays: 26 },
     { month: 'Jun', revenue: 87430, claims: 347, denialRate: 5.8, arDays: 28.5 },
   ];
+
+  const allClientPerformance = [
+    { name: 'Metro Medical', revenue: 15420, claims: 45, denialRate: 3.2, satisfaction: 98, practiceGroup: 'Primary Care' },
+    { name: 'Sunrise Family', revenue: 12340, claims: 38, denialRate: 4.1, satisfaction: 95, practiceGroup: 'Family Medicine' },
+    { name: 'Downtown Cardio', revenue: 9850, claims: 29, denialRate: 6.8, satisfaction: 92, practiceGroup: 'Cardiology' },
+    { name: 'Pediatric Assoc', revenue: 8720, claims: 31, denialRate: 2.9, satisfaction: 99, practiceGroup: 'Pediatrics' },
+    { name: 'Women\'s Health', revenue: 7680, claims: 22, denialRate: 5.5, satisfaction: 94, practiceGroup: 'OB/GYN' },
+    { name: 'Valley Medical', revenue: 6540, claims: 18, denialRate: 4.3, satisfaction: 96, practiceGroup: 'Primary Care' },
+    { name: 'Coastal Ortho', revenue: 5890, claims: 15, denialRate: 7.2, satisfaction: 90, practiceGroup: 'Orthopedics' },
+    { name: 'Mental Health', revenue: 4320, claims: 12, denialRate: 3.8, satisfaction: 97, practiceGroup: 'Mental Health' },
+  ];
+
+  const availableClients = Array.from(new Set(allClientPerformance.map(client => client.name)));
+  const availablePracticeGroups = Array.from(new Set(allClientPerformance.map(client => client.practiceGroup)));
+
+  // Filter client performance data based on active filters
+  const filteredClientPerformance = useMemo(() => {
+    return allClientPerformance.filter(client => {
+      if (filters.client && client.name !== filters.client) return false;
+      if (filters.practiceGroup && client.practiceGroup !== filters.practiceGroup) return false;
+      if (filters.revenueMin && client.revenue < filters.revenueMin) return false;
+      if (filters.revenueMax && client.revenue > filters.revenueMax) return false;
+      return true;
+    });
+  }, [filters, allClientPerformance]);
 
   const kpis = [
     {
@@ -58,14 +87,6 @@ const Performance = () => {
     }
   ];
 
-  const clientPerformance = [
-    { name: 'Metro Medical', revenue: 15420, claims: 45, denialRate: 3.2, satisfaction: 98 },
-    { name: 'Sunrise Family', revenue: 12340, claims: 38, denialRate: 4.1, satisfaction: 95 },
-    { name: 'Downtown Cardio', revenue: 9850, claims: 29, denialRate: 6.8, satisfaction: 92 },
-    { name: 'Pediatric Assoc', revenue: 8720, claims: 31, denialRate: 2.9, satisfaction: 99 },
-    { name: 'Women\'s Health', revenue: 7680, claims: 22, denialRate: 5.5, satisfaction: 94 }
-  ];
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -84,6 +105,13 @@ const Performance = () => {
           </Button>
         </div>
       </div>
+
+      {/* Performance Filters */}
+      <PerformanceFilters
+        onFilterChange={setFilters}
+        availableClients={availableClients}
+        availablePracticeGroups={availablePracticeGroups}
+      />
 
       {/* Key Performance Indicators */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -194,12 +222,18 @@ const Performance = () => {
 
       {/* Client Performance Table */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Client Performance</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">Client Performance</h3>
+          <span className="text-sm text-gray-500">
+            Showing {filteredClientPerformance.length} of {allClientPerformance.length} clients
+          </span>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200">
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Client</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-900">Practice Group</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Revenue</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Claims</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Denial Rate</th>
@@ -207,9 +241,10 @@ const Performance = () => {
               </tr>
             </thead>
             <tbody>
-              {clientPerformance.map((client, index) => (
+              {filteredClientPerformance.map((client, index) => (
                 <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4 font-medium text-gray-900">{client.name}</td>
+                  <td className="py-3 px-4 text-gray-600">{client.practiceGroup}</td>
                   <td className="py-3 px-4 text-gray-600">${client.revenue.toLocaleString()}</td>
                   <td className="py-3 px-4 text-gray-600">{client.claims}</td>
                   <td className="py-3 px-4">
