@@ -6,6 +6,7 @@ import {
   Users, 
   TrendingUp, 
   BarChart3,
+  Settings,
   Menu,
   X
 } from 'lucide-react';
@@ -21,6 +22,7 @@ const Layout = () => {
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Performance', href: '/performance', icon: BarChart3 },
+    { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (
@@ -58,7 +60,7 @@ const Layout = () => {
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "group flex items-center px-2 py-2 text-base font-medium rounded-md",
+                      "group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors",
                       isActive
                         ? "bg-blue-100 text-blue-900"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -94,7 +96,7 @@ const Layout = () => {
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "group flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                      "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                       isActive
                         ? "bg-blue-100 text-blue-900"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -129,7 +131,7 @@ const Layout = () => {
             />
           </div>
         </div>
-        <main className="p-6">
+        <main>
           <Outlet />
         </main>
       </div>

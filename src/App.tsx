@@ -16,6 +16,7 @@ import Clients from "./pages/Clients";
 import ClientDetail from "./pages/ClientDetail";
 import Pipeline from "./pages/Pipeline";
 import Performance from "./pages/Performance";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import WelcomeModal from "./components/WelcomeModal";
 import { FavoritesProvider } from "./context/FavoritesContext";
@@ -31,7 +32,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Layout />}>
-                <Route index element={<Index />} />
+                <Route index element={<Dashboard />} />
                 <Route path="restaurants" element={<Restaurants />} />
                 <Route path="restaurants/:id" element={<RestaurantDetail />} />
                 <Route path="favorites" element={<Favorites />} />
@@ -42,6 +43,7 @@ function App() {
                 <Route path="clients/:id" element={<ClientDetail />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="performance" element={<Performance />} />
+                <Route path="settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
