@@ -80,7 +80,7 @@ const ReportConfiguration = ({
                 <SelectValue placeholder="All clients" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All clients</SelectItem>
+                <SelectItem value="all-clients">All clients</SelectItem>
                 {availableClients.map((client) => (
                   <SelectItem key={client} value={client}>
                     {client}
@@ -97,7 +97,7 @@ const ReportConfiguration = ({
                 <SelectValue placeholder="All practice groups" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All practice groups</SelectItem>
+                <SelectItem value="all-groups">All practice groups</SelectItem>
                 {availablePracticeGroups.map((group) => (
                   <SelectItem key={group} value={group}>
                     {group}

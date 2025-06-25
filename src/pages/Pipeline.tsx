@@ -1,9 +1,9 @@
-
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ProspectDialog, { Prospect } from '@/components/ProspectDialog';
+import PipelineFilters, { PipelineFilter } from '@/components/PipelineFilters';
 import { 
   Plus, 
   Clock, 
@@ -98,6 +98,8 @@ const Pipeline = () => {
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
   const [dialogMode, setDialogMode] = useState<'edit' | 'stage'>('edit');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [filters, setFilters] = useState<PipelineFilter>({});
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const pipelineStages = [
     { name: 'Prospects', count: 0, value: 0, color: 'blue' },
@@ -107,9 +109,31 @@ const Pipeline = () => {
     { name: 'Closed Won', count: 0, value: 0, color: 'green' }
   ];
 
+  const availableStages = Array.from(new Set(prospects.map(p => p.stage)));
+  const availableSources = Array.from(new Set(prospects.map(p => p.source)));
+
+  // Filter prospects based on active filters
+  const filteredProspects = useMemo(() => {
+    return prospects.filter(prospect => {
+      if (filters.stage && prospect.stage !== filters.stage) return false;
+      if (filters.source && prospect.source !== filters.source) return false;
+      if (filters.probabilityMin && prospect.probability < filters.probabilityMin) return false;
+      if (filters.probabilityMax && prospect.probability > filters.probabilityMax) return false;
+      if (filters.valueMin && prospect.value < filters.valueMin) return false;
+      if (filters.valueMax && prospect.value > filters.valueMax) return false;
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        return prospect.name.toLowerCase().includes(searchLower) ||
+               prospect.contact.toLowerCase().includes(searchLower) ||
+               prospect.email.toLowerCase().includes(searchLower);
+      }
+      return true;
+    });
+  }, [prospects, filters]);
+
   // Calculate stage metrics
   pipelineStages.forEach(stage => {
-    const stageProspects = prospects.filter(p => p.stage === stage.name);
+    const stageProspects = filteredProspects.filter(p => p.stage === stage.name);
     stage.count = stageProspects.length;
     stage.value = stageProspects.reduce((sum, p) => sum + p.value, 0);
   });
@@ -162,6 +186,15 @@ const Pipeline = () => {
         </Button>
       </div>
 
+      {/* Pipeline Filters */}
+      <PipelineFilters
+        onFilterChange={setFilters}
+        onViewChange={setViewMode}
+        currentView={viewMode}
+        availableStages={availableStages}
+        availableSources={availableSources}
+      />
+
       {/* Pipeline Overview */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         {pipelineStages.map((stage) => (
@@ -185,86 +218,147 @@ const Pipeline = () => {
 
       {/* Prospects List */}
       <Card className="p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Active Prospects</h2>
-        <div className="space-y-4">
-          {prospects.map((prospect) => (
-            <div key={prospect.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{prospect.name}</h3>
-                  <p className="text-sm text-gray-600">{prospect.contact}</p>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">Active Prospects</h2>
+          <span className="text-sm text-gray-500">
+            Showing {filteredProspects.length} of {prospects.length} prospects
+          </span>
+        </div>
+        
+        {viewMode === 'list' ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Name</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Contact</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Stage</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Value</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Probability</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Source</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProspects.map((prospect) => (
+                  <tr key={prospect.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 font-medium text-gray-900">{prospect.name}</td>
+                    <td className="py-3 px-4 text-gray-600">{prospect.contact}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={getStageColor(prospect.stage)}>
+                        {prospect.stage}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-gray-600">${prospect.value.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <span className={`font-medium ${getProbabilityColor(prospect.probability)}`}>
+                        {prospect.probability}%
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-gray-600">{prospect.source}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex space-x-2">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleEditProspect(prospect)}
+                        >
+                          Edit
+                        </Button>
+                        <Button 
+                          size="sm"
+                          onClick={() => handleUpdateStage(prospect)}
+                        >
+                          Update
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredProspects.map((prospect) => (
+              <div key={prospect.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">{prospect.name}</h3>
+                    <p className="text-sm text-gray-600">{prospect.contact}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Badge className={getStageColor(prospect.stage)}>
+                      {prospect.stage}
+                    </Badge>
+                    <span className={`text-sm font-medium ${getProbabilityColor(prospect.probability)}`}>
+                      {prospect.probability}%
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Badge className={getStageColor(prospect.stage)}>
-                    {prospect.stage}
-                  </Badge>
-                  <span className={`text-sm font-medium ${getProbabilityColor(prospect.probability)}`}>
-                    {prospect.probability}%
-                  </span>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Mail className="w-4 h-4 mr-2" />
-                  {prospect.email}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Mail className="w-4 h-4 mr-2" />
+                    {prospect.email}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Phone className="w-4 h-4 mr-2" />
+                    {prospect.phone}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    ${prospect.value.toLocaleString()}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    {prospect.source}
+                  </div>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Phone className="w-4 h-4 mr-2" />
-                  {prospect.phone}
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  ${prospect.value.toLocaleString()}
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  {prospect.source}
-                </div>
-              </div>
 
-              {prospect.notes && (
-                <div className="mb-4 p-3 bg-gray-50 rounded-md">
-                  <div className="flex items-start">
-                    <FileText className="w-4 h-4 mr-2 mt-0.5 text-gray-500" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-1">Notes</p>
-                      <p className="text-sm text-gray-600">{prospect.notes}</p>
+                {prospect.notes && (
+                  <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                    <div className="flex items-start">
+                      <FileText className="w-4 h-4 mr-2 mt-0.5 text-gray-500" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700 mb-1">Notes</p>
+                        <p className="text-sm text-gray-600">{prospect.notes}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    Next: {prospect.nextAction}
+                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      Next: {prospect.nextAction}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="w-4 h-4 mr-1" />
+                      Due: {new Date(prospect.nextActionDate).toLocaleDateString()}
+                    </div>
                   </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Clock className="w-4 h-4 mr-1" />
-                    Due: {new Date(prospect.nextActionDate).toLocaleDateString()}
+                  <div className="flex space-x-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => handleEditProspect(prospect)}
+                    >
+                      Edit
+                    </Button>
+                    <Button 
+                      size="sm"
+                      onClick={() => handleUpdateStage(prospect)}
+                    >
+                      Update Stage
+                    </Button>
                   </div>
-                </div>
-                <div className="flex space-x-2">
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => handleEditProspect(prospect)}
-                  >
-                    Edit
-                  </Button>
-                  <Button 
-                    size="sm"
-                    onClick={() => handleUpdateStage(prospect)}
-                  >
-                    Update Stage
-                  </Button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </Card>
 
       <ProspectDialog

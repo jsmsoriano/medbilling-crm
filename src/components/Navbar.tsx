@@ -13,17 +13,18 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-filipino-red font-bold text-xl">Pinoy</span>
-              <span className="text-filipino-blue font-bold text-xl">Eats</span>
-              <span className="text-filipino-yellow ml-2">🍽️</span>
+              <span className="text-blue-600 font-bold text-6xl">Medical</span>
+              <span className="text-gray-700 font-bold text-6xl ml-2">Billing</span>
+              <span className="text-green-600 ml-3 text-4xl">⚕️</span>
             </Link>
           </div>
           
           <div className="hidden md:flex md:items-center md:space-x-6">
-            <Link to="/" className="text-gray-700 hover:text-filipino-red font-medium">Home</Link>
-            <Link to="/restaurants" className="text-gray-700 hover:text-filipino-red font-medium">Restaurants</Link>
-            <Link to="/map" className="text-gray-700 hover:text-filipino-red font-medium">Map</Link>
-            <Link to="/favorites" className="text-gray-700 hover:text-filipino-red font-medium">Favorites</Link>
+            <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium">Dashboard</Link>
+            <Link to="/clients" className="text-gray-700 hover:text-blue-600 font-medium">Clients</Link>
+            <Link to="/pipeline" className="text-gray-700 hover:text-blue-600 font-medium">Pipeline</Link>
+            <Link to="/reports" className="text-gray-700 hover:text-blue-600 font-medium">Reports</Link>
+            <Link to="/settings" className="text-gray-700 hover:text-blue-600 font-medium">Settings</Link>
           </div>
           
           <div className="flex items-center md:hidden">
@@ -45,31 +46,38 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
             <Link 
               to="/" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-filipino-beige"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Home
+              Dashboard
             </Link>
             <Link 
-              to="/restaurants" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-filipino-beige"
+              to="/clients" 
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Restaurants
+              Clients
             </Link>
             <Link 
-              to="/map" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-filipino-beige"
+              to="/pipeline" 
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Map
+              Pipeline
             </Link>
             <Link 
-              to="/favorites" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-filipino-beige"
+              to="/reports" 
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Favorites
+              Reports
+            </Link>
+            <Link 
+              to="/settings" 
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Settings
             </Link>
           </div>
         </div>
