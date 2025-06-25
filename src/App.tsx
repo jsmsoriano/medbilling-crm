@@ -45,10 +45,10 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
+            <WelcomeModal />
           </BrowserRouter>
           <Toaster />
           <Sonner />
-          <WelcomeModal />
         </FavoritesProvider>
       </TooltipProvider>
     </QueryClientProvider>
