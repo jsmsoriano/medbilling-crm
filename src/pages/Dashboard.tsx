@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { useSpreadsheetData } from '@/hooks/useSpreadsheetData';
-import FileImport from '@/components/FileImport';
 import DashboardCustomizer from '@/components/DashboardCustomizer';
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardMetrics from '@/components/DashboardMetrics';
@@ -21,7 +20,7 @@ interface DashboardTile {
 }
 
 const Dashboard = () => {
-  const { clients, claims, loading, importFromFile, exportToCSV, loadData } = useSpreadsheetData();
+  const { clients, claims, loading } = useSpreadsheetData();
   const [customTiles, setCustomTiles] = useState<DashboardTile[]>([]);
   const [showCustomizer, setShowCustomizer] = useState(false);
 
@@ -137,16 +136,6 @@ const Dashboard = () => {
             />
           </div>
         )}
-
-        {/* File Import Section */}
-        <div className="mb-8">
-          <FileImport
-            onFileImport={importFromFile}
-            onExport={exportToCSV}
-            onRefresh={loadData}
-            loading={loading}
-          />
-        </div>
 
         <DashboardMetrics customTiles={customTiles} />
         <DashboardCharts />

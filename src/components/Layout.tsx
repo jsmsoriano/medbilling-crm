@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   Bell,
-  User
+  User,
+  FileSpreadsheet
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -23,6 +24,7 @@ const Layout = () => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Reports', href: '/reports', icon: FileText },
+    { name: 'Spreadsheet Management', href: '/spreadsheet-management', icon: FileSpreadsheet },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Performance', href: '/performance', icon: BarChart3 },
