@@ -43,7 +43,7 @@ const Reports = () => {
     { name: 'Pediatric Assoc', revenue: 8720, claims: 31, denialRate: 2.9, satisfaction: 99, practiceGroup: 'Pediatrics' },
   ];
 
-  const availableClients = Array.from(new Set([...clients.map(c => c.name), ...mockClientPerformance.map(c => c.name)]));
+  const availableClients = Array.from(new Set([...clients.map(c => c.clientName), ...mockClientPerformance.map(c => c.name)]));
   const availablePracticeGroups = Array.from(new Set(mockClientPerformance.map(c => c.practiceGroup)));
 
   const filteredData = useMemo(() => {
@@ -130,7 +130,7 @@ const Reports = () => {
       }
 
       // Footer
-      const pageCount = doc.internal.getNumberOfPages();
+      const pageCount = (doc as any).internal.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
         doc.setFontSize(8);

@@ -33,6 +33,7 @@ interface DashboardTile {
   icon: any;
   color: string;
   description?: string;
+  size: 'small' | 'medium' | 'large';
 }
 
 const Dashboard = () => {
@@ -103,7 +104,8 @@ const Dashboard = () => {
       trend: 'up',
       icon: 'DollarSign',
       color: 'green',
-      description: 'Monthly revenue generated'
+      description: 'Monthly revenue generated',
+      size: 'medium'
     },
     {
       id: 'active-clients',
@@ -113,7 +115,8 @@ const Dashboard = () => {
       trend: 'up',
       icon: 'Users',
       color: 'blue',
-      description: 'Currently active clients'
+      description: 'Currently active clients',
+      size: 'medium'
     },
     {
       id: 'claims-processed',
@@ -123,7 +126,8 @@ const Dashboard = () => {
       trend: 'up',
       icon: 'CheckCircle',
       color: 'emerald',
-      description: 'Successfully processed claims'
+      description: 'Successfully processed claims',
+      size: 'medium'
     },
     {
       id: 'approval-rate',
@@ -133,7 +137,8 @@ const Dashboard = () => {
       trend: 'up',
       icon: 'Target',
       color: 'purple',
-      description: 'Claims approval percentage'
+      description: 'Claims approval percentage',
+      size: 'medium'
     },
     {
       id: 'collection-rate',
@@ -143,7 +148,8 @@ const Dashboard = () => {
       trend: 'up',
       icon: 'TrendingUp',
       color: 'indigo',
-      description: 'Successful collection percentage'
+      description: 'Successful collection percentage',
+      size: 'medium'
     },
     {
       id: 'pending-claims',
@@ -153,7 +159,8 @@ const Dashboard = () => {
       trend: 'down',
       icon: 'Clock',
       color: 'orange',
-      description: 'Claims awaiting processing'
+      description: 'Claims awaiting processing',
+      size: 'medium'
     }
   ];
 
