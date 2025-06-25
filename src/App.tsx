@@ -16,6 +16,7 @@ import Clients from "./pages/Clients";
 import ClientDetail from "./pages/ClientDetail";
 import Pipeline from "./pages/Pipeline";
 import Performance from "./pages/Performance";
+import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import WelcomeModal from "./components/WelcomeModal";
@@ -43,6 +44,7 @@ function App() {
                 <Route path="clients/:id" element={<ClientDetail />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="performance" element={<Performance />} />
+                <Route path="reports" element={<Reports />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

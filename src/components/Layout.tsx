@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { 
@@ -6,6 +5,7 @@ import {
   Users, 
   TrendingUp, 
   BarChart3,
+  FileText,
   Settings,
   Menu,
   X
@@ -19,6 +19,7 @@ const Layout = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Reports', href: '/reports', icon: FileText },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Performance', href: '/performance', icon: BarChart3 },
