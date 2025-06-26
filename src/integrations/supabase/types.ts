@@ -9,6 +9,181 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      billing_performance: {
+        Row: {
+          approved_claims: number
+          average_days_to_payment: number | null
+          client_id: string
+          collection_rate: number | null
+          created_at: string
+          denial_rate: number | null
+          denied_claims: number
+          id: string
+          month_year: string
+          pending_claims: number
+          total_claims: number
+          total_revenue: number
+          updated_at: string
+        }
+        Insert: {
+          approved_claims?: number
+          average_days_to_payment?: number | null
+          client_id: string
+          collection_rate?: number | null
+          created_at?: string
+          denial_rate?: number | null
+          denied_claims?: number
+          id?: string
+          month_year: string
+          pending_claims?: number
+          total_claims?: number
+          total_revenue?: number
+          updated_at?: string
+        }
+        Update: {
+          approved_claims?: number
+          average_days_to_payment?: number | null
+          client_id?: string
+          collection_rate?: number | null
+          created_at?: string
+          denial_rate?: number | null
+          denied_claims?: number
+          id?: string
+          month_year?: string
+          pending_claims?: number
+          total_claims?: number
+          total_revenue?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_performance_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      claims: {
+        Row: {
+          amount: number
+          claim_number: string
+          client_id: string
+          created_at: string
+          denial_reason: string | null
+          follow_up_required: boolean | null
+          id: string
+          insurance_company: string
+          notes: string | null
+          patient_name: string
+          payment_amount: number | null
+          payment_date: string | null
+          service_date: string
+          status: string
+          submission_date: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          claim_number: string
+          client_id: string
+          created_at?: string
+          denial_reason?: string | null
+          follow_up_required?: boolean | null
+          id?: string
+          insurance_company: string
+          notes?: string | null
+          patient_name: string
+          payment_amount?: number | null
+          payment_date?: string | null
+          service_date: string
+          status?: string
+          submission_date: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          claim_number?: string
+          client_id?: string
+          created_at?: string
+          denial_reason?: string | null
+          follow_up_required?: boolean | null
+          id?: string
+          insurance_company?: string
+          notes?: string | null
+          patient_name?: string
+          payment_amount?: number | null
+          payment_date?: string | null
+          service_date?: string
+          status?: string
+          submission_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claims_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          address: string | null
+          city: string | null
+          contract_start_date: string | null
+          created_at: string
+          email: string
+          id: string
+          monthly_revenue: number | null
+          name: string
+          notes: string | null
+          phone: string | null
+          practice_type: string | null
+          state: string | null
+          status: string
+          updated_at: string
+          zip_code: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          contract_start_date?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          monthly_revenue?: number | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          practice_type?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          zip_code?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          contract_start_date?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          monthly_revenue?: number | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          practice_type?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       credentialing_applications: {
         Row: {
           application_date: string
@@ -221,6 +396,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      pipeline_prospects: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          email: string | null
+          estimated_monthly_revenue: number | null
+          id: string
+          last_contact_date: string | null
+          name: string
+          next_follow_up_date: string | null
+          notes: string | null
+          phone: string | null
+          practice_type: string | null
+          priority: string
+          probability: number | null
+          source: string | null
+          stage: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          estimated_monthly_revenue?: number | null
+          id?: string
+          last_contact_date?: string | null
+          name: string
+          next_follow_up_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          practice_type?: string | null
+          priority?: string
+          probability?: number | null
+          source?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          estimated_monthly_revenue?: number | null
+          id?: string
+          last_contact_date?: string | null
+          name?: string
+          next_follow_up_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          practice_type?: string | null
+          priority?: string
+          probability?: number | null
+          source?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
