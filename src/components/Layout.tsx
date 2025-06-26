@@ -12,24 +12,41 @@ import {
   X,
   Bell,
   User,
-  FileSpreadsheet
+  FileSpreadsheet,
+  LogOut,
+  UserCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Reports', href: '/reports', icon: FileText },
     { name: 'Spreadsheet Management', href: '/spreadsheet-management', icon: FileSpreadsheet },
+    { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Performance', href: '/performance', icon: BarChart3 },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -61,7 +78,7 @@ const Layout = () => {
             <div className="hidden md:flex items-center gap-3 mr-4 px-3 py-2 bg-gray-50 rounded-lg">
               <User className="h-5 w-5 text-gray-600" />
               <div className="text-sm">
-                <div className="font-medium text-gray-900">John Doe</div>
+                <div className="font-medium text-gray-900">{user?.email || 'User'}</div>
                 <div className="text-gray-500">Admin</div>
               </div>
             </div>
@@ -72,17 +89,29 @@ const Layout = () => {
               <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
             </Button>
             
-            {/* Settings */}
-            <Link to="/settings">
-              <Button variant="ghost" size="icon">
-                <Settings className="h-5 w-5" />
-              </Button>
-            </Link>
-
-            {/* Mobile account menu */}
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <User className="h-5 w-5" />
-            </Button>
+            {/* User Menu Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 bg-white">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/settings" className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -118,7 +147,7 @@ const Layout = () => {
               <div className="flex items-center gap-3">
                 <User className="h-8 w-8 text-gray-600" />
                 <div>
-                  <div className="font-medium text-gray-900">John Doe</div>
+                  <div className="font-medium text-gray-900">{user?.email || 'User'}</div>
                   <div className="text-sm text-gray-500">Admin</div>
                 </div>
               </div>
@@ -145,6 +174,18 @@ const Layout = () => {
                 );
               })}
             </nav>
+
+            {/* Mobile sign out button */}
+            <div className="px-4 py-4 border-t">
+              <Button 
+                variant="outline" 
+                onClick={handleSignOut}
+                className="w-full justify-start"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign out
+              </Button>
+            </div>
           </div>
         </div>
       </div>
