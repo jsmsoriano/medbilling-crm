@@ -6,7 +6,6 @@ import * as z from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from 'sonner';
@@ -70,11 +69,25 @@ const AddDoctorDialog = ({ open, onOpenChange, onSuccess }: AddDoctorDialogProps
     try {
       const { error } = await supabase
         .from('credentialing_doctors')
-        .insert([{
-          ...data,
+        .insert({
+          npi_number: data.npi_number,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          specialty: data.specialty,
+          license_number: data.license_number,
+          license_state: data.license_state,
+          license_expiry: data.license_expiry,
+          email: data.email,
+          phone: data.phone,
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          zip_code: data.zip_code,
+          board_certification: data.board_certification || null,
           board_expiry: data.board_expiry || null,
+          dea_number: data.dea_number || null,
           dea_expiry: data.dea_expiry || null,
-        }]);
+        });
 
       if (error) throw error;
 

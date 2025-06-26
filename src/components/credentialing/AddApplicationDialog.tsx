@@ -59,10 +59,15 @@ const AddApplicationDialog = ({ open, onOpenChange, doctors, onSuccess }: AddApp
     try {
       const { error } = await supabase
         .from('credentialing_applications')
-        .insert([{
-          ...data,
+        .insert({
+          doctor_id: data.doctor_id,
+          insurance_company: data.insurance_company,
+          application_type: data.application_type,
+          priority: data.priority,
+          application_date: data.application_date,
+          estimated_completion_days: data.estimated_completion_days,
           notes: data.notes || null,
-        }]);
+        });
 
       if (error) throw error;
 
