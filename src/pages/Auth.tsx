@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Mail, Lock, User, Building } from 'lucide-react';
+import { Mail, Lock, User, Building, TestTube } from 'lucide-react';
 
 const Auth = () => {
   const [loading, setLoading] = useState(false);
@@ -30,6 +29,13 @@ const Auth = () => {
     };
     checkUser();
   }, [navigate]);
+
+  const handleBypassLogin = () => {
+    // For testing purposes, we'll just navigate to the dashboard
+    // In a real app, you might want to create a test user session
+    toast.success('Bypassing authentication for testing');
+    navigate('/');
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -319,6 +325,19 @@ const Auth = () => {
               </svg>
               Continue with Google
             </Button>
+
+            {/* Testing Bypass Link */}
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <Button
+                variant="ghost"
+                onClick={handleBypassLogin}
+                className="w-full text-sm text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                disabled={loading}
+              >
+                <TestTube className="mr-2 h-4 w-4" />
+                Bypass Login (Testing Only)
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
