@@ -70,7 +70,8 @@ const Reports = () => {
       target: '95%',
       change: '+2.1%',
       trend: 'up' as const,
-      description: 'Percentage of collectible revenue actually collected'
+      description: 'Percentage of collectible revenue actually collected',
+      redirectTo: '/performance?filter=collection-rate'
     },
     {
       title: 'First Pass Resolution',
@@ -78,7 +79,8 @@ const Reports = () => {
       target: '90%',
       change: '+5.2%',
       trend: 'up' as const,
-      description: 'Claims approved on first submission'
+      description: 'Claims approved on first submission',
+      redirectTo: '/performance?filter=first-pass'
     },
     {
       title: 'Days in AR',
@@ -86,7 +88,8 @@ const Reports = () => {
       target: '30',
       change: '-5.2%',
       trend: 'down' as const,
-      description: 'Average days to collect payment'
+      description: 'Average days to collect payment',
+      redirectTo: '/performance?filter=ar-days'
     },
     {
       title: 'Denial Rate',
@@ -94,44 +97,68 @@ const Reports = () => {
       target: '<6%',
       change: '-0.1%',
       trend: 'down' as const,
-      description: 'Percentage of claims initially denied'
+      description: 'Percentage of claims initially denied',
+      redirectTo: '/performance?filter=denial-rate'
     }
   ];
 
   return (
-    <div className="space-y-6">
-      <ReportsHeader />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+        {/* Reports Header */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <ReportsHeader />
+        </div>
 
-      {/* Performance Filters */}
-      <PerformanceFilters
-        onFilterChange={setFilters}
-        availableClients={availableClients}
-        availablePracticeGroups={availablePracticeGroups}
-      />
+        {/* Performance Filters */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <PerformanceFilters
+            onFilterChange={setFilters}
+            availableClients={availableClients}
+            availablePracticeGroups={availablePracticeGroups}
+          />
+        </div>
 
-      {/* Key Performance Indicators */}
-      <KPIMetrics kpis={kpis} />
+        {/* Key Performance Indicators */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Key Performance Indicators</h2>
+            <p className="text-gray-600">Monitor your most important metrics at a glance</p>
+          </div>
+          <KPIMetrics kpis={kpis} />
+        </div>
 
-      {/* Revenue and Claims Trend */}
-      <RevenueAndClaimsCharts monthlyData={monthlyData} />
+        {/* Revenue and Claims Trend */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Performance Trends</h2>
+            <p className="text-gray-600">Track revenue and claims processing over time</p>
+          </div>
+          <RevenueAndClaimsCharts monthlyData={monthlyData} />
+        </div>
 
-      {/* Report Configuration */}
-      <ReportConfiguration
-        selectedReportType={selectedReportType}
-        setSelectedReportType={setSelectedReportType}
-        selectedClient={selectedClient}
-        setSelectedClient={setSelectedClient}
-        selectedPracticeGroup={selectedPracticeGroup}
-        setSelectedPracticeGroup={setSelectedPracticeGroup}
-        availableClients={availableClients}
-        availablePracticeGroups={availablePracticeGroups}
-        onGeneratePDF={handleGeneratePDF}
-        isGenerating={isGenerating}
-        hasData={filteredReportData.length > 0}
-      />
+        {/* Report Configuration */}
+        <div className="bg-white rounded-lg shadow-sm">
+          <ReportConfiguration
+            selectedReportType={selectedReportType}
+            setSelectedReportType={setSelectedReportType}
+            selectedClient={selectedClient}
+            setSelectedClient={setSelectedClient}
+            selectedPracticeGroup={selectedPracticeGroup}
+            setSelectedPracticeGroup={setSelectedPracticeGroup}
+            availableClients={availableClients}
+            availablePracticeGroups={availablePracticeGroups}
+            onGeneratePDF={handleGeneratePDF}
+            isGenerating={isGenerating}
+            hasData={filteredReportData.length > 0}
+          />
+        </div>
 
-      {/* Report Preview with integrated client performance */}
-      <ReportPreview filteredData={filteredReportData} />
+        {/* Report Preview with integrated client performance */}
+        <div className="bg-white rounded-lg shadow-sm">
+          <ReportPreview filteredData={filteredReportData} />
+        </div>
+      </div>
     </div>
   );
 };

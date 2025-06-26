@@ -46,26 +46,26 @@ const ReportConfiguration = ({
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2">
           <Filter className="w-5 h-5" />
           Report Configuration
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           <div className="space-y-2">
             <Label>Report Type</Label>
             <Select value={selectedReportType} onValueChange={setSelectedReportType}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 {reportTypes.map((type) => (
                   <SelectItem key={type.value} value={type.value}>
                     <div className="flex items-center gap-2">
                       <type.icon className="w-4 h-4" />
-                      {type.label}
+                      <span className="truncate">{type.label}</span>
                     </div>
                   </SelectItem>
                 ))}
@@ -76,10 +76,10 @@ const ReportConfiguration = ({
           <div className="space-y-2">
             <Label>Client Filter</Label>
             <Select value={selectedClient} onValueChange={setSelectedClient}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="All clients" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all-clients">All clients</SelectItem>
                 {availableClients.map((client) => (
                   <SelectItem key={client} value={client}>
@@ -93,10 +93,10 @@ const ReportConfiguration = ({
           <div className="space-y-2">
             <Label>Practice Group</Label>
             <Select value={selectedPracticeGroup} onValueChange={setSelectedPracticeGroup}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="All practice groups" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all-groups">All practice groups</SelectItem>
                 {availablePracticeGroups.map((group) => (
                   <SelectItem key={group} value={group}>

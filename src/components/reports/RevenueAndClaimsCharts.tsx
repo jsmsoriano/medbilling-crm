@@ -16,12 +16,12 @@ interface RevenueAndClaimsChartsProps {
 
 const RevenueAndClaimsCharts = ({ monthlyData }: RevenueAndClaimsChartsProps) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Card className="p-6">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <Card className="p-4 md:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Trend</h3>
-        <div className="h-64">
+        <div className="h-64 md:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={monthlyData}>
+            <AreaChart data={monthlyData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis 
                 dataKey="month" 
@@ -57,11 +57,11 @@ const RevenueAndClaimsCharts = ({ monthlyData }: RevenueAndClaimsChartsProps) =>
         </div>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-4 md:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Claims Processed</h3>
-        <div className="h-64">
+        <div className="h-64 md:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={monthlyData}>
+            <BarChart data={monthlyData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis 
                 dataKey="month" 
