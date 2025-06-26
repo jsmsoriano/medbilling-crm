@@ -50,8 +50,8 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      {/* Fixed Top Header */}
+      <header className="bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center justify-between h-16 px-4 lg:px-6">
           {/* Left side - Logo and Menu Button */}
           <div className="flex items-center gap-4">
@@ -67,22 +67,13 @@ const Layout = () => {
               <img
                 src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
                 alt="Excel Medical Billing"
-                className="h-8 w-auto"
+                className="h-10 w-auto"
               />
             </Link>
           </div>
 
-          {/* Right side - Account, Notifications, Settings */}
+          {/* Right side - Only Bell, Account Icon, and Settings */}
           <div className="flex items-center gap-2">
-            {/* Account info - hidden on mobile */}
-            <div className="hidden md:flex items-center gap-3 mr-4 px-3 py-2 bg-gray-50 rounded-lg">
-              <User className="h-5 w-5 text-gray-600" />
-              <div className="text-sm">
-                <div className="font-medium text-gray-900">{user?.email || 'User'}</div>
-                <div className="text-gray-500">Admin</div>
-              </div>
-            </div>
-            
             {/* Notification Bell */}
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5" />
@@ -96,7 +87,7 @@ const Layout = () => {
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-white">
+              <DropdownMenuContent align="end" className="w-56 bg-white z-50">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -118,7 +109,7 @@ const Layout = () => {
 
       {/* Mobile sidebar overlay */}
       <div className={cn(
-        "fixed inset-0 z-50 lg:hidden",
+        "fixed inset-0 z-40 lg:hidden",
         sidebarOpen ? "block" : "hidden"
       )}>
         <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
@@ -138,7 +129,7 @@ const Layout = () => {
               <img
                 src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
                 alt="Excel Medical Billing"
-                className="h-8 w-auto"
+                className="h-10 w-auto"
               />
             </div>
             
@@ -218,8 +209,8 @@ const Layout = () => {
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="lg:pl-64 pt-0">
+      {/* Main content - adjusted for fixed header */}
+      <div className="lg:pl-64 pt-16">
         <main>
           <Outlet />
         </main>
