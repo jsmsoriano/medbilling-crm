@@ -175,7 +175,8 @@ export const generateReportPDF = async (
   doc.text(`${avgDenialRate.toFixed(1)}%`, startX + 5, yPosition + 20);
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
-  const denialColor = avgDenialRate < 5 ? [16, 185, 129] : [239, 68, 68];
+  // Fix the TypeScript error by properly typing the color tuple
+  const denialColor: [number, number, number] = avgDenialRate < 5 ? [16, 185, 129] : [239, 68, 68];
   doc.setTextColor(...denialColor);
   doc.text(`${avgDenialRate < 5 ? '↓' : '↑'} ${avgDenialRate < 5 ? 'Excellent' : 'Needs Attention'}`, startX + 5, yPosition + 28);
   
