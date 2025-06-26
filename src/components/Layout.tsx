@@ -1,11 +1,9 @@
-
 import { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
   TrendingUp, 
-  BarChart3,
   FileText,
   Settings,
   Menu,
@@ -40,7 +38,6 @@ const Layout = () => {
     { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
-    { name: 'Performance', href: '/performance', icon: BarChart3 },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
