@@ -8,14 +8,14 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, loading } = useAuth();
+  const { user, loading, isBypassed } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !user && !isBypassed) {
       navigate('/auth');
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, isBypassed, navigate]);
 
   if (loading) {
     return (
@@ -28,7 +28,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!user) {
+  if (!user && !isBypassed) {
     return null;
   }
 

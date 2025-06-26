@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,22 +19,19 @@ const Auth = () => {
   const [lastName, setLastName] = useState('');
   const [businessName, setBusinessName] = useState('');
   const navigate = useNavigate();
+  const { user, bypassAuth } = useAuth();
 
   useEffect(() => {
     // Check if user is already logged in
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate('/');
-      }
-    };
-    checkUser();
-  }, [navigate]);
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleBypassLogin = () => {
-    // For testing purposes, we'll just navigate to the dashboard
-    // In a real app, you might want to create a test user session
+    // For testing purposes, bypass authentication
     toast.success('Bypassing authentication for testing');
+    bypassAuth();
     navigate('/');
   };
 

@@ -7,14 +7,18 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  isBypassed: boolean;
   signOut: () => Promise<void>;
+  bypassAuth: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   loading: true,
+  isBypassed: false,
   signOut: async () => {},
+  bypassAuth: () => {},
 });
 
 export const useAuth = () => {
@@ -33,8 +37,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isBypassed, setIsBypassed] = useState(false);
 
   useEffect(() => {
+    // Check for bypass mode in localStorage
+    const bypassMode = localStorage.getItem('auth_bypassed');
+    if (bypassMode === 'true') {
+      setIsBypassed(true);
+      setLoading(false);
+      return;
+    }
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
@@ -73,6 +86,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (error) {
         console.error('Error signing out:', error);
       }
+      // Also clear bypass mode
+      localStorage.removeItem('auth_bypassed');
+      setIsBypassed(false);
     } catch (error) {
       console.error('Error in signOut:', error);
     } finally {
@@ -80,11 +96,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const bypassAuth = () => {
+    localStorage.setItem('auth_bypassed', 'true');
+    setIsBypassed(true);
+    setLoading(false);
+  };
+
   const value = {
     user,
     session,
     loading,
+    isBypassed,
     signOut,
+    bypassAuth,
   };
 
   return (
