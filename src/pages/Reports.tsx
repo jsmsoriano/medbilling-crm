@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import PerformanceFilters, { PerformanceFilter } from '@/components/PerformanceFilters';
 import ReportConfiguration from '@/components/reports/ReportConfiguration';
 import ReportPreview from '@/components/reports/ReportPreview';
 import ReportsHeader from '@/components/reports/ReportsHeader';
@@ -10,7 +9,6 @@ import { useReportData } from '@/hooks/useReportData';
 import { generateReportPDF } from '@/utils/pdfGenerator';
 
 const Reports = () => {
-  const [filters, setFilters] = useState<PerformanceFilter>({});
   const [selectedReportType, setSelectedReportType] = useState('client-performance');
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedPracticeGroup, setSelectedPracticeGroup] = useState('');
@@ -58,6 +56,7 @@ const Reports = () => {
       );
     } catch (error) {
       console.error('Error generating PDF:', error);
+      throw error; // Re-throw to be handled by ReportConfiguration
     } finally {
       setIsGenerating(false);
     }
@@ -108,15 +107,6 @@ const Reports = () => {
         {/* Reports Header */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <ReportsHeader />
-        </div>
-
-        {/* Performance Filters */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <PerformanceFilters
-            onFilterChange={setFilters}
-            availableClients={availableClients}
-            availablePracticeGroups={availablePracticeGroups}
-          />
         </div>
 
         {/* Key Performance Indicators */}

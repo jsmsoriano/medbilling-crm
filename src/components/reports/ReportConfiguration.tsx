@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, Filter, BarChart3, FileText } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
 interface ReportType {
   value: string;
@@ -38,11 +39,37 @@ const ReportConfiguration = ({
   isGenerating,
   hasData
 }: ReportConfigurationProps) => {
+  const { toast } = useToast();
+  
   const reportTypes: ReportType[] = [
     { value: 'client-performance', label: 'Client Performance Report', icon: BarChart3 },
     { value: 'revenue-analysis', label: 'Revenue Analysis Report', icon: FileText },
     { value: 'claims-management', label: 'Claims Management Report', icon: FileText },
   ];
+
+  const handlePDFGeneration = async () => {
+    try {
+      toast({
+        title: "Generating PDF...",
+        description: "Your report is being prepared for download.",
+      });
+
+      // Call the original PDF generation function
+      await onGeneratePDF();
+      
+      toast({
+        title: "PDF Generated Successfully",
+        description: "Your report has been downloaded.",
+      });
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast({
+        title: "Export Failed",
+        description: "There was an error generating the PDF report.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Card>
@@ -110,7 +137,7 @@ const ReportConfiguration = ({
           <div className="space-y-2">
             <Label>Actions</Label>
             <Button 
-              onClick={onGeneratePDF} 
+              onClick={handlePDFGeneration} 
               disabled={isGenerating || !hasData}
               className="w-full"
             >
