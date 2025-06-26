@@ -9,6 +9,219 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      credentialing_applications: {
+        Row: {
+          application_date: string
+          application_type: string
+          approval_date: string | null
+          created_at: string
+          doctor_id: string
+          estimated_completion_days: number | null
+          expiry_date: string | null
+          id: string
+          insurance_company: string
+          notes: string | null
+          priority: string
+          status: string
+          submission_date: string | null
+          updated_at: string
+        }
+        Insert: {
+          application_date?: string
+          application_type?: string
+          approval_date?: string | null
+          created_at?: string
+          doctor_id: string
+          estimated_completion_days?: number | null
+          expiry_date?: string | null
+          id?: string
+          insurance_company: string
+          notes?: string | null
+          priority?: string
+          status?: string
+          submission_date?: string | null
+          updated_at?: string
+        }
+        Update: {
+          application_date?: string
+          application_type?: string
+          approval_date?: string | null
+          created_at?: string
+          doctor_id?: string
+          estimated_completion_days?: number | null
+          expiry_date?: string | null
+          id?: string
+          insurance_company?: string
+          notes?: string | null
+          priority?: string
+          status?: string
+          submission_date?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credentialing_applications_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "credentialing_doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credentialing_doctors: {
+        Row: {
+          address: string
+          board_certification: string | null
+          board_expiry: string | null
+          city: string
+          created_at: string
+          dea_expiry: string | null
+          dea_number: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          license_expiry: string
+          license_number: string
+          license_state: string
+          npi_number: string
+          phone: string
+          specialty: string
+          state: string
+          updated_at: string
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          board_certification?: string | null
+          board_expiry?: string | null
+          city: string
+          created_at?: string
+          dea_expiry?: string | null
+          dea_number?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          license_expiry: string
+          license_number: string
+          license_state: string
+          npi_number: string
+          phone: string
+          specialty: string
+          state: string
+          updated_at?: string
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          board_certification?: string | null
+          board_expiry?: string | null
+          city?: string
+          created_at?: string
+          dea_expiry?: string | null
+          dea_number?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          license_expiry?: string
+          license_number?: string
+          license_state?: string
+          npi_number?: string
+          phone?: string
+          specialty?: string
+          state?: string
+          updated_at?: string
+          zip_code?: string
+        }
+        Relationships: []
+      }
+      credentialing_documents: {
+        Row: {
+          application_id: string
+          created_at: string
+          document_name: string
+          document_type: string
+          expiry_date: string | null
+          id: string
+          notes: string | null
+          received: boolean
+          received_date: string | null
+          required: boolean
+          updated_at: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          document_name: string
+          document_type: string
+          expiry_date?: string | null
+          id?: string
+          notes?: string | null
+          received?: boolean
+          received_date?: string | null
+          required?: boolean
+          updated_at?: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          document_name?: string
+          document_type?: string
+          expiry_date?: string | null
+          id?: string
+          notes?: string | null
+          received?: boolean
+          received_date?: string | null
+          required?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credentialing_documents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "credentialing_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credentialing_timeline: {
+        Row: {
+          application_id: string
+          created_at: string
+          created_by: string
+          id: string
+          notes: string | null
+          status: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          notes?: string | null
+          status: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          notes?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credentialing_timeline_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "credentialing_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       spreadsheet_imports: {
         Row: {
           created_at: string
