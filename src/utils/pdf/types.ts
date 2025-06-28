@@ -5,12 +5,13 @@ export interface ReportType {
 }
 
 export interface ClientPerformanceData {
-  name: string;
-  revenue: number;
-  claims: number;
-  denialRate: number;
-  satisfaction: number;
-  practiceGroup: string;
+  name?: string;
+  revenue?: number;
+  claims?: number;
+  denialRate?: number;
+  satisfaction?: number;
+  practiceGroup?: string;
+  [key: string]: any;
 }
 
 export interface KPIData {

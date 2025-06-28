@@ -1,13 +1,4 @@
-
-interface ClientPerformanceData {
-  name?: string;
-  revenue?: number;
-  claims?: number;
-  denialRate?: number;
-  satisfaction?: number;
-  practiceGroup?: string;
-  [key: string]: any;
-}
+import { ClientPerformanceData } from '@/utils/pdf/types';
 
 interface ReportDataTableProps {
   filteredData: ClientPerformanceData[];

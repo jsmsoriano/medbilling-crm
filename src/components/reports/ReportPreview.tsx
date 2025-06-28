@@ -4,16 +4,7 @@ import { Button } from '@/components/ui/button';
 import { FileText, Download } from 'lucide-react';
 import ReportSummaryCards from './ReportSummaryCards';
 import ReportDataTable from './ReportDataTable';
-
-interface ClientPerformanceData {
-  name?: string;
-  revenue?: number;
-  claims?: number;
-  denialRate?: number;
-  satisfaction?: number;
-  practiceGroup?: string;
-  [key: string]: any;
-}
+import { ClientPerformanceData } from '@/utils/pdf/types';
 
 interface ReportType {
   value: string;

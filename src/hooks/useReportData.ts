@@ -1,16 +1,7 @@
 
 import { useMemo } from 'react';
 import { useSpreadsheetData } from '@/hooks/useSpreadsheetData';
-
-export interface ClientPerformanceData {
-  name?: string;
-  revenue?: number;
-  claims?: number;
-  denialRate?: number;
-  satisfaction?: number;
-  practiceGroup?: string;
-  [key: string]: any;
-}
+import { ClientPerformanceData } from '@/utils/pdf/types';
 
 export const useReportData = () => {
   const { clients, claims, loading } = useSpreadsheetData();
