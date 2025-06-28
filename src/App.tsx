@@ -13,7 +13,7 @@ import ClientDetail from "./pages/ClientDetail";
 import Pipeline from "./pages/Pipeline";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import SpreadsheetManagement from "./pages/SpreadsheetManagement";
+import DataManagement from "./pages/DataManagement";
 import Credentialing from "./pages/Credentialing";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -42,7 +42,7 @@ function App() {
                   <Route path="clients/:id" element={<ClientDetail />} />
                   <Route path="pipeline" element={<Pipeline />} />
                   <Route path="reports" element={<Reports />} />
-                  <Route path="spreadsheet-management" element={<SpreadsheetManagement />} />
+                  <Route path="data-management" element={<DataManagement />} />
                   <Route path="credentialing" element={<Credentialing />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="*" element={<NotFound />} />

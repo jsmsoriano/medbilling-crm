@@ -7,7 +7,7 @@ import {
   TrendingUp, 
   FileText,
   Settings,
-  FileSpreadsheet,
+  Database,
   UserCheck
 } from 'lucide-react';
 import LayoutHeader from './layout/LayoutHeader';
@@ -20,7 +20,7 @@ const Layout = () => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Reports', href: '/reports', icon: FileText },
-    { name: 'Spreadsheet Management', href: '/spreadsheet-management', icon: FileSpreadsheet },
+    { name: 'Data Management', href: '/data-management', icon: Database },
     { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
