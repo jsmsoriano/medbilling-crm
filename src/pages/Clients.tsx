@@ -10,8 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Search, Mail, Phone, Calendar, Plus, Edit, Trash2, Grid2X2, List, ArrowUpDown } from 'lucide-react';
-import FileImport from '@/components/FileImport';
+import { Search, Mail, Phone, Calendar, Plus, Edit, Trash2, Grid2X2, List, ArrowUpDown, Download } from 'lucide-react';
 import ClientForm from '@/components/ClientForm';
 import { useToast } from '@/hooks/use-toast';
 
@@ -21,7 +20,7 @@ type SortOrder = 'asc' | 'desc';
 
 const Clients = () => {
   const navigate = useNavigate();
-  const { clients, loading, importFromFile, exportToCSV, loadData } = useSpreadsheetData();
+  const { clients, loading, loadData } = useSpreadsheetData();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('cards');
@@ -100,6 +99,37 @@ const Clients = () => {
     toast({
       title: "Client deleted",
       description: "Client has been removed successfully",
+    });
+  };
+
+  const handleExportClients = () => {
+    const csvHeaders = ['Name', 'Email', 'Phone', 'Status', 'Value', 'Last Contact', 'Notes'];
+    const csvData = sortedAndFilteredClients.map(client => [
+      client.clientName,
+      client.email,
+      client.phone,
+      client.status,
+      client.value,
+      client.lastContact,
+      client.notes || ''
+    ]);
+
+    const csvContent = [
+      csvHeaders.join(','),
+      ...csvData.map(row => row.map(field => `"${field}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clients-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    toast({
+      title: "Export successful",
+      description: "Client directory exported to CSV",
     });
   };
 
@@ -295,22 +325,19 @@ const Clients = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">Clients</h1>
         <div className="text-sm text-gray-500">
-          {clientsData.length} clients from spreadsheet
+          {clientsData.length} clients
         </div>
       </div>
-
-      <FileImport
-        onFileImport={importFromFile}
-        onExport={exportToCSV}
-        onRefresh={loadData}
-        loading={loading}
-      />
 
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Client Directory</CardTitle>
             <div className="flex items-center gap-4">
+              <Button onClick={handleExportClients} variant="outline">
+                <Download className="h-4 w-4 mr-2" />
+                Export CSV
+              </Button>
               <Button onClick={handleAddClient}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Client
@@ -368,7 +395,7 @@ const Clients = () => {
             <div className="text-center py-8">Loading client data...</div>
           ) : sortedAndFilteredClients.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              {searchTerm ? 'No clients found matching your search.' : 'No client data available. Import a spreadsheet to get started.'}
+              {searchTerm ? 'No clients found matching your search.' : 'No client data available.'}
             </div>
           ) : viewMode === 'cards' ? (
             <ClientCards />

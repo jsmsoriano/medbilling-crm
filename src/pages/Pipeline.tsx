@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ProspectDialog, { Prospect } from '@/components/ProspectDialog';
 import PipelineFilters, { PipelineFilter } from '@/components/PipelineFilters';
+import ProspectActivityTracker from '@/components/ProspectActivityTracker';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { 
   Plus, 
   Clock, 
@@ -13,7 +15,8 @@ import {
   Calendar,
   Phone,
   Mail,
-  FileText
+  FileText,
+  History
 } from 'lucide-react';
 
 const Pipeline = () => {
@@ -31,7 +34,19 @@ const Pipeline = () => {
       nextActionDate: '2024-01-15',
       lastContact: '2024-01-10',
       source: 'Referral',
-      notes: 'Interested in comprehensive billing services. Follow up on insurance credentialing requirements.'
+      notes: 'Interested in comprehensive billing services. Follow up on insurance credentialing requirements.',
+      practiceName: 'Valley Medical Group',
+      groupName: 'Valley Health System',
+      practiceType: 'Family Practice',
+      numberOfProviders: 3,
+      decisionMaker: 'Dr. Amanda Thompson',
+      currentBillingPartner: 'ABC Billing',
+      painPoints: 'High denial rates, slow collections',
+      budget: 30000,
+      timeline: '60 days',
+      referredBy: 'Dr. Johnson',
+      territory: 'North Region',
+      priority: 'High'
     },
     {
       id: 2,
@@ -46,7 +61,17 @@ const Pipeline = () => {
       nextActionDate: '2024-01-12',
       lastContact: '2024-01-08',
       source: 'Website',
-      notes: 'Reviewing our proposal. Concerns about transition timeline. Need to address staff training.'
+      notes: 'Reviewing our proposal. Concerns about transition timeline. Need to address staff training.',
+      practiceName: 'Coastal Orthopedics',
+      practiceType: 'Orthopedics',
+      numberOfProviders: 5,
+      decisionMaker: 'Dr. Robert Martinez',
+      currentBillingPartner: 'In-house',
+      painPoints: 'Staffing issues, compliance concerns',
+      budget: 40000,
+      timeline: '90 days',
+      territory: 'South Region',
+      priority: 'Medium'
     },
     {
       id: 3,
@@ -61,7 +86,17 @@ const Pipeline = () => {
       nextActionDate: '2024-01-14',
       lastContact: '2024-01-09',
       source: 'Cold Outreach',
-      notes: 'Contract under legal review. Very interested. Expect to close within 2 weeks.'
+      notes: 'Contract under legal review. Very interested. Expect to close within 2 weeks.',
+      practiceName: 'Family Care Center',
+      practiceType: 'Family Practice',
+      numberOfProviders: 2,
+      decisionMaker: 'Dr. Jennifer Lee',
+      currentBillingPartner: 'XYZ Medical Billing',
+      painPoints: 'Poor customer service, billing errors',
+      budget: 20000,
+      timeline: '30 days',
+      territory: 'East Region',
+      priority: 'High'
     },
     {
       id: 4,
@@ -76,7 +111,17 @@ const Pipeline = () => {
       nextActionDate: '2024-01-16',
       lastContact: '2024-01-05',
       source: 'LinkedIn',
-      notes: 'Initial contact made. Scheduled discovery call to understand their current billing challenges.'
+      notes: 'Initial contact made. Scheduled discovery call to understand their current billing challenges.',
+      practiceName: 'Urgent Care Plus',
+      practiceType: 'Urgent Care',
+      numberOfProviders: 4,
+      decisionMaker: 'Dr. Mark Wilson',
+      currentBillingPartner: 'Internal',
+      painPoints: 'High volume, quick turnaround needed',
+      budget: 25000,
+      timeline: '45 days',
+      territory: 'West Region',
+      priority: 'Medium'
     },
     {
       id: 5,
@@ -91,7 +136,18 @@ const Pipeline = () => {
       nextActionDate: '2024-01-13',
       lastContact: '2024-01-11',
       source: 'Referral',
-      notes: 'Strong referral from existing client. Looking to improve denial rates and AR management.'
+      notes: 'Strong referral from existing client. Looking to improve denial rates and AR management.',
+      practiceName: 'Mental Health Associates',
+      practiceType: 'Mental Health',
+      numberOfProviders: 6,
+      decisionMaker: 'Dr. Susan Davis',
+      currentBillingPartner: 'MH Billing Services',
+      painPoints: 'Complex insurance requirements, prior auths',
+      budget: 32000,
+      timeline: '75 days',
+      referredBy: 'Coastal Family Practice',
+      territory: 'Central Region',
+      priority: 'High'
     }
   ]);
 
@@ -100,6 +156,8 @@ const Pipeline = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filters, setFilters] = useState<PipelineFilter>({});
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showActivityTracker, setShowActivityTracker] = useState(false);
+  const [activityProspect, setActivityProspect] = useState<Prospect | null>(null);
 
   const pipelineStages = [
     { name: 'Prospects', count: 0, value: 0, color: 'blue' },
@@ -148,6 +206,11 @@ const Pipeline = () => {
     setSelectedProspect(prospect);
     setDialogMode('stage');
     setIsDialogOpen(true);
+  };
+
+  const handleShowActivity = (prospect: Prospect) => {
+    setActivityProspect(prospect);
+    setShowActivityTracker(true);
   };
 
   const handleSaveProspect = (updatedProspect: Prospect) => {
@@ -271,6 +334,13 @@ const Pipeline = () => {
                         >
                           Update
                         </Button>
+                        <Button 
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleShowActivity(prospect)}
+                        >
+                          <History className="w-4 h-4" />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -286,6 +356,9 @@ const Pipeline = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{prospect.name}</h3>
                     <p className="text-sm text-gray-600">{prospect.contact}</p>
+                    {prospect.practiceName && (
+                      <p className="text-sm text-gray-500">Practice: {prospect.practiceName}</p>
+                    )}
                   </div>
                   <div className="flex items-center space-x-2">
                     <Badge className={getStageColor(prospect.stage)}>
@@ -353,6 +426,13 @@ const Pipeline = () => {
                     >
                       Update Stage
                     </Button>
+                    <Button 
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleShowActivity(prospect)}
+                    >
+                      <History className="w-4 h-4" />
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -368,6 +448,19 @@ const Pipeline = () => {
         onSave={handleSaveProspect}
         mode={dialogMode}
       />
+
+      <Dialog open={showActivityTracker} onOpenChange={setShowActivityTracker}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden p-0">
+          {activityProspect && (
+            <div className="p-6">
+              <ProspectActivityTracker 
+                prospectId={activityProspect.id}
+                prospectName={activityProspect.name}
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

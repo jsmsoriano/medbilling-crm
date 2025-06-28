@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table';
 import { Eye, Edit, MoreHorizontal } from 'lucide-react';
 import { format } from 'date-fns';
+import EditApplicationDialog from './EditApplicationDialog';
 
 interface Application {
   id: string;
@@ -36,6 +37,20 @@ interface ApplicationsListProps {
 }
 
 const ApplicationsList = ({ applications, loading, onRefresh }: ApplicationsListProps) => {
+  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleEditApplication = (application: Application) => {
+    setSelectedApplication(application);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    onRefresh();
+    setIsEditDialogOpen(false);
+    setSelectedApplication(null);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'approved': return 'bg-green-100 text-green-800';
@@ -69,76 +84,89 @@ const ApplicationsList = ({ applications, loading, onRefresh }: ApplicationsList
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Applications Overview</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Doctor</TableHead>
-              <TableHead>Insurance Company</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Application Date</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {applications.map((application) => (
-              <TableRow key={application.id}>
-                <TableCell>
-                  <div>
-                    <div className="font-medium">
-                      {application.credentialing_doctors 
-                        ? `${application.credentialing_doctors.first_name} ${application.credentialing_doctors.last_name}`
-                        : 'Unknown Doctor'
-                      }
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {application.credentialing_doctors?.specialty}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>{application.insurance_company}</TableCell>
-                <TableCell>
-                  <Badge className={getStatusColor(application.status)}>
-                    {application.status.replace('_', ' ').toUpperCase()}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge className={getPriorityColor(application.priority)}>
-                    {application.priority.toUpperCase()}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  {format(new Date(application.application_date), 'MMM dd, yyyy')}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Applications Overview</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Doctor</TableHead>
+                <TableHead>Insurance Company</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Priority</TableHead>
+                <TableHead>Application Date</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {applications.length === 0 && (
-          <div className="text-center py-8 text-muted-foreground">
-            No applications found. Create your first application to get started.
-          </div>
-        )}
-      </CardContent>
-    </Card>
+            </TableHeader>
+            <TableBody>
+              {applications.map((application) => (
+                <TableRow key={application.id}>
+                  <TableCell>
+                    <div>
+                      <div className="font-medium">
+                        {application.credentialing_doctors 
+                          ? `${application.credentialing_doctors.first_name} ${application.credentialing_doctors.last_name}`
+                          : 'Unknown Doctor'
+                        }
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {application.credentialing_doctors?.specialty}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>{application.insurance_company}</TableCell>
+                  <TableCell>
+                    <Badge className={getStatusColor(application.status)}>
+                      {application.status.replace('_', ' ').toUpperCase()}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge className={getPriorityColor(application.priority)}>
+                      {application.priority.toUpperCase()}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {format(new Date(application.application_date), 'MMM dd, yyyy')}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleEditApplication(application)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {applications.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No applications found. Create your first application to get started.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <EditApplicationDialog
+        application={selectedApplication}
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        onSuccess={handleEditSuccess}
+      />
+    </>
   );
 };
 
