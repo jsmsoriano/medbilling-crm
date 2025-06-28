@@ -13,11 +13,20 @@ interface ReportDataTableProps {
 }
 
 const ReportDataTable = ({ filteredData }: ReportDataTableProps) => {
+  // Generate mock dates for demonstration
+  const generateMockDate = (index: number) => {
+    const today = new Date();
+    const date = new Date(today);
+    date.setDate(today.getDate() - index);
+    return date.toLocaleDateString();
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-50">
+            <th className="border border-gray-200 px-4 py-2 text-left">Date</th>
             <th className="border border-gray-200 px-4 py-2 text-left">Client</th>
             <th className="border border-gray-200 px-4 py-2 text-left">Practice Group</th>
             <th className="border border-gray-200 px-4 py-2 text-left">Revenue</th>
@@ -29,6 +38,9 @@ const ReportDataTable = ({ filteredData }: ReportDataTableProps) => {
         <tbody>
           {filteredData.map((client, index) => (
             <tr key={index} className="hover:bg-gray-50">
+              <td className="border border-gray-200 px-4 py-2 text-sm text-gray-600">
+                {generateMockDate(index)}
+              </td>
               <td className="border border-gray-200 px-4 py-2 font-medium">{client.name}</td>
               <td className="border border-gray-200 px-4 py-2">{client.practiceGroup}</td>
               <td className="border border-gray-200 px-4 py-2">${client.revenue.toLocaleString()}</td>

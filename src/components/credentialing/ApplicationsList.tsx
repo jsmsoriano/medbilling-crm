@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,9 +24,13 @@ interface Application {
   approval_date?: string;
   application_type: string;
   credentialing_doctors?: {
+    id: string;
     first_name: string;
     last_name: string;
     specialty: string;
+    npi_number: string;
+    email: string;
+    phone: string;
   };
 }
 

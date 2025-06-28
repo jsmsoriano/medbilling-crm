@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { FileText, Download } from 'lucide-react';
 import ReportSummaryCards from './ReportSummaryCards';
 import ReportDataTable from './ReportDataTable';
 
@@ -15,16 +16,31 @@ interface ClientPerformanceData {
 
 interface ReportPreviewProps {
   filteredData: ClientPerformanceData[];
+  onGeneratePDF: () => void;
+  isGenerating: boolean;
+  hasData: boolean;
 }
 
-const ReportPreview = ({ filteredData }: ReportPreviewProps) => {
+const ReportPreview = ({ filteredData, onGeneratePDF, isGenerating, hasData }: ReportPreviewProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Report Preview</CardTitle>
-        <p className="text-sm text-gray-600">
-          Showing {filteredData.length} {filteredData.length === 1 ? 'result' : 'results'}
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Report Preview</CardTitle>
+            <p className="text-sm text-gray-600">
+              Showing {filteredData.length} {filteredData.length === 1 ? 'result' : 'results'}
+            </p>
+          </div>
+          <Button 
+            onClick={onGeneratePDF} 
+            disabled={isGenerating || !hasData}
+            className="flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            {isGenerating ? 'Generating...' : 'Generate PDF'}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {filteredData.length > 0 ? (

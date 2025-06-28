@@ -3,8 +3,12 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Filter, BarChart3, FileText } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Filter, BarChart3, FileText, Calendar as CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { DateRange } from 'react-day-picker';
+import { useState } from 'react';
 
 interface ReportType {
   value: string;
@@ -34,42 +38,15 @@ const ReportConfiguration = ({
   selectedPracticeGroup,
   setSelectedPracticeGroup,
   availableClients,
-  availablePracticeGroups,
-  onGeneratePDF,
-  isGenerating,
-  hasData
+  availablePracticeGroups
 }: ReportConfigurationProps) => {
-  const { toast } = useToast();
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   
   const reportTypes: ReportType[] = [
     { value: 'client-performance', label: 'Client Performance Report', icon: BarChart3 },
     { value: 'revenue-analysis', label: 'Revenue Analysis Report', icon: FileText },
     { value: 'claims-management', label: 'Claims Management Report', icon: FileText },
   ];
-
-  const handlePDFGeneration = async () => {
-    try {
-      toast({
-        title: "Generating PDF...",
-        description: "Your report is being prepared for download.",
-      });
-
-      // Call the original PDF generation function
-      await onGeneratePDF();
-      
-      toast({
-        title: "PDF Generated Successfully",
-        description: "Your report has been downloaded.",
-      });
-    } catch (error) {
-      console.error('PDF generation error:', error);
-      toast({
-        title: "Export Failed",
-        description: "There was an error generating the PDF report.",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <Card>
@@ -135,15 +112,38 @@ const ReportConfiguration = ({
           </div>
 
           <div className="space-y-2">
-            <Label>Actions</Label>
-            <Button 
-              onClick={handlePDFGeneration} 
-              disabled={isGenerating || !hasData}
-              className="w-full"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              {isGenerating ? 'Generating...' : 'Export PDF'}
-            </Button>
+            <Label>Date Range</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start text-left font-normal"
+                >
+                  <CalendarIcon className="w-4 h-4 mr-2" />
+                  {dateRange?.from ? (
+                    dateRange.to ? (
+                      <>
+                        {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(dateRange.from, "LLL dd, y")
+                    )
+                  ) : (
+                    "Select date range"
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 bg-white" align="start">
+                <Calendar
+                  initialFocus
+                  mode="range"
+                  defaultMonth={dateRange?.from}
+                  selected={dateRange}
+                  onSelect={setDateRange}
+                  numberOfMonths={2}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </CardContent>

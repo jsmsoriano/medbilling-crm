@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
 
-interface MetricCardProps {
+interface KPICardProps {
   title: string;
   value: string;
   change: string;
@@ -15,7 +15,7 @@ interface MetricCardProps {
   description?: string;
 }
 
-const MetricCard = ({ title, value, change, trend, icon: Icon, color, description }: MetricCardProps) => {
+const KPICard = ({ title, value, change, trend, icon: Icon, color, description }: KPICardProps) => {
   const colorClasses = {
     green: 'text-green-600 bg-green-50 border-green-200',
     blue: 'text-blue-600 bg-blue-50 border-blue-200',
@@ -70,4 +70,4 @@ const MetricCard = ({ title, value, change, trend, icon: Icon, color, descriptio
   );
 };
 
-export default MetricCard;
+export default KPICard;

@@ -9,6 +9,8 @@ import {
   Target,
   Clock
 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Info } from 'lucide-react';
 
 interface DashboardTile {
   id: string;
@@ -99,17 +101,27 @@ const DashboardMetrics = ({ customTiles }: DashboardMetricsProps) => {
             <Card key={index} className="p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-medium text-gray-600">{kpi.title}</h3>
-                <Target className="w-4 h-4 text-gray-400" />
+                <div className="flex items-center gap-2">
+                  <Target className="w-4 h-4 text-gray-400" />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-xs">{kpi.description}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
-              <div className="flex items-baseline space-x-2 mb-1">
+              <div className="space-y-2">
                 <span className="text-2xl font-bold text-gray-900">{kpi.value}</span>
+                <div className="flex items-center">
+                  <span className="text-sm font-medium text-green-600">{kpi.change}</span>
+                  <span className="text-sm text-gray-500 ml-1">vs last month</span>
+                </div>
               </div>
-              <div className="flex items-center mb-2">
-                <TrendingUp className="w-4 h-4 text-green-600 mr-1" />
-                <span className="text-sm font-medium text-green-600">{kpi.change}</span>
-                <span className="text-sm text-gray-500 ml-1">vs last month</span>
-              </div>
-              <p className="text-xs text-gray-500">{kpi.description}</p>
             </Card>
           ))}
         </div>
