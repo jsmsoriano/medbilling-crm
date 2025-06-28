@@ -23,6 +23,7 @@ interface Application {
   application_date: string;
   submission_date?: string;
   approval_date?: string;
+  application_type: string;
   credentialing_doctors?: {
     first_name: string;
     last_name: string;
