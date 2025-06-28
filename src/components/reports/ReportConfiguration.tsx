@@ -1,7 +1,6 @@
 
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
@@ -25,6 +24,7 @@ interface ReportConfigurationProps {
   setSelectedPracticeGroup: (value: string) => void;
   availableClients: string[];
   availablePracticeGroups: string[];
+  reportTypes: ReportType[];
   onGeneratePDF: () => void;
   isGenerating: boolean;
   hasData: boolean;
@@ -38,15 +38,10 @@ const ReportConfiguration = ({
   selectedPracticeGroup,
   setSelectedPracticeGroup,
   availableClients,
-  availablePracticeGroups
+  availablePracticeGroups,
+  reportTypes
 }: ReportConfigurationProps) => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  
-  const reportTypes: ReportType[] = [
-    { value: 'client-performance', label: 'Client Performance Report', icon: BarChart3 },
-    { value: 'revenue-analysis', label: 'Revenue Analysis Report', icon: FileText },
-    { value: 'claims-management', label: 'Claims Management Report', icon: FileText },
-  ];
 
   return (
     <Card>
@@ -115,10 +110,7 @@ const ReportConfiguration = ({
             <Label>Date Range</Label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-start text-left font-normal"
-                >
+                <button className="w-full justify-start text-left font-normal border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-3 py-2 text-sm rounded-md flex items-center">
                   <CalendarIcon className="w-4 h-4 mr-2" />
                   {dateRange?.from ? (
                     dateRange.to ? (
@@ -131,7 +123,7 @@ const ReportConfiguration = ({
                   ) : (
                     "Select date range"
                   )}
-                </Button>
+                </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0 bg-white" align="start">
                 <Calendar

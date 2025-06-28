@@ -3,12 +3,13 @@ import { useMemo } from 'react';
 import { useSpreadsheetData } from '@/hooks/useSpreadsheetData';
 
 export interface ClientPerformanceData {
-  name: string;
-  revenue: number;
-  claims: number;
-  denialRate: number;
-  satisfaction: number;
-  practiceGroup: string;
+  name?: string;
+  revenue?: number;
+  claims?: number;
+  denialRate?: number;
+  satisfaction?: number;
+  practiceGroup?: string;
+  [key: string]: any;
 }
 
 export const useReportData = () => {
@@ -46,6 +47,24 @@ export const useReportData = () => {
     return data;
   };
 
+  const getReportData = (reportType: string): ClientPerformanceData[] => {
+    // Return mock data based on report type
+    switch (reportType) {
+      case 'ar-aging':
+      case 'payment-collection-trend':
+      case 'insurance-carrier-analysis':
+      case 'payment-collections':
+      case 'clearing-house-rejections':
+      case 'payer-reimbursement-metrics':
+      case 'denials-report':
+      case 'cpt-analysis-revenue':
+      case 'claims-submitted':
+        return mockClientPerformance; // Using same mock data for all report types for demo
+      default:
+        return mockClientPerformance;
+    }
+  };
+
   return {
     clients,
     claims,
@@ -53,6 +72,7 @@ export const useReportData = () => {
     mockClientPerformance,
     availableClients,
     availablePracticeGroups,
-    getFilteredData
+    getFilteredData,
+    getReportData
   };
 };

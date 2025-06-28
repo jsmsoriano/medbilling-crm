@@ -18,20 +18,30 @@ const Reports = () => {
     loading,
     availableClients,
     availablePracticeGroups,
-    getFilteredData
+    getFilteredData,
+    getReportData
   } = useReportData();
 
   const reportTypes = [
     { value: 'client-performance', label: 'Client Performance Report', icon: 'BarChart3' },
-    { value: 'revenue-analysis', label: 'Revenue Analysis Report', icon: 'FileText' },
-    { value: 'claims-management', label: 'Claims Management Report', icon: 'FileText' },
+    { value: 'ar-aging', label: 'AR Aging Report', icon: 'FileText' },
+    { value: 'payment-collection-trend', label: 'Payment and Collection Trend Report', icon: 'FileText' },
+    { value: 'insurance-carrier-analysis', label: 'Insurance Carrier Analysis Report', icon: 'FileText' },
+    { value: 'payment-collections', label: 'Payment Collections Report', icon: 'FileText' },
+    { value: 'clearing-house-rejections', label: 'Clearing House Rejections Report', icon: 'FileText' },
+    { value: 'payer-reimbursement-metrics', label: 'Payer Reimbursement Metrics Report', icon: 'FileText' },
+    { value: 'denials-report', label: 'Denials Report', icon: 'FileText' },
+    { value: 'cpt-analysis-revenue', label: 'CPT Analysis Revenue Report', icon: 'FileText' },
+    { value: 'claims-submitted', label: 'Number of Claims Submitted', icon: 'FileText' },
   ];
 
   // Handle the "all-clients" and "all-groups" values from the select components
   const processedSelectedClient = selectedClient === 'all-clients' ? '' : selectedClient;
   const processedSelectedPracticeGroup = selectedPracticeGroup === 'all-groups' ? '' : selectedPracticeGroup;
   
-  const filteredReportData = getFilteredData(processedSelectedClient, processedSelectedPracticeGroup);
+  const filteredReportData = selectedReportType === 'client-performance' 
+    ? getFilteredData(processedSelectedClient, processedSelectedPracticeGroup)
+    : getReportData(selectedReportType);
 
   const handleGeneratePDF = async () => {
     setIsGenerating(true);
@@ -45,10 +55,40 @@ const Reports = () => {
       );
     } catch (error) {
       console.error('Error generating PDF:', error);
-      throw error; // Re-throw to be handled by ReportConfiguration
+      throw error;
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleExportData = () => {
+    console.log('Exporting data for report type:', selectedReportType);
+    
+    // Convert report data to CSV format
+    if (filteredReportData.length === 0) return;
+    
+    const headers = Object.keys(filteredReportData[0]);
+    const csvData = [
+      headers.join(','),
+      ...filteredReportData.map(row => 
+        headers.map(header => {
+          const value = row[header];
+          return typeof value === 'string' && value.includes(',') ? `"${value}"` : value;
+        }).join(',')
+      )
+    ].join('\n');
+    
+    // Create and download the file
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const reportLabel = reportTypes.find(type => type.value === selectedReportType)?.label || 'Report';
+    a.download = `${reportLabel.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -70,6 +110,7 @@ const Reports = () => {
             setSelectedPracticeGroup={setSelectedPracticeGroup}
             availableClients={availableClients}
             availablePracticeGroups={availablePracticeGroups}
+            reportTypes={reportTypes}
             onGeneratePDF={handleGeneratePDF}
             isGenerating={isGenerating}
             hasData={filteredReportData.length > 0}
@@ -81,8 +122,11 @@ const Reports = () => {
           <ReportPreview 
             filteredData={filteredReportData} 
             onGeneratePDF={handleGeneratePDF}
+            onExportData={handleExportData}
             isGenerating={isGenerating}
             hasData={filteredReportData.length > 0}
+            reportType={selectedReportType}
+            reportTypes={reportTypes}
           />
         </div>
       </div>
