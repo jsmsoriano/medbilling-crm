@@ -37,9 +37,13 @@ const Credentialing = () => {
         .select(`
           *,
           credentialing_doctors (
+            id,
             first_name,
             last_name,
-            specialty
+            specialty,
+            npi_number,
+            email,
+            phone
           )
         `)
         .order('created_at', { ascending: false });

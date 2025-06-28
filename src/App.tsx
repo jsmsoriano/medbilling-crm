@@ -17,7 +17,6 @@ import SpreadsheetManagement from "./pages/SpreadsheetManagement";
 import Credentialing from "./pages/Credentialing";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
-import WelcomeModal from "./components/WelcomeModal";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import "./App.css";
 
@@ -49,7 +48,6 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Routes>
-              <WelcomeModal />
             </BrowserRouter>
             <Toaster />
             <Sonner />
