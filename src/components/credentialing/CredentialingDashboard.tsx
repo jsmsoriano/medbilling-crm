@@ -18,9 +18,10 @@ interface Application {
 
 interface CredentialingDashboardProps {
   applications: Application[];
+  onTileClick?: (filterType: string) => void;
 }
 
-const CredentialingDashboard = ({ applications }: CredentialingDashboardProps) => {
+const CredentialingDashboard = ({ applications, onTileClick }: CredentialingDashboardProps) => {
   const statusCounts = applications.reduce((acc, app) => {
     acc[app.status] = (acc[app.status] || 0) + 1;
     return acc;
@@ -32,9 +33,18 @@ const CredentialingDashboard = ({ applications }: CredentialingDashboardProps) =
     ['pending_documents', 'documents_complete', 'submitted', 'under_review'].includes(app.status)
   ).length;
 
+  const handleTileClick = (filterType: string) => {
+    if (onTileClick) {
+      onTileClick(filterType);
+    }
+  };
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
+      <Card 
+        className="cursor-pointer hover:shadow-md transition-shadow"
+        onClick={() => handleTileClick('all')}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
           <FileText className="h-4 w-4 text-muted-foreground" />
@@ -47,7 +57,10 @@ const CredentialingDashboard = ({ applications }: CredentialingDashboardProps) =
         </CardContent>
       </Card>
 
-      <Card>
+      <Card 
+        className="cursor-pointer hover:shadow-md transition-shadow"
+        onClick={() => handleTileClick('pending')}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Pending</CardTitle>
           <Clock className="h-4 w-4 text-muted-foreground" />
@@ -60,7 +73,10 @@ const CredentialingDashboard = ({ applications }: CredentialingDashboardProps) =
         </CardContent>
       </Card>
 
-      <Card>
+      <Card 
+        className="cursor-pointer hover:shadow-md transition-shadow"
+        onClick={() => handleTileClick('completed')}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Completed</CardTitle>
           <CheckCircle className="h-4 w-4 text-muted-foreground" />
@@ -73,7 +89,10 @@ const CredentialingDashboard = ({ applications }: CredentialingDashboardProps) =
         </CardContent>
       </Card>
 
-      <Card>
+      <Card 
+        className="cursor-pointer hover:shadow-md transition-shadow"
+        onClick={() => handleTileClick('urgent')}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Urgent</CardTitle>
           <AlertTriangle className="h-4 w-4 text-muted-foreground" />

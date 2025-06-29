@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Table, 
   TableBody, 
@@ -10,7 +12,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Eye, Edit, MoreHorizontal } from 'lucide-react';
+import { Eye, Edit, MoreHorizontal, Filter } from 'lucide-react';
 import { format } from 'date-fns';
 import EditApplicationDialog from './EditApplicationDialog';
 
@@ -38,9 +40,17 @@ interface ApplicationsListProps {
   applications: Application[];
   loading: boolean;
   onRefresh: () => void;
+  statusFilter?: string;
+  onStatusFilterChange?: (status: string) => void;
 }
 
-const ApplicationsList = ({ applications, loading, onRefresh }: ApplicationsListProps) => {
+const ApplicationsList = ({ 
+  applications, 
+  loading, 
+  onRefresh, 
+  statusFilter = 'all',
+  onStatusFilterChange 
+}: ApplicationsListProps) => {
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
@@ -77,6 +87,16 @@ const ApplicationsList = ({ applications, loading, onRefresh }: ApplicationsList
     }
   };
 
+  const statusOptions = [
+    { value: 'all', label: 'All Statuses' },
+    { value: 'pending_documents', label: 'Pending Documents' },
+    { value: 'documents_complete', label: 'Documents Complete' },
+    { value: 'submitted', label: 'Submitted' },
+    { value: 'under_review', label: 'Under Review' },
+    { value: 'approved', label: 'Approved' },
+    { value: 'denied', label: 'Denied' }
+  ];
+
   if (loading) {
     return (
       <Card>
@@ -91,7 +111,27 @@ const ApplicationsList = ({ applications, loading, onRefresh }: ApplicationsList
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Applications Overview</CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle>Applications Overview</CardTitle>
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4" />
+              <Select 
+                value={statusFilter} 
+                onValueChange={onStatusFilterChange}
+              >
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
