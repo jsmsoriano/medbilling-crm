@@ -130,10 +130,51 @@ export type Database = {
           },
         ]
       }
+      client_assignments: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          role: string | null
+          team_member_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          role?: string | null
+          team_member_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          role?: string | null
+          team_member_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_assignments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_assignments_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           address: string | null
+          billing_cycle_start_date: string | null
           city: string | null
+          contract_percentage: number | null
           contract_start_date: string | null
           created_at: string
           email: string
@@ -141,6 +182,7 @@ export type Database = {
           monthly_revenue: number | null
           name: string
           notes: string | null
+          office_contact_name: string | null
           phone: string | null
           practice_type: string | null
           state: string | null
@@ -150,7 +192,9 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          billing_cycle_start_date?: string | null
           city?: string | null
+          contract_percentage?: number | null
           contract_start_date?: string | null
           created_at?: string
           email: string
@@ -158,6 +202,7 @@ export type Database = {
           monthly_revenue?: number | null
           name: string
           notes?: string | null
+          office_contact_name?: string | null
           phone?: string | null
           practice_type?: string | null
           state?: string | null
@@ -167,7 +212,9 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          billing_cycle_start_date?: string | null
           city?: string | null
+          contract_percentage?: number | null
           contract_start_date?: string | null
           created_at?: string
           email?: string
@@ -175,6 +222,7 @@ export type Database = {
           monthly_revenue?: number | null
           name?: string
           notes?: string | null
+          office_contact_name?: string | null
           phone?: string | null
           practice_type?: string | null
           state?: string | null
@@ -397,6 +445,121 @@ export type Database = {
           },
         ]
       }
+      file_vault: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          file_size: number | null
+          file_type: string
+          filename: string
+          folder_path: string | null
+          id: string
+          is_confidential: boolean | null
+          original_filename: string
+          updated_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          file_size?: number | null
+          file_type: string
+          filename: string
+          folder_path?: string | null
+          id?: string
+          is_confidential?: boolean | null
+          original_filename: string
+          updated_at?: string
+          uploaded_by: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          file_size?: number | null
+          file_type?: string
+          filename?: string
+          folder_path?: string | null
+          id?: string
+          is_confidential?: boolean | null
+          original_filename?: string
+          updated_at?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "file_vault_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          billing_period_end: string
+          billing_period_start: string
+          client_id: string
+          created_at: string
+          due_date: string | null
+          fee_percentage: number
+          id: string
+          invoice_amount: number
+          invoice_number: string
+          notes: string | null
+          paid_date: string | null
+          sent_date: string | null
+          status: string
+          total_collections: number
+          updated_at: string
+        }
+        Insert: {
+          billing_period_end: string
+          billing_period_start: string
+          client_id: string
+          created_at?: string
+          due_date?: string | null
+          fee_percentage: number
+          id?: string
+          invoice_amount: number
+          invoice_number: string
+          notes?: string | null
+          paid_date?: string | null
+          sent_date?: string | null
+          status?: string
+          total_collections?: number
+          updated_at?: string
+        }
+        Update: {
+          billing_period_end?: string
+          billing_period_start?: string
+          client_id?: string
+          created_at?: string
+          due_date?: string | null
+          fee_percentage?: number
+          id?: string
+          invoice_amount?: number
+          invoice_number?: string
+          notes?: string | null
+          paid_date?: string | null
+          sent_date?: string | null
+          status?: string
+          total_collections?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pipeline_prospects: {
         Row: {
           assigned_to: string | null
@@ -514,6 +677,95 @@ export type Database = {
           notes?: string | null
           records_imported?: number
           status?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          assigned_to: string | null
+          client_id: string | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          is_recurring: boolean | null
+          priority: string
+          recurrence_pattern: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          client_id?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_recurring?: boolean | null
+          priority?: string
+          recurrence_pattern?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          client_id?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          is_recurring?: boolean | null
+          priority?: string
+          recurrence_pattern?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_active: boolean | null
+          name: string
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          role?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

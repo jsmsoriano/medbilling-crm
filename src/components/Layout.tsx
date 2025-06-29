@@ -8,7 +8,10 @@ import {
   FileText,
   Settings,
   Database,
-  UserCheck
+  UserCheck,
+  CheckSquare,
+  UsersIcon,
+  FolderOpen
 } from 'lucide-react';
 import LayoutHeader from './layout/LayoutHeader';
 import MobileSidebar from './layout/MobileSidebar';
@@ -24,6 +27,9 @@ const Layout = () => {
     { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
     { name: 'Clients', href: '/clients', icon: Users },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
+    { name: 'Tasks', href: '/tasks', icon: CheckSquare },
+    { name: 'Team Dashboard', href: '/team-dashboard', icon: UsersIcon },
+    { name: 'File Vault', href: '/file-vault', icon: FolderOpen },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 

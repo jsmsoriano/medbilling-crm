@@ -15,6 +15,9 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import DataManagement from "./pages/DataManagement";
 import Credentialing from "./pages/Credentialing";
+import Tasks from "./pages/Tasks";
+import TeamDashboard from "./pages/TeamDashboard";
+import FileVault from "./pages/FileVault";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { FavoritesProvider } from "./context/FavoritesContext";
@@ -44,6 +47,9 @@ function App() {
                   <Route path="reports" element={<Reports />} />
                   <Route path="data-management" element={<DataManagement />} />
                   <Route path="credentialing" element={<Credentialing />} />
+                  <Route path="tasks" element={<Tasks />} />
+                  <Route path="team-dashboard" element={<TeamDashboard />} />
+                  <Route path="file-vault" element={<FileVault />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
