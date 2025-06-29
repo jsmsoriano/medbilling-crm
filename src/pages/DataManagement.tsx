@@ -20,6 +20,70 @@ interface ImportRecord {
   notes?: string;
 }
 
+// Sample import history data
+const sampleImportHistory: ImportRecord[] = [
+  {
+    id: '1',
+    filename: 'patient_data_q1_2024.csv',
+    import_date: '2024-01-15T10:30:00Z',
+    status: 'completed',
+    records_imported: 1247,
+    imported_by_username: 'John Doe',
+    file_size: 245760,
+    notes: 'Q1 patient demographics and insurance data'
+  },
+  {
+    id: '2',
+    filename: 'claims_export_december.xlsx',
+    import_date: '2024-01-10T14:22:00Z',
+    status: 'completed',
+    records_imported: 892,
+    imported_by_username: 'Sarah Johnson',
+    file_size: 512000,
+    notes: 'December claims processing batch'
+  },
+  {
+    id: '3',
+    filename: 'provider_credentials.xml',
+    import_date: '2024-01-08T09:15:00Z',
+    status: 'failed',
+    records_imported: 0,
+    imported_by_username: 'Mike Wilson',
+    file_size: 89600,
+    notes: 'Import failed due to invalid XML format'
+  },
+  {
+    id: '4',
+    filename: 'billing_codes_update.json',
+    import_date: '2024-01-05T16:45:00Z',
+    status: 'completed',
+    records_imported: 156,
+    imported_by_username: 'Emily Davis',
+    file_size: 34560,
+    notes: 'Updated CPT codes for 2024'
+  },
+  {
+    id: '5',
+    filename: 'insurance_verification.csv',
+    import_date: '2024-01-03T11:20:00Z',
+    status: 'completed',
+    records_imported: 2341,
+    imported_by_username: 'Robert Chen',
+    file_size: 487680,
+    notes: 'Monthly insurance eligibility verification'
+  },
+  {
+    id: '6',
+    filename: 'lab_results_batch_1.xlsx',
+    import_date: '2023-12-28T13:30:00Z',
+    status: 'processing',
+    records_imported: 0,
+    imported_by_username: 'Lisa Thompson',
+    file_size: 1024000,
+    notes: 'Large batch processing in progress'
+  }
+];
+
 const DataManagement = () => {
   const { importFromFile } = useSpreadsheetData();
   const { toast } = useToast();
@@ -36,20 +100,12 @@ const DataManagement = () => {
   // Mock user credentials - in real app, get from auth context
   const currentUser = 'John Doe';
 
+  // Use sample data instead of fetching from database for now
   const { data: importHistory, refetch: refetchHistory } = useQuery({
     queryKey: ['spreadsheet-imports'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('spreadsheet_imports')
-        .select('*')
-        .order('import_date', { ascending: false });
-      
-      if (error) {
-        console.error('Error fetching import history:', error);
-        throw error;
-      }
-      
-      return data as ImportRecord[];
+      // Return sample data directly
+      return sampleImportHistory;
     },
   });
 
@@ -100,9 +156,9 @@ const DataManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="text-center w-full">
           <h1 className="text-3xl font-bold text-gray-900">Data Management</h1>
           <p className="text-gray-600 mt-2">Import, export, and manage your data from external systems</p>
         </div>

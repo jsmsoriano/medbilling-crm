@@ -237,9 +237,9 @@ const Pipeline = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="text-center w-full">
           <h1 className="text-3xl font-bold text-gray-900">Sales Pipeline</h1>
           <p className="text-gray-600 mt-2">Track prospects and manage your sales process</p>
         </div>
@@ -248,15 +248,6 @@ const Pipeline = () => {
           Add Prospect
         </Button>
       </div>
-
-      {/* Pipeline Filters */}
-      <PipelineFilters
-        onFilterChange={setFilters}
-        onViewChange={setViewMode}
-        currentView={viewMode}
-        availableStages={availableStages}
-        availableSources={availableSources}
-      />
 
       {/* Pipeline Overview */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -279,17 +270,28 @@ const Pipeline = () => {
         ))}
       </div>
 
-      {/* Prospects List */}
+      {/* Active Prospects with integrated filters */}
       <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">Active Prospects</h2>
-          <span className="text-sm text-gray-500">
-            Showing {filteredProspects.length} of {prospects.length} prospects
-          </span>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-900 text-center flex-grow">Active Prospects</h2>
+            <span className="text-sm text-gray-500">
+              Showing {filteredProspects.length} of {prospects.length} prospects
+            </span>
+          </div>
+          
+          {/* Integrated Pipeline Filters */}
+          <PipelineFilters
+            onFilterChange={setFilters}
+            onViewChange={setViewMode}
+            currentView={viewMode}
+            availableStages={availableStages}
+            availableSources={availableSources}
+          />
         </div>
         
         {viewMode === 'list' ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mt-6">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
@@ -349,7 +351,7 @@ const Pipeline = () => {
             </table>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4 mt-6">
             {filteredProspects.map((prospect) => (
               <div key={prospect.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
                 <div className="flex items-start justify-between mb-3">
