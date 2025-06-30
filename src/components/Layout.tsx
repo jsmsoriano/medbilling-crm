@@ -13,12 +13,15 @@ import {
   UsersIcon,
   FolderOpen
 } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import LayoutHeader from './layout/LayoutHeader';
+import MobileHeader from './layout/MobileHeader';
 import MobileSidebar from './layout/MobileSidebar';
 import DesktopSidebar from './layout/DesktopSidebar';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -35,7 +38,12 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
+      {/* Conditional headers based on device type */}
+      {isMobile ? (
+        <MobileHeader />
+      ) : (
+        <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
+      )}
       
       <MobileSidebar 
         isOpen={sidebarOpen}
@@ -43,11 +51,11 @@ const Layout = () => {
         navigation={navigation}
       />
 
-      <DesktopSidebar navigation={navigation} />
+      {!isMobile && <DesktopSidebar navigation={navigation} />}
 
-      {/* Main content - adjusted for fixed header */}
-      <div className="lg:pl-64 pt-16">
-        <main>
+      {/* Main content - adjusted for mobile */}
+      <div className={`pt-16 ${!isMobile ? 'lg:pl-64' : ''}`}>
+        <main className={isMobile ? 'px-4 pb-4' : ''}>
           <Outlet />
         </main>
       </div>
