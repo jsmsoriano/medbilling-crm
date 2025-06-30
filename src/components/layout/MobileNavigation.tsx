@@ -14,7 +14,11 @@ import {
   FolderOpen
 } from 'lucide-react';
 
-const MobileNavigation = () => {
+interface MobileNavigationProps {
+  onItemClick?: () => void;
+}
+
+const MobileNavigation = ({ onItemClick }: MobileNavigationProps) => {
   const location = useLocation();
 
   const navigation = [
@@ -30,6 +34,12 @@ const MobileNavigation = () => {
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
+  const handleItemClick = () => {
+    if (onItemClick) {
+      onItemClick();
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-white overflow-hidden">
       <div className="p-4 border-b border-gray-200 flex-shrink-0">
@@ -42,6 +52,7 @@ const MobileNavigation = () => {
             <Link
               key={item.name}
               to={item.href}
+              onClick={handleItemClick}
               className={cn(
                 "group flex items-center px-3 py-4 text-base font-medium rounded-lg transition-colors min-h-[48px] touch-manipulation",
                 isActive
