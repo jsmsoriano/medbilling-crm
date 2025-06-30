@@ -31,11 +31,11 @@ const MobileNavigation = () => {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Navigation</h2>
+    <div className="flex flex-col h-full bg-white overflow-hidden">
+      <div className="p-4 border-b border-gray-200 flex-shrink-0">
+        <h2 className="text-lg font-semibold text-gray-900 truncate">Navigation</h2>
       </div>
-      <nav className="flex-1 px-2 py-4 space-y-1">
+      <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href;
           return (
@@ -43,14 +43,14 @@ const MobileNavigation = () => {
               key={item.name}
               to={item.href}
               className={cn(
-                "group flex items-center px-3 py-3 text-base font-medium rounded-lg transition-colors",
+                "group flex items-center px-3 py-4 text-base font-medium rounded-lg transition-colors min-h-[48px] touch-manipulation",
                 isActive
                   ? "bg-blue-100 text-blue-900"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100"
               )}
             >
-              <item.icon className="mr-4 h-6 w-6" />
-              {item.name}
+              <item.icon className="mr-4 h-6 w-6 flex-shrink-0" />
+              <span className="truncate">{item.name}</span>
             </Link>
           );
         })}

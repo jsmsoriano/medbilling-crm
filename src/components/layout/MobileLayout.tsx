@@ -15,9 +15,9 @@ const MobileLayout = () => {
     <div className="min-h-screen bg-gray-50">
       <MobileHeader />
       
-      {/* Main content with mobile padding */}
-      <main className="pt-16 pb-4">
-        <div className="px-4">
+      {/* Main content with mobile padding and proper overflow handling */}
+      <main className="pt-16 pb-4 min-h-screen">
+        <div className="px-4 max-w-full overflow-x-hidden">
           <Outlet />
         </div>
       </main>
