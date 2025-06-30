@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 import { 
   User, 
   Building2, 
@@ -24,6 +25,8 @@ import {
 } from 'lucide-react';
 
 const Settings = () => {
+  const { toast } = useToast();
+  
   const [notifications, setNotifications] = useState({
     email: true,
     sms: false,
@@ -49,36 +52,103 @@ const Settings = () => {
     email: 'contact@excellbilling.com'
   });
 
+  const handleSaveProfile = () => {
+    // Basic validation
+    if (!profile.firstName || !profile.lastName || !profile.email) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+      toast({
+        title: "Profile Updated",
+        description: "Your profile information has been saved successfully.",
+      });
+    }, 500);
+  };
+
+  const handleSaveCompany = () => {
+    // Basic validation
+    if (!company.name || !company.address || !company.city) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required company fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+      toast({
+        title: "Company Updated",
+        description: "Company information has been saved successfully.",
+      });
+    }, 500);
+  };
+
+  const handleSaveNotifications = () => {
+    // Simulate API call
+    setTimeout(() => {
+      toast({
+        title: "Preferences Saved",
+        description: "Your notification preferences have been updated.",
+      });
+    }, 500);
+  };
+
+  const handleChangePassword = () => {
+    toast({
+      title: "Password Change",
+      description: "Password change functionality would be implemented here.",
+    });
+  };
+
+  const handleEnable2FA = () => {
+    toast({
+      title: "Two-Factor Authentication",
+      description: "2FA setup would be implemented here.",
+    });
+  };
+
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-3 md:p-6 max-w-full overflow-x-hidden">
       <div className="text-center w-full">
-        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-        <p className="text-gray-600 mt-2">Manage your account, preferences, and system configuration</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Settings</h1>
+        <p className="text-gray-600 mt-2 text-sm md:text-base">Manage your account, preferences, and system configuration</p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="w-4 h-4" />
-            Profile
-          </TabsTrigger>
-          <TabsTrigger value="company" className="flex items-center gap-2">
-            <Building2 className="w-4 h-4" />
-            Company
-          </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Bell className="w-4 h-4" />
-            Notifications
-          </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
-            <Shield className="w-4 h-4" />
-            Security
-          </TabsTrigger>
-          <TabsTrigger value="billing" className="flex items-center gap-2">
-            <CreditCard className="w-4 h-4" />
-            Billing
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="grid w-full min-w-max grid-cols-5 h-auto md:h-10">
+            <TabsTrigger value="profile" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span>Profile</span>
+            </TabsTrigger>
+            <TabsTrigger value="company" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <Building2 className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span>Company</span>
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <Bell className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span className="hidden md:inline">Notifications</span>
+              <span className="md:hidden">Alerts</span>
+            </TabsTrigger>
+            <TabsTrigger value="security" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span>Security</span>
+            </TabsTrigger>
+            <TabsTrigger value="billing" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <CreditCard className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span>Billing</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="profile">
           <Card>
@@ -91,30 +161,33 @@ const Settings = () => {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">First Name *</Label>
                   <Input
                     id="firstName"
                     value={profile.firstName}
                     onChange={(e) => setProfile({...profile, firstName: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">Last Name *</Label>
                   <Input
                     id="lastName"
                     value={profile.lastName}
                     onChange={(e) => setProfile({...profile, lastName: e.target.value})}
+                    required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">Email Address *</Label>
                 <Input
                   id="email"
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile({...profile, email: e.target.value})}
+                  required
                 />
               </div>
 
@@ -138,7 +211,7 @@ const Settings = () => {
               </div>
 
               <div className="flex justify-end">
-                <Button>Save Changes</Button>
+                <Button onClick={handleSaveProfile}>Save Changes</Button>
               </div>
             </CardContent>
           </Card>
@@ -154,30 +227,33 @@ const Settings = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="companyName">Company Name</Label>
+                <Label htmlFor="companyName">Company Name *</Label>
                 <Input
                   id="companyName"
                   value={company.name}
                   onChange={(e) => setCompany({...company, name: e.target.value})}
+                  required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
+                <Label htmlFor="address">Address *</Label>
                 <Input
                   id="address"
                   value={company.address}
                   onChange={(e) => setCompany({...company, address: e.target.value})}
+                  required
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="city">City *</Label>
                   <Input
                     id="city"
                     value={company.city}
                     onChange={(e) => setCompany({...company, city: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="space-y-2">
@@ -219,7 +295,7 @@ const Settings = () => {
               </div>
 
               <div className="flex justify-end">
-                <Button>Save Changes</Button>
+                <Button onClick={handleSaveCompany}>Save Changes</Button>
               </div>
             </CardContent>
           </Card>
@@ -287,7 +363,7 @@ const Settings = () => {
               </div>
 
               <div className="flex justify-end">
-                <Button>Save Preferences</Button>
+                <Button onClick={handleSaveNotifications}>Save Preferences</Button>
               </div>
             </CardContent>
           </Card>
@@ -303,7 +379,7 @@ const Settings = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleChangePassword}>
                   Change Password
                 </Button>
                 
@@ -317,7 +393,7 @@ const Settings = () => {
                   </Badge>
                 </div>
                 
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleEnable2FA}>
                   Enable Two-Factor Authentication
                 </Button>
               </CardContent>

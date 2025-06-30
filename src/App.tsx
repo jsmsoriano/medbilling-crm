@@ -21,6 +21,7 @@ import Tasks from '@/pages/Tasks';
 import TeamDashboard from '@/pages/TeamDashboard';
 import FileVault from '@/pages/FileVault';
 import Settings from '@/pages/Settings';
+import MobileSettings from '@/components/settings/MobileSettings';
 import NotFound from '@/pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -58,7 +59,10 @@ function App() {
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="team-dashboard" element={<TeamDashboard />} />
                 <Route path="file-vault" element={<FileVault />} />
-                <Route path="settings" element={<Settings />} />
+                <Route 
+                  path="settings" 
+                  element={<MobileRoute mobileComponent={MobileSettings} desktopComponent={Settings} />} 
+                />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
