@@ -4,10 +4,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { Filter, BarChart3, FileText, Calendar as CalendarIcon } from 'lucide-react';
+import { Filter, Calendar as CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
-import { useState } from 'react';
 
 interface ReportType {
   value: string;
@@ -28,6 +27,8 @@ interface ReportConfigurationProps {
   onGeneratePDF: () => void;
   isGenerating: boolean;
   hasData: boolean;
+  dateRange: DateRange | undefined;
+  setDateRange: (range: DateRange | undefined) => void;
 }
 
 const ReportConfiguration = ({
@@ -39,10 +40,10 @@ const ReportConfiguration = ({
   setSelectedPracticeGroup,
   availableClients,
   availablePracticeGroups,
-  reportTypes
+  reportTypes,
+  dateRange,
+  setDateRange
 }: ReportConfigurationProps) => {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>();
-
   return (
     <Card>
       <CardHeader className="pb-4">

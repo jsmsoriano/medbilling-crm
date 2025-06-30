@@ -5,14 +5,22 @@ import ClientPerformanceTable from './tables/ClientPerformanceTable';
 import ARAgingTable from './tables/ARAgingTable';
 import PaymentCollectionTrendTable from './tables/PaymentCollectionTrendTable';
 import GenericReportTable from './tables/GenericReportTable';
+import TransactionsList from './TransactionsList';
+import { DateRange } from 'react-day-picker';
 
 interface ReportDataTableProps {
   filteredData: ClientPerformanceData[];
   reportType?: string;
+  dateRange?: DateRange;
 }
 
-const ReportDataTable = ({ filteredData, reportType = 'client-performance' }: ReportDataTableProps) => {
+const ReportDataTable = ({ filteredData, reportType = 'client-performance', dateRange }: ReportDataTableProps) => {
   const renderTable = () => {
+    // If date range is selected, show transactions list
+    if (dateRange?.from && dateRange?.to) {
+      return <TransactionsList filteredData={filteredData} dateRange={dateRange} reportType={reportType} />;
+    }
+
     switch (reportType) {
       case 'ar-aging':
         return <ARAgingTable filteredData={filteredData} generateMockDate={generateMockDate} />;

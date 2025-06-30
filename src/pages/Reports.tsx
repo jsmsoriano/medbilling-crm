@@ -5,11 +5,13 @@ import ReportConfiguration from '@/components/reports/ReportConfiguration';
 import ReportPreview from '@/components/reports/ReportPreview';
 import { useReportData } from '@/hooks/useReportData';
 import { FileText, BarChart3, TrendingUp, Users, DollarSign, AlertTriangle, Clock, Target } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
 
 const Reports = () => {
   const [selectedReportType, setSelectedReportType] = useState('client-performance');
   const [selectedClient, setSelectedClient] = useState('all-clients');
   const [selectedPracticeGroup, setSelectedPracticeGroup] = useState('all-groups');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isGenerating, setIsGenerating] = useState(false);
 
   const { availableClients, availablePracticeGroups, getFilteredData, getReportData } = useReportData();
@@ -54,35 +56,26 @@ const Reports = () => {
       
       <ReportsHeader />
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <ReportConfiguration 
-            selectedReportType={selectedReportType}
-            setSelectedReportType={setSelectedReportType}
-            selectedClient={selectedClient}
-            setSelectedClient={setSelectedClient}
-            selectedPracticeGroup={selectedPracticeGroup}
-            setSelectedPracticeGroup={setSelectedPracticeGroup}
-            availableClients={availableClients}
-            availablePracticeGroups={availablePracticeGroups}
-            reportTypes={reportTypes}
-            onGeneratePDF={handleGeneratePDF}
-            isGenerating={isGenerating}
-            hasData={filteredData.length > 0}
-          />
-        </div>
-        
-        <div className="lg:col-span-2">
-          <ReportPreview 
-            filteredData={filteredData}
-            onGeneratePDF={handleGeneratePDF}
-            onExportData={handleExportData}
-            isGenerating={isGenerating}
-            hasData={filteredData.length > 0}
-            reportType={selectedReportType}
-            reportTypes={reportTypes}
-          />
-        </div>
+      <div className="space-y-6">
+        <ReportPreview 
+          filteredData={filteredData}
+          onGeneratePDF={handleGeneratePDF}
+          onExportData={handleExportData}
+          isGenerating={isGenerating}
+          hasData={filteredData.length > 0}
+          reportType={selectedReportType}
+          reportTypes={reportTypes}
+          selectedReportType={selectedReportType}
+          setSelectedReportType={setSelectedReportType}
+          selectedClient={selectedClient}
+          setSelectedClient={setSelectedClient}
+          selectedPracticeGroup={selectedPracticeGroup}
+          setSelectedPracticeGroup={setSelectedPracticeGroup}
+          availableClients={availableClients}
+          availablePracticeGroups={availablePracticeGroups}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+        />
       </div>
     </div>
   );
