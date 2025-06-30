@@ -88,11 +88,16 @@ const MobileSidebar = ({ isOpen, onClose, navigation }: MobileSidebarProps) => {
             <Button 
               variant="outline" 
               onClick={handleSignOut}
-              className="w-full justify-start"
+              className="w-full justify-start mb-3"
             >
               <LogOut className="mr-2 h-4 w-4" />
               Sign out
             </Button>
+            
+            {/* Version number */}
+            <div className="text-xs text-gray-500 text-center">
+              Version 1.0.0
+            </div>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign } from 'lucide-react';
+import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign, Grid2X2, List } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Mock client data
@@ -77,6 +77,7 @@ const Clients = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [practiceTypeFilter, setPracticeTypeFilter] = useState('all');
+  const [viewMode, setViewMode] = useState<'cards' | 'list'>('cards');
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -155,72 +156,164 @@ const Clients = () => {
                 ))}
               </SelectContent>
             </Select>
+
+            {/* View Mode Toggle */}
+            <div className="flex border rounded-md">
+              <Button
+                variant={viewMode === 'cards' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('cards')}
+                className="rounded-r-none"
+              >
+                <Grid2X2 className="w-4 h-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="rounded-l-none"
+              >
+                <List className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
 
-      {/* Clients Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredClients.map((client) => (
-          <Card key={client.id} className="p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <Link 
-                  to={`/clients/${client.id}`}
-                  className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-                >
-                  {client.name}
+      {/* Clients Display */}
+      {viewMode === 'cards' ? (
+        /* Cards View */
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredClients.map((client) => (
+            <Card key={client.id} className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <Link 
+                    to={`/clients/${client.id}`}
+                    className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                  >
+                    {client.name}
+                  </Link>
+                  <p className="text-sm text-gray-600 mt-1">{client.practiceType}</p>
+                </div>
+                <Badge className={getStatusColor(client.status)}>
+                  {client.status}
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center text-sm text-gray-600">
+                  <Mail className="w-4 h-4 mr-2" />
+                  {client.email}
+                </div>
+                
+                <div className="flex items-center text-sm text-gray-600">
+                  <Phone className="w-4 h-4 mr-2" />
+                  {client.phone}
+                </div>
+                
+                <div className="flex items-center text-sm text-gray-600">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  {client.city}, {client.state} {client.zipCode}
+                </div>
+                
+                <div className="flex items-center text-sm text-gray-600">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Contract: {new Date(client.contractStartDate).toLocaleDateString()}
+                </div>
+                
+                <div className="flex items-center text-sm text-gray-600">
+                  <DollarSign className="w-4 h-4 mr-2" />
+                  ${client.monthlyRevenue.toLocaleString()}/month
+                </div>
+              </div>
+
+              {client.notes && (
+                <div className="mt-4 p-3 bg-gray-50 rounded-md">
+                  <p className="text-sm text-gray-600">{client.notes}</p>
+                </div>
+              )}
+
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <Link to={`/clients/${client.id}`}>
+                  <Button className="w-full" variant="outline">
+                    View Details
+                  </Button>
                 </Link>
-                <p className="text-sm text-gray-600 mt-1">{client.practiceType}</p>
               </div>
-              <Badge className={getStatusColor(client.status)}>
-                {client.status}
-              </Badge>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center text-sm text-gray-600">
-                <Mail className="w-4 h-4 mr-2" />
-                {client.email}
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600">
-                <Phone className="w-4 h-4 mr-2" />
-                {client.phone}
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600">
-                <MapPin className="w-4 h-4 mr-2" />
-                {client.city}, {client.state} {client.zipCode}
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600">
-                <Calendar className="w-4 h-4 mr-2" />
-                Contract: {new Date(client.contractStartDate).toLocaleDateString()}
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600">
-                <DollarSign className="w-4 h-4 mr-2" />
-                ${client.monthlyRevenue.toLocaleString()}/month
-              </div>
-            </div>
-
-            {client.notes && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                <p className="text-sm text-gray-600">{client.notes}</p>
-              </div>
-            )}
-
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <Link to={`/clients/${client.id}`}>
-                <Button className="w-full" variant="outline">
-                  View Details
-                </Button>
-              </Link>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        /* List View */
+        <Card>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="border-b">
+                <tr>
+                  <th className="text-left p-4 font-medium">Client</th>
+                  <th className="text-left p-4 font-medium">Practice Type</th>
+                  <th className="text-left p-4 font-medium">Contact</th>
+                  <th className="text-left p-4 font-medium">Location</th>
+                  <th className="text-left p-4 font-medium">Revenue</th>
+                  <th className="text-left p-4 font-medium">Status</th>
+                  <th className="text-left p-4 font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredClients.map((client) => (
+                  <tr key={client.id} className="border-b hover:bg-gray-50">
+                    <td className="p-4">
+                      <div>
+                        <Link 
+                          to={`/clients/${client.id}`}
+                          className="font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                        >
+                          {client.name}
+                        </Link>
+                        {client.notes && (
+                          <p className="text-sm text-gray-500 mt-1">{client.notes}</p>
+                        )}
+                      </div>
+                    </td>
+                    <td className="p-4 text-sm text-gray-600">{client.practiceType}</td>
+                    <td className="p-4">
+                      <div className="text-sm">
+                        <div className="flex items-center gap-1">
+                          <Mail className="w-3 h-3" />
+                          {client.email}
+                        </div>
+                        <div className="flex items-center gap-1 mt-1">
+                          <Phone className="w-3 h-3" />
+                          {client.phone}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 text-sm text-gray-600">
+                      {client.city}, {client.state} {client.zipCode}
+                    </td>
+                    <td className="p-4 text-sm text-gray-600">
+                      ${client.monthlyRevenue.toLocaleString()}/month
+                    </td>
+                    <td className="p-4">
+                      <Badge className={getStatusColor(client.status)}>
+                        {client.status}
+                      </Badge>
+                    </td>
+                    <td className="p-4">
+                      <Link to={`/clients/${client.id}`}>
+                        <Button size="sm" variant="outline">
+                          View Details
+                        </Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
 
       {filteredClients.length === 0 && (
         <Card className="p-12">
