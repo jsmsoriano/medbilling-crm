@@ -40,67 +40,67 @@ const CredentialingDashboard = ({ applications, onTileClick }: CredentialingDash
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
       <Card 
-        className="cursor-pointer hover:shadow-md transition-shadow"
+        className="cursor-pointer hover:shadow-md transition-shadow mobile-card"
         onClick={() => handleTileClick('all')}
       >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
-          <FileText className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-xs sm:text-sm font-medium">Total Applications</CardTitle>
+          <FileText className="h-4 w-4 text-muted-foreground flex-shrink-0" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{applications.length}</div>
-          <p className="text-xs text-muted-foreground">
-            Active credentialing applications
+          <div className="text-xl sm:text-2xl font-bold">{applications.length}</div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Active applications
           </p>
         </CardContent>
       </Card>
 
       <Card 
-        className="cursor-pointer hover:shadow-md transition-shadow"
+        className="cursor-pointer hover:shadow-md transition-shadow mobile-card"
         onClick={() => handleTileClick('pending')}
       >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Pending</CardTitle>
-          <Clock className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-xs sm:text-sm font-medium">Pending</CardTitle>
+          <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{pendingApplications}</div>
-          <p className="text-xs text-muted-foreground">
-            In progress applications
+          <div className="text-xl sm:text-2xl font-bold">{pendingApplications}</div>
+          <p className="text-xs text-muted-foreground mt-1">
+            In progress
           </p>
         </CardContent>
       </Card>
 
       <Card 
-        className="cursor-pointer hover:shadow-md transition-shadow"
+        className="cursor-pointer hover:shadow-md transition-shadow mobile-card"
         onClick={() => handleTileClick('completed')}
       >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Completed</CardTitle>
-          <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-xs sm:text-sm font-medium">Completed</CardTitle>
+          <CheckCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{completedApplications}</div>
-          <p className="text-xs text-muted-foreground">
-            Successfully approved
+          <div className="text-xl sm:text-2xl font-bold">{completedApplications}</div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Approved
           </p>
         </CardContent>
       </Card>
 
       <Card 
-        className="cursor-pointer hover:shadow-md transition-shadow"
+        className="cursor-pointer hover:shadow-md transition-shadow mobile-card col-span-2 lg:col-span-1"
         onClick={() => handleTileClick('urgent')}
       >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Urgent</CardTitle>
-          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-xs sm:text-sm font-medium">Urgent</CardTitle>
+          <AlertTriangle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{urgentApplications}</div>
-          <p className="text-xs text-muted-foreground">
-            High priority items
+          <div className="text-xl sm:text-2xl font-bold">{urgentApplications}</div>
+          <p className="text-xs text-muted-foreground mt-1">
+            High priority
           </p>
         </CardContent>
       </Card>

@@ -1,11 +1,12 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import CredentialingDashboard from '@/components/credentialing/CredentialingDashboard';
 import ApplicationsList from '@/components/credentialing/ApplicationsList';
+import MobileApplicationsList from '@/components/credentialing/MobileApplicationsList';
 import AddApplicationDialog from '@/components/credentialing/AddApplicationDialog';
 import { toast } from 'sonner';
 
@@ -40,6 +41,7 @@ const Credentialing = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [dashboardFilter, setDashboardFilter] = useState<string>('all');
+  const isMobile = useIsMobile();
 
   // Fetch applications with doctor information
   const { data: applications = [], isLoading, refetch } = useQuery({
@@ -127,11 +129,11 @@ const Credentialing = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-4 sm:p-6 max-w-full overflow-x-hidden">
       <div className="flex justify-between items-center">
         <div className="text-center w-full">
-          <h1 className="text-3xl font-bold text-gray-900">Provider Credentialing</h1>
-          <p className="text-gray-600 mt-2">Manage provider credentials and insurance applications</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Provider Credentialing</h1>
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">Manage provider credentials and insurance applications</p>
         </div>
       </div>
       
@@ -143,20 +145,30 @@ const Credentialing = () => {
       </div>
 
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Applications</h2>
-        <Button onClick={() => setIsAddDialogOpen(true)}>
+        <h2 className="text-xl sm:text-2xl font-semibold">Applications</h2>
+        <Button onClick={() => setIsAddDialogOpen(true)} className="mobile-button">
           <Plus className="h-4 w-4 mr-2" />
-          Add Application
+          {isMobile ? 'Add' : 'Add Application'}
         </Button>
       </div>
 
-      <ApplicationsList
-        applications={getFilteredApplications()}
-        loading={isLoading}
-        onRefresh={refetch}
-        statusFilter={statusFilter}
-        onStatusFilterChange={setStatusFilter}
-      />
+      {isMobile ? (
+        <MobileApplicationsList
+          applications={getFilteredApplications()}
+          loading={isLoading}
+          onRefresh={refetch}
+          statusFilter={statusFilter}
+          onStatusFilterChange={setStatusFilter}
+        />
+      ) : (
+        <ApplicationsList
+          applications={getFilteredApplications()}
+          loading={isLoading}
+          onRefresh={refetch}
+          statusFilter={statusFilter}
+          onStatusFilterChange={setStatusFilter}
+        />
+      )}
 
       <AddApplicationDialog
         open={isAddDialogOpen}

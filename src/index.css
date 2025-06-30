@@ -123,6 +123,23 @@
       -webkit-overflow-scrolling: touch;
       overflow-scrolling: touch;
     }
+
+    /* Fix table overflow on mobile */
+    .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ensure no elements cause horizontal scroll */
+    * {
+      max-width: 100%;
+    }
+
+    /* Fix card content on mobile */
+    .card-mobile {
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
   }
 
   /* Safe area handling for iOS */
@@ -166,16 +183,52 @@
 
   /* Mobile-specific card spacing */
   .mobile-card {
-    @apply p-4 mb-4 rounded-lg shadow-sm;
+    @apply p-3 mb-3 rounded-lg shadow-sm;
   }
 
   /* Better mobile button sizing */
   .mobile-button {
-    @apply min-h-[44px] px-4 py-2 text-base;
+    @apply min-h-[44px] px-3 py-2 text-sm font-medium touch-manipulation;
   }
 
   /* Mobile navigation improvements */
   .mobile-nav-item {
     @apply min-h-[48px] px-4 py-3 flex items-center touch-manipulation;
+  }
+
+  /* Prevent text overflow */
+  .text-truncate {
+    @apply truncate;
+  }
+
+  /* Responsive text sizing */
+  .responsive-text {
+    @apply text-sm sm:text-base;
+  }
+
+  /* Mobile-friendly form controls */
+  .mobile-input {
+    @apply min-h-[44px] text-base;
+  }
+
+  /* Ensure dropdowns have proper background and z-index */
+  .dropdown-content {
+    @apply bg-white shadow-lg border border-gray-200 rounded-md z-50;
+  }
+
+  /* Fix select dropdown backgrounds */
+  [data-radix-select-content] {
+    @apply bg-white border border-gray-200 shadow-lg z-50;
+  }
+
+  /* Ensure proper spacing for mobile cards */
+  @media (max-width: 640px) {
+    .mobile-card-grid {
+      @apply grid-cols-1 gap-3;
+    }
+    
+    .mobile-dashboard-grid {
+      @apply grid-cols-2 gap-3;
+    }
   }
 }
