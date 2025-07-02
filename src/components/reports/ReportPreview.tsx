@@ -4,8 +4,6 @@ import { Button } from '@/components/ui/button';
 import { FileText, Download } from 'lucide-react';
 import ReportSummaryCards from './ReportSummaryCards';
 import ReportDataTable from './ReportDataTable';
-import ReportConfiguration from './ReportConfiguration';
-import ReportSummarySection from './ReportSummarySection';
 import { ClientPerformanceData } from '@/utils/pdf/types';
 import { DateRange } from 'react-day-picker';
 
@@ -22,17 +20,7 @@ interface ReportPreviewProps {
   isGenerating: boolean;
   hasData: boolean;
   reportType: string;
-  reportTypes: ReportType[];
-  selectedReportType: string;
-  setSelectedReportType: (value: string) => void;
-  selectedClient: string;
-  setSelectedClient: (value: string) => void;
-  selectedPracticeGroup: string;
-  setSelectedPracticeGroup: (value: string) => void;
-  availableClients: string[];
-  availablePracticeGroups: string[];
   dateRange: DateRange | undefined;
-  setDateRange: (range: DateRange | undefined) => void;
 }
 
 const ReportPreview = ({ 
@@ -42,107 +30,81 @@ const ReportPreview = ({
   isGenerating, 
   hasData, 
   reportType,
-  reportTypes,
-  selectedReportType,
-  setSelectedReportType,
-  selectedClient,
-  setSelectedClient,
-  selectedPracticeGroup,
-  setSelectedPracticeGroup,
-  availableClients,
-  availablePracticeGroups,
-  dateRange,
-  setDateRange
+  dateRange
 }: ReportPreviewProps) => {
-  const currentReportType = reportTypes.find(type => type.value === reportType);
+  const reportTypeLabels: Record<string, string> = {
+    'client-performance': 'Client Performance',
+    'ar-aging': 'AR Aging Report',
+    'payment-collection-trend': 'Payment Collection Trend',
+    'insurance-carrier-analysis': 'Insurance Carrier Analysis',
+    'payment-collections': 'Payment Collections',
+    'clearing-house-rejections': 'Clearing House Rejections',
+    'payer-reimbursement-metrics': 'Payer Reimbursement Metrics',
+    'denials-report': 'Denials Report',
+    'cpt-analysis-revenue': 'CPT Analysis Revenue',
+    'claims-submitted': 'Claims Submitted'
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Report Configuration at the top */}
-      <ReportConfiguration 
-        selectedReportType={selectedReportType}
-        setSelectedReportType={setSelectedReportType}
-        selectedClient={selectedClient}
-        setSelectedClient={setSelectedClient}
-        selectedPracticeGroup={selectedPracticeGroup}
-        setSelectedPracticeGroup={setSelectedPracticeGroup}
-        availableClients={availableClients}
-        availablePracticeGroups={availablePracticeGroups}
-        reportTypes={reportTypes}
-        onGeneratePDF={onGeneratePDF}
-        isGenerating={isGenerating}
-        hasData={hasData}
-        dateRange={dateRange}
-        setDateRange={setDateRange}
-      />
-
-      {/* Report Data Preview */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Report Preview</CardTitle>
-              <p className="text-sm text-gray-600">
-                {currentReportType?.label} - Showing {filteredData.length} {filteredData.length === 1 ? 'result' : 'results'}
-                {dateRange?.from && dateRange?.to && (
-                  <span className="ml-2">
-                    from {dateRange.from.toLocaleDateString()} to {dateRange.to.toLocaleDateString()}
-                  </span>
-                )}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button 
-                onClick={onExportData} 
-                disabled={isGenerating || !hasData}
-                variant="outline"
-                className="flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Export Data
-              </Button>
-              <Button 
-                onClick={onGeneratePDF} 
-                disabled={isGenerating || !hasData}
-                className="flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                {isGenerating ? 'Generating...' : 'Generate PDF'}
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {filteredData.length > 0 ? (
-            <>
-              {reportType === 'client-performance' && (
-                <ReportSummaryCards filteredData={filteredData} />
+    <Card className="animate-fade-in">
+      <CardHeader className="border-b bg-muted/30">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <CardTitle className="text-xl">{reportTypeLabels[reportType] || 'Report Preview'}</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Showing {filteredData.length} {filteredData.length === 1 ? 'result' : 'results'}
+              {dateRange?.from && dateRange?.to && (
+                <span className="ml-2">
+                  from {dateRange.from.toLocaleDateString()} to {dateRange.to.toLocaleDateString()}
+                </span>
               )}
-              <ReportDataTable 
-                filteredData={filteredData} 
-                reportType={reportType}
-                dateRange={dateRange}
-              />
-            </>
-          ) : (
-            <div className="text-center py-12 text-gray-500">
-              <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No data matches the selected filters</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Report Summary Section */}
-      {filteredData.length > 0 && (
-        <ReportSummarySection 
-          filteredData={filteredData}
-          reportType={reportType}
-          selectedClient={selectedClient}
-          dateRange={dateRange}
-        />
-      )}
-    </div>
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={onExportData} 
+              disabled={isGenerating || !hasData}
+              variant="outline"
+              size="sm"
+              className="hover-scale"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Export
+            </Button>
+            <Button 
+              onClick={onGeneratePDF} 
+              disabled={isGenerating || !hasData}
+              size="sm"
+              className="hover-scale"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              {isGenerating ? 'Generating...' : 'PDF'}
+            </Button>
+          </div>
+        </div>
+      </CardHeader>
+      
+      <CardContent className="p-0">
+        {filteredData.length > 0 ? (
+          <div className="space-y-6 p-6">
+            {reportType === 'client-performance' && (
+              <ReportSummaryCards filteredData={filteredData} />
+            )}
+            <ReportDataTable 
+              filteredData={filteredData} 
+              reportType={reportType}
+              dateRange={dateRange}
+            />
+          </div>
+        ) : (
+          <div className="text-center py-16 text-muted-foreground">
+            <FileText className="w-16 h-16 mx-auto mb-4 opacity-30" />
+            <h3 className="text-lg font-medium mb-2">No data found</h3>
+            <p className="text-sm">Try adjusting your filters to see results</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

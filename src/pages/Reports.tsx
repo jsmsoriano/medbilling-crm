@@ -1,9 +1,9 @@
 
 import { useState } from 'react';
-import ReportsHeader from '@/components/reports/ReportsHeader';
 import ReportConfiguration from '@/components/reports/ReportConfiguration';
 import ReportPreview from '@/components/reports/ReportPreview';
 import { useReportData } from '@/hooks/useReportData';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, BarChart3, TrendingUp, Users, DollarSign, AlertTriangle, Clock, Target } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
@@ -14,7 +14,7 @@ const Reports = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const { availableClients, availablePracticeGroups, getFilteredData, getReportData } = useReportData();
+  const { availableClients, availablePracticeGroups, getFilteredData } = useReportData();
 
   const reportTypes = [
     { value: 'client-performance', label: 'Client Performance', icon: BarChart3 },
@@ -48,23 +48,16 @@ const Reports = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="text-center w-full">
-        <h1 className="text-3xl font-bold text-gray-900">Reports</h1>
-        <p className="text-gray-600 mt-2">Generate and analyze comprehensive billing reports</p>
-      </div>
-      
-      <ReportsHeader />
-      
-      <div className="space-y-6">
-        <ReportPreview 
-          filteredData={filteredData}
-          onGeneratePDF={handleGeneratePDF}
-          onExportData={handleExportData}
-          isGenerating={isGenerating}
-          hasData={filteredData.length > 0}
-          reportType={selectedReportType}
-          reportTypes={reportTypes}
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto space-y-8 p-6">
+        {/* Header */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
+          <p className="text-muted-foreground">Generate and analyze comprehensive billing reports</p>
+        </div>
+        
+        {/* Configuration */}
+        <ReportConfiguration 
           selectedReportType={selectedReportType}
           setSelectedReportType={setSelectedReportType}
           selectedClient={selectedClient}
@@ -73,8 +66,23 @@ const Reports = () => {
           setSelectedPracticeGroup={setSelectedPracticeGroup}
           availableClients={availableClients}
           availablePracticeGroups={availablePracticeGroups}
+          reportTypes={reportTypes}
+          onGeneratePDF={handleGeneratePDF}
+          isGenerating={isGenerating}
+          hasData={filteredData.length > 0}
           dateRange={dateRange}
           setDateRange={setDateRange}
+        />
+
+        {/* Results */}
+        <ReportPreview 
+          filteredData={filteredData}
+          onGeneratePDF={handleGeneratePDF}
+          onExportData={handleExportData}
+          isGenerating={isGenerating}
+          hasData={filteredData.length > 0}
+          reportType={selectedReportType}
+          dateRange={dateRange}
         />
       </div>
     </div>
