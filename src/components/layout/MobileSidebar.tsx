@@ -2,22 +2,18 @@
 import { Link, useLocation } from 'react-router-dom';
 import { X, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
-
-interface NavigationItem {
-  name: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { NavigationGroup } from '@/config/navigation';
 
 interface MobileSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  navigation: NavigationItem[];
+  navigationGroups: NavigationGroup[];
 }
 
-const MobileSidebar = ({ isOpen, onClose, navigation }: MobileSidebarProps) => {
+const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps) => {
   const location = useLocation();
   const { user, signOut } = useAuth();
 
@@ -61,26 +57,46 @@ const MobileSidebar = ({ isOpen, onClose, navigation }: MobileSidebarProps) => {
             </div>
           </div>
 
-          <nav className="flex-1 space-y-1 px-2 py-4">
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "group flex items-center px-3 py-2 text-base font-medium rounded-md transition-colors",
-                    isActive
-                      ? "bg-blue-100 text-blue-900"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+          <nav className="flex-1 px-2 py-4 space-y-4">
+            {navigationGroups.map((group) => (
+              <div key={group.name} className="space-y-1">
+                <div className="flex items-center gap-2 px-3 mb-2">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    {group.name}
+                  </h3>
+                  {group.subscriptionRequired && (
+                    <Badge variant="secondary" className="text-xs">
+                      {group.subscriptionRequired}
+                    </Badge>
                   )}
-                  onClick={onClose}
-                >
-                  <item.icon className="mr-4 h-6 w-6" />
-                  {item.name}
-                </Link>
-              );
-            })}
+                </div>
+                {group.items.map((item) => {
+                  const isActive = location.pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className={cn(
+                        "group flex items-center px-3 py-3 text-base font-medium rounded-md transition-colors",
+                        isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      )}
+                      onClick={onClose}
+                      title={item.description}
+                    >
+                      <item.icon className="mr-4 h-5 w-5 flex-shrink-0" />
+                      <span className="flex-1">{item.name}</span>
+                      {item.subscriptionRequired && (
+                        <Badge variant="outline" className="text-xs ml-2">
+                          {item.subscriptionRequired}
+                        </Badge>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
           </nav>
 
           {/* Mobile sign out button */}

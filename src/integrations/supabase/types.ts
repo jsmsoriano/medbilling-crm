@@ -844,7 +844,13 @@ export type Database = {
           created_at: string
           first_name: string | null
           id: string
+          is_active: boolean | null
           last_name: string | null
+          subscription_end_date: string | null
+          subscription_start_date: string | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at: string
         }
         Insert: {
@@ -852,7 +858,13 @@ export type Database = {
           created_at?: string
           first_name?: string | null
           id: string
+          is_active?: boolean | null
           last_name?: string | null
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at?: string
         }
         Update: {
@@ -860,7 +872,13 @@ export type Database = {
           created_at?: string
           first_name?: string | null
           id?: string
+          is_active?: boolean | null
           last_name?: string | null
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at?: string
         }
         Relationships: []
@@ -898,6 +916,30 @@ export type Database = {
           notes?: string | null
           records_imported?: number
           status?: string
+        }
+        Relationships: []
+      }
+      subscription_features: {
+        Row: {
+          created_at: string | null
+          feature_limit: number | null
+          feature_name: string
+          id: string
+          tier: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Insert: {
+          created_at?: string | null
+          feature_limit?: number | null
+          feature_name: string
+          id?: string
+          tier: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Update: {
+          created_at?: string | null
+          feature_limit?: number | null
+          feature_name?: string
+          id?: string
+          tier?: Database["public"]["Enums"]["subscription_tier"]
         }
         Relationships: []
       }
@@ -1066,9 +1108,13 @@ export type Database = {
         Args: { period_id: string }
         Returns: undefined
       }
+      get_user_subscription_limit: {
+        Args: { user_id: string; feature_name: string }
+        Returns: number
+      }
     }
     Enums: {
-      [_ in never]: never
+      subscription_tier: "starter" | "professional" | "growth"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1183,6 +1229,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      subscription_tier: ["starter", "professional", "growth"],
+    },
   },
 } as const

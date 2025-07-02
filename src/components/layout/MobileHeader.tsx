@@ -2,6 +2,7 @@
 import { Menu, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { SubscriptionBadge } from '@/components/ui/subscription-badge';
 import MobileNavigation from './MobileNavigation';
 import { useState } from 'react';
 
@@ -26,9 +27,12 @@ const MobileHeader = () => {
               <MobileNavigation onItemClick={handleNavigationClick} />
             </SheetContent>
           </Sheet>
-          <h1 className="text-lg font-semibold text-gray-900 truncate min-w-0">
-            MedBilling CRM
-          </h1>
+          <div className="flex flex-col min-w-0 flex-1">
+            <h1 className="text-lg font-semibold text-gray-900 truncate">
+              MedBilling CRM
+            </h1>
+            <SubscriptionBadge showIcon={false} className="text-xs self-start" />
+          </div>
         </div>
         
         <div className="flex items-center gap-1 flex-shrink-0">

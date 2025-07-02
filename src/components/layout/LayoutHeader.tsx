@@ -2,7 +2,9 @@
 import { Link } from 'react-router-dom';
 import { Menu, Bell, User, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SubscriptionBadge } from '@/components/ui/subscription-badge';
 import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +19,8 @@ interface LayoutHeaderProps {
 }
 
 const LayoutHeader = ({ onMobileMenuToggle }: LayoutHeaderProps) => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
+  const { subscriptionTier } = useSubscription();
 
   const handleSignOut = async () => {
     await signOut();
@@ -36,12 +39,16 @@ const LayoutHeader = ({ onMobileMenuToggle }: LayoutHeaderProps) => {
           >
             <Menu className="h-6 w-6" />
           </Button>
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center gap-3">
             <img
               src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
               alt="Excel Medical Billing"
               className="h-10 w-auto"
             />
+            <div className="hidden lg:flex flex-col">
+              <span className="text-sm font-medium text-gray-900">Excel Medical Billing</span>
+              <SubscriptionBadge showIcon={false} className="text-xs self-start" />
+            </div>
           </Link>
         </div>
 
@@ -61,7 +68,13 @@ const LayoutHeader = ({ onMobileMenuToggle }: LayoutHeaderProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-white z-50">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <span>My Account</span>
+                  <span className="text-xs text-muted-foreground">{user?.email}</span>
+                  <SubscriptionBadge className="self-start" />
+                </div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link to="/settings" className="cursor-pointer">

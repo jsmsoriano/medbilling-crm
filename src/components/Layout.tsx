@@ -1,20 +1,9 @@
 
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  TrendingUp, 
-  FileText,
-  Settings,
-  Database,
-  UserCheck,
-  CheckSquare,
-  UsersIcon,
-  FolderOpen,
-  CalendarCheck
-} from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSubscription } from '@/hooks/useSubscription';
+import { getFilteredNavigation } from '@/config/navigation';
 import LayoutHeader from './layout/LayoutHeader';
 import MobileHeader from './layout/MobileHeader';
 import MobileSidebar from './layout/MobileSidebar';
@@ -23,21 +12,21 @@ import DesktopSidebar from './layout/DesktopSidebar';
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { subscriptionTier, loading } = useSubscription();
 
-  const navigation = [
-    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Reports', href: '/reports', icon: FileText },
-    { name: 'Data Management', href: '/data-management', icon: Database },
-    { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
-    { name: 'Clients', href: '/clients', icon: Users },
-    { name: 'Claims', href: '/claims', icon: FileText },
-    { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
-    { name: 'Tasks', href: '/tasks', icon: CheckSquare },
-    { name: 'Month-End Close', href: '/month-end-close', icon: CalendarCheck },
-    { name: 'Team Dashboard', href: '/team-dashboard', icon: UsersIcon },
-    { name: 'File Vault', href: '/file-vault', icon: FolderOpen },
-    { name: 'Settings', href: '/settings', icon: Settings },
-  ];
+  // Get filtered navigation based on user's subscription
+  const navigationGroups = getFilteredNavigation(subscriptionTier);
+  
+  // Flatten for legacy components that expect simple array
+  const flatNavigation = navigationGroups.flatMap(group => group.items);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
@@ -51,10 +40,10 @@ const Layout = () => {
       <MobileSidebar 
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        navigation={navigation}
+        navigationGroups={navigationGroups}
       />
 
-      {!isMobile && <DesktopSidebar navigation={navigation} />}
+      {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
       {/* Main content - adjusted for mobile with proper overflow handling */}
       <div className={`pt-16 ${!isMobile ? 'lg:pl-64' : ''} min-h-screen`}>

@@ -1,6 +1,8 @@
 
 import './App.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
+import { AuthProvider } from '@/hooks/useAuth';
+import { SubscriptionProvider } from '@/hooks/useSubscription';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
@@ -24,6 +26,7 @@ import Claims from '@/pages/Claims';
 import MonthEndClose from '@/pages/MonthEndClose';
 import Settings from '@/pages/Settings';
 import MobileSettings from '@/components/settings/MobileSettings';
+import Auth from '@/pages/Auth';
 import NotFound from '@/pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -39,10 +42,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={isMobile ? <MobileLayout /> : <Layout />}>
+        <AuthProvider>
+          <SubscriptionProvider>
+            <Router>
+              <div className="App">
+                <Routes>
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/" element={isMobile ? <MobileLayout /> : <Layout />}>
                 <Route 
                   index 
                   element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
@@ -70,9 +76,11 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
-            <Toaster />
-          </div>
-        </Router>
+                <Toaster />
+              </div>
+            </Router>
+          </SubscriptionProvider>
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
