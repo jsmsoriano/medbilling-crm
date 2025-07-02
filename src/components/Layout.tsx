@@ -29,6 +29,7 @@ const Layout = () => {
     { name: 'Data Management', href: '/data-management', icon: Database },
     { name: 'Credentialing', href: '/credentialing', icon: UserCheck },
     { name: 'Clients', href: '/clients', icon: Users },
+    { name: 'Claims', href: '/claims', icon: FileText },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Tasks', href: '/tasks', icon: CheckSquare },
     { name: 'Team Dashboard', href: '/team-dashboard', icon: UsersIcon },
