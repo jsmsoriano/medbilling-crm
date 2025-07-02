@@ -27,6 +27,7 @@ import MonthEndClose from '@/pages/MonthEndClose';
 import Settings from '@/pages/Settings';
 import MobileSettings from '@/components/settings/MobileSettings';
 import Auth from '@/pages/Auth';
+import AdminSubscriptionManager from '@/pages/AdminSubscriptionManager';
 import NotFound from '@/pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -69,11 +70,12 @@ function App() {
                 <Route path="month-end-close" element={<MonthEndClose />} />
                 <Route path="team-dashboard" element={<TeamDashboard />} />
                 <Route path="file-vault" element={<FileVault />} />
-                <Route 
-                  path="settings" 
-                  element={<MobileRoute mobileComponent={MobileSettings} desktopComponent={Settings} />} 
-                />
-                <Route path="*" element={<NotFound />} />
+                  <Route 
+                    path="settings" 
+                    element={<MobileRoute mobileComponent={MobileSettings} desktopComponent={Settings} />} 
+                  />
+                  <Route path="admin/subscriptions" element={<AdminSubscriptionManager />} />
+                  <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
                 <Toaster />

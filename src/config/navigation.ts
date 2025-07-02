@@ -130,6 +130,13 @@ export const navigationConfig: NavigationGroup[] = [
         icon: Settings,
         description: 'Account and system settings'
       },
+      { 
+        name: 'Subscription Admin', 
+        href: '/admin/subscriptions', 
+        icon: DollarSign,
+        description: 'Manage subscription features and limits',
+        subscriptionRequired: 'growth'
+      },
     ]
   }
 ];
