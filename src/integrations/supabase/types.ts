@@ -733,52 +733,108 @@ export type Database = {
         }
         Relationships: []
       }
+      task_history: {
+        Row: {
+          action_type: string
+          changed_by: string
+          created_at: string
+          field_name: string | null
+          id: string
+          new_value: string | null
+          notes: string | null
+          old_value: string | null
+          task_id: string
+        }
+        Insert: {
+          action_type: string
+          changed_by: string
+          created_at?: string
+          field_name?: string | null
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          task_id: string
+        }
+        Update: {
+          action_type?: string
+          changed_by?: string
+          created_at?: string
+          field_name?: string | null
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_history_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           assigned_to: string | null
+          attachment_ids: string[] | null
           client_id: string | null
           completed_at: string | null
           completed_by: string | null
           created_at: string
+          created_by: string
           description: string | null
           due_date: string | null
           id: string
           is_recurring: boolean | null
           priority: string
           recurrence_pattern: string | null
+          related_claim_id: string | null
           status: string
+          task_type: string | null
           title: string
           updated_at: string
         }
         Insert: {
           assigned_to?: string | null
+          attachment_ids?: string[] | null
           client_id?: string | null
           completed_at?: string | null
           completed_by?: string | null
           created_at?: string
+          created_by?: string
           description?: string | null
           due_date?: string | null
           id?: string
           is_recurring?: boolean | null
           priority?: string
           recurrence_pattern?: string | null
+          related_claim_id?: string | null
           status?: string
+          task_type?: string | null
           title: string
           updated_at?: string
         }
         Update: {
           assigned_to?: string | null
+          attachment_ids?: string[] | null
           client_id?: string | null
           completed_at?: string | null
           completed_by?: string | null
           created_at?: string
+          created_by?: string
           description?: string | null
           due_date?: string | null
           id?: string
           is_recurring?: boolean | null
           priority?: string
           recurrence_pattern?: string | null
+          related_claim_id?: string | null
           status?: string
+          task_type?: string | null
           title?: string
           updated_at?: string
         }
@@ -788,6 +844,13 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_related_claim_id_fkey"
+            columns: ["related_claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
             referencedColumns: ["id"]
           },
         ]
