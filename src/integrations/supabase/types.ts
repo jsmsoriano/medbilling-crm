@@ -569,6 +569,174 @@ export type Database = {
           },
         ]
       }
+      month_end_audit_log: {
+        Row: {
+          action_type: string
+          changed_at: string
+          changed_by: string
+          id: string
+          new_values: Json | null
+          old_values: Json | null
+          period_id: string
+          reason: string | null
+          record_id: string
+          table_name: string
+        }
+        Insert: {
+          action_type: string
+          changed_at?: string
+          changed_by: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          period_id: string
+          reason?: string | null
+          record_id: string
+          table_name: string
+        }
+        Update: {
+          action_type?: string
+          changed_at?: string
+          changed_by?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          period_id?: string
+          reason?: string | null
+          record_id?: string
+          table_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "month_end_audit_log_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "month_end_periods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      month_end_checklist_items: {
+        Row: {
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_auto_checkable: boolean
+          is_completed: boolean
+          item_name: string
+          period_id: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_auto_checkable?: boolean
+          is_completed?: boolean
+          item_name: string
+          period_id: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_auto_checkable?: boolean
+          is_completed?: boolean
+          item_name?: string
+          period_id?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "month_end_checklist_items_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "month_end_periods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      month_end_periods: {
+        Row: {
+          close_date: string | null
+          closed_by: string | null
+          created_at: string
+          id: string
+          month: number
+          status: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          close_date?: string | null
+          closed_by?: string | null
+          created_at?: string
+          id?: string
+          month: number
+          status?: string
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          close_date?: string | null
+          closed_by?: string | null
+          created_at?: string
+          id?: string
+          month?: number
+          status?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      month_end_sign_offs: {
+        Row: {
+          id: string
+          ip_address: string | null
+          notes: string | null
+          period_id: string
+          signature_type: string
+          signed_at: string
+          signed_by: string
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          notes?: string | null
+          period_id: string
+          signature_type?: string
+          signed_at?: string
+          signed_by: string
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          notes?: string | null
+          period_id?: string
+          signature_type?: string
+          signed_at?: string
+          signed_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "month_end_sign_offs_period_id_fkey"
+            columns: ["period_id"]
+            isOneToOne: false
+            referencedRelation: "month_end_periods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           claim_id: string
