@@ -22,24 +22,24 @@ interface Claim {
 }
 
 interface ClaimsListProps {
-  status: string;
+  agingBucket: string;
   onPostPayment: (claimId: string) => void;
 }
 
-const ClaimsList = ({ status, onPostPayment }: ClaimsListProps) => {
+const ClaimsList = ({ agingBucket, onPostPayment }: ClaimsListProps) => {
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchClaims();
-  }, [status]);
+  }, [agingBucket]);
 
   const fetchClaims = async () => {
     try {
       let query = supabase.from('claims').select('*').order('submission_date', { ascending: false });
       
-      if (status) {
-        query = query.eq('status', status);
+      if (agingBucket) {
+        query = query.eq('aging_bucket', agingBucket);
       }
 
       const { data, error } = await query;

@@ -10,7 +10,7 @@ import PaymentPostingDialog from '@/components/claims/PaymentPostingDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Claims = () => {
-  const [selectedTab, setSelectedTab] = useState('all');
+  const [selectedTab, setSelectedTab] = useState('0-30');
   const [showAddClaim, setShowAddClaim] = useState(false);
   const [showPaymentPosting, setShowPaymentPosting] = useState(false);
   const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null);
@@ -30,10 +30,6 @@ const Claims = () => {
             <h1 className="text-3xl font-bold tracking-tight">Claims Management</h1>
             <p className="text-muted-foreground">Track and manage insurance claims</p>
           </div>
-          <Button onClick={() => setShowAddClaim(true)} className="hover-scale">
-            <Plus className="w-4 h-4 mr-2" />
-            New Claim
-          </Button>
         </div>
 
         {/* Stats Overview */}
@@ -41,48 +37,45 @@ const Claims = () => {
 
         {/* Claims List */}
         <Card className="animate-fade-in">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Claims</CardTitle>
+            <Button onClick={() => setShowAddClaim(true)} className="hover-scale">
+              <Plus className="w-4 h-4 mr-2" />
+              New Claim
+            </Button>
           </CardHeader>
           <CardContent className="p-0">
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
               <div className="px-6 pt-6">
-                <TabsList className="grid w-full grid-cols-5">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="submitted">Submitted</TabsTrigger>
-                  <TabsTrigger value="partially_paid">Partial</TabsTrigger>
-                  <TabsTrigger value="paid">Paid</TabsTrigger>
-                  <TabsTrigger value="denied">Denied</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-4">
+                  <TabsTrigger value="0-30">0-30 Days</TabsTrigger>
+                  <TabsTrigger value="31-60">31-60 Days</TabsTrigger>
+                  <TabsTrigger value="61-90">61-90 Days</TabsTrigger>
+                  <TabsTrigger value="90+">90+ Days</TabsTrigger>
                 </TabsList>
               </div>
               
-              <TabsContent value="all" className="m-0">
+              <TabsContent value="0-30" className="m-0">
                 <ClaimsList 
-                  status="" 
+                  agingBucket="0-30" 
                   onPostPayment={handlePostPayment}
                 />
               </TabsContent>
-              <TabsContent value="submitted" className="m-0">
+              <TabsContent value="31-60" className="m-0">
                 <ClaimsList 
-                  status="submitted" 
+                  agingBucket="31-60" 
                   onPostPayment={handlePostPayment}
                 />
               </TabsContent>
-              <TabsContent value="partially_paid" className="m-0">
+              <TabsContent value="61-90" className="m-0">
                 <ClaimsList 
-                  status="partially_paid" 
+                  agingBucket="61-90" 
                   onPostPayment={handlePostPayment}
                 />
               </TabsContent>
-              <TabsContent value="paid" className="m-0">
+              <TabsContent value="90+" className="m-0">
                 <ClaimsList 
-                  status="paid" 
-                  onPostPayment={handlePostPayment}
-                />
-              </TabsContent>
-              <TabsContent value="denied" className="m-0">
-                <ClaimsList 
-                  status="denied" 
+                  agingBucket="90+" 
                   onPostPayment={handlePostPayment}
                 />
               </TabsContent>
