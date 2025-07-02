@@ -231,4 +231,9 @@
       @apply grid-cols-2 gap-3;
     }
   }
+  
+  /* Hover animation utilities */
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
 }
