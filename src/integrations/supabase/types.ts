@@ -1058,7 +1058,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_month_end_auto_items: {
+        Args: { period_year: number; period_month: number }
+        Returns: undefined
+      }
+      create_standard_checklist: {
+        Args: { period_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

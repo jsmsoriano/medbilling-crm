@@ -21,6 +21,7 @@ import Tasks from '@/pages/Tasks';
 import TeamDashboard from '@/pages/TeamDashboard';
 import FileVault from '@/pages/FileVault';
 import Claims from '@/pages/Claims';
+import MonthEndClose from '@/pages/MonthEndClose';
 import Settings from '@/pages/Settings';
 import MobileSettings from '@/components/settings/MobileSettings';
 import NotFound from '@/pages/NotFound';
@@ -59,6 +60,7 @@ function App() {
                 <Route path="claims" element={<Claims />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="tasks" element={<Tasks />} />
+                <Route path="month-end-close" element={<MonthEndClose />} />
                 <Route path="team-dashboard" element={<TeamDashboard />} />
                 <Route path="file-vault" element={<FileVault />} />
                 <Route 

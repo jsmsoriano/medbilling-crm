@@ -11,7 +11,8 @@ import {
   UserCheck,
   CheckSquare,
   UsersIcon,
-  FolderOpen
+  FolderOpen,
+  CalendarCheck
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import LayoutHeader from './layout/LayoutHeader';
@@ -32,6 +33,7 @@ const Layout = () => {
     { name: 'Claims', href: '/claims', icon: FileText },
     { name: 'Pipeline', href: '/pipeline', icon: TrendingUp },
     { name: 'Tasks', href: '/tasks', icon: CheckSquare },
+    { name: 'Month-End Close', href: '/month-end-close', icon: CalendarCheck },
     { name: 'Team Dashboard', href: '/team-dashboard', icon: UsersIcon },
     { name: 'File Vault', href: '/file-vault', icon: FolderOpen },
     { name: 'Settings', href: '/settings', icon: Settings },
