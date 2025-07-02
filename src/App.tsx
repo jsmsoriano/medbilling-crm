@@ -20,6 +20,7 @@ import Pipeline from '@/pages/Pipeline';
 import Tasks from '@/pages/Tasks';
 import TeamDashboard from '@/pages/TeamDashboard';
 import FileVault from '@/pages/FileVault';
+import Claims from '@/pages/Claims';
 import Settings from '@/pages/Settings';
 import MobileSettings from '@/components/settings/MobileSettings';
 import NotFound from '@/pages/NotFound';
@@ -55,6 +56,7 @@ function App() {
                 />
                 <Route path="credentialing" element={<Credentialing />} />
                 <Route path="clients" element={<Clients />} />
+                <Route path="claims" element={<Claims />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="team-dashboard" element={<TeamDashboard />} />

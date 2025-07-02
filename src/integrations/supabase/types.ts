@@ -67,10 +67,13 @@ export type Database = {
       }
       claims: {
         Row: {
+          aging_bucket: string | null
           amount: number
+          balance_due: number | null
           claim_number: string
           client_id: string
           created_at: string
+          days_outstanding: number | null
           denial_reason: string | null
           follow_up_required: boolean | null
           id: string
@@ -85,10 +88,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          aging_bucket?: string | null
           amount: number
+          balance_due?: number | null
           claim_number: string
           client_id: string
           created_at?: string
+          days_outstanding?: number | null
           denial_reason?: string | null
           follow_up_required?: boolean | null
           id?: string
@@ -103,10 +109,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          aging_bucket?: string | null
           amount?: number
+          balance_due?: number | null
           claim_number?: string
           client_id?: string
           created_at?: string
+          days_outstanding?: number | null
           denial_reason?: string | null
           follow_up_required?: boolean | null
           id?: string
@@ -556,6 +565,50 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          claim_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          payment_amount: number
+          payment_date: string
+          payment_method: string | null
+          reference_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          claim_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_amount: number
+          payment_date: string
+          payment_method?: string | null
+          reference_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          claim_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_amount?: number
+          payment_date?: string
+          payment_method?: string | null
+          reference_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
             referencedColumns: ["id"]
           },
         ]

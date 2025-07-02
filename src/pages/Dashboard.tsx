@@ -4,6 +4,7 @@ import DashboardHeader from '@/components/DashboardHeader';
 import DashboardMetrics from '@/components/DashboardMetrics';
 import DashboardCharts from '@/components/DashboardCharts';
 import DashboardBottomSection from '@/components/DashboardBottomSection';
+import AROverviewWidgets from '@/components/dashboard/AROverviewWidgets';
 
 const Dashboard = () => {
   const [showCustomizer, setShowCustomizer] = useState(false);
@@ -56,6 +57,7 @@ const Dashboard = () => {
         showCustomizer={showCustomizer}
         onToggleCustomizer={() => setShowCustomizer(!showCustomizer)}
       />
+      <AROverviewWidgets />
       <DashboardMetrics customTiles={customTiles} />
       <DashboardCharts />
       <DashboardBottomSection />
