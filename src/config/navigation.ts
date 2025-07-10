@@ -43,22 +43,15 @@ export const navigationConfig: NavigationGroup[] = [
     name: 'DASHBOARD',
     items: [
       { 
-        name: 'Overview', 
+        name: 'Dashboard', 
         href: '/dashboard', 
         icon: Home,
-        description: 'Main dashboard overview'
-      },
-      { 
-        name: 'Performance', 
-        href: '/dashboard/performance', 
-        icon: Activity,
-        description: 'Performance metrics and KPIs'
-      },
-      { 
-        name: 'Analytics', 
-        href: '/dashboard/analytics', 
-        icon: PieChart,
-        description: 'Detailed analytics and insights'
+        description: 'Dashboard and analytics overview',
+        children: [
+          { name: 'Overview', href: '/dashboard', icon: Home, description: 'Main dashboard overview' },
+          { name: 'Performance', href: '/dashboard/performance', icon: Activity, description: 'Performance metrics and KPIs' },
+          { name: 'Analytics', href: '/dashboard/analytics', icon: PieChart, description: 'Detailed analytics and insights' }
+        ]
       },
     ]
   },
