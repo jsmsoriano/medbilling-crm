@@ -110,7 +110,7 @@ const Clients = () => {
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Clients</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground text-left">Clients</h1>
             <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">

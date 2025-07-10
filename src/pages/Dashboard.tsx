@@ -67,7 +67,7 @@ const Dashboard = () => {
       <header className="border-b border-border bg-background px-6 py-5 flex-shrink-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
+            <h1 className="text-2xl font-bold text-foreground text-left">Dashboard Overview</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Welcome back, Admin User • Your Business
             </p>

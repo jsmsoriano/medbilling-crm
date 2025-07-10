@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { SubscriptionBadge } from '@/components/ui/subscription-badge';
 import MobileNavigation from './MobileNavigation';
 import { useState } from 'react';
+import logoGradient from '@/assets/logo-gradient.png';
 
 const MobileHeader = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);

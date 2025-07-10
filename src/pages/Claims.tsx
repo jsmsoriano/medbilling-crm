@@ -27,7 +27,7 @@ const Claims = () => {
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-7xl mx-auto">
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight">Claims Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-left">Claims Management</h1>
             <p className="text-muted-foreground">Track and manage insurance claims</p>
           </div>
         </div>

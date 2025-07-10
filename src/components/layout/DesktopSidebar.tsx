@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { NavigationGroup } from '@/config/navigation';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import logoGradient from '@/assets/logo-gradient.png';
 
 interface DesktopSidebarProps {
   navigationGroups: NavigationGroup[];
@@ -40,9 +41,9 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
       <div className="flex items-center h-16 px-4 border-b border-border bg-white">
         <Link to="/" className="flex items-center gap-3 w-full">
           <img
-            src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
+            src={logoGradient}
             alt="Excel Medical Billing"
-            className="h-8 w-auto flex-shrink-0"
+            className="h-8 w-8 flex-shrink-0"
           />
           <div className="flex flex-col min-w-0">
             <span className="text-sm font-medium text-gray-900 truncate">Excel Medical Billing</span>
