@@ -27,25 +27,17 @@ const LayoutHeader = ({ onMobileMenuToggle }: LayoutHeaderProps) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-50 w-full max-w-full">
-      <div className="flex items-center justify-between h-16 px-4 lg:px-6 w-full max-w-full">
-        {/* Left side - Logo and Menu Button */}
+    <header className="bg-white border-b border-gray-200 shadow-sm fixed top-0 left-64 right-0 z-50 w-auto max-w-none">
+      <div className="flex items-center justify-between h-16 px-4 lg:px-6 w-full max-w-none">
+        {/* Left side - Logo (no menu button on desktop) */}
         <div className="flex items-center gap-4 min-w-0">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onMobileMenuToggle}
-            className="lg:hidden"
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
           <Link to="/" className="flex items-center gap-3">
             <img
               src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
               alt="Excel Medical Billing"
               className="h-10 w-auto"
             />
-            <div className="hidden lg:flex flex-col">
+            <div className="flex flex-col">
               <span className="text-sm font-medium text-gray-900">Excel Medical Billing</span>
               <SubscriptionBadge showIcon={false} className="text-xs self-start" />
             </div>

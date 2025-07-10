@@ -35,7 +35,22 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
   };
 
   return (
-    <div className="flex flex-col h-screen pt-16 bg-card border-r border-border shadow-sm w-full">
+    <div className="flex flex-col h-screen bg-card border-r border-border shadow-sm w-full">
+      {/* Logo Section */}
+      <div className="flex items-center h-16 px-4 border-b border-border bg-white">
+        <Link to="/" className="flex items-center gap-3 w-full">
+          <img
+            src="/lovable-uploads/98e62fe8-89f3-4c17-82c9-a872ff6e2d36.png"
+            alt="Excel Medical Billing"
+            className="h-8 w-auto flex-shrink-0"
+          />
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm font-medium text-gray-900 truncate">Excel Medical Billing</span>
+            <span className="text-xs text-muted-foreground">CRM Dashboard</span>
+          </div>
+        </Link>
+      </div>
+
       <div className="flex flex-col flex-grow overflow-hidden">
         <nav className="flex-1 px-2 py-4 space-y-4 overflow-y-auto overflow-x-hidden">
           {navigationGroups.map((group) => (

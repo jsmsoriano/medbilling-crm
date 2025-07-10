@@ -54,7 +54,7 @@ const Layout = () => {
 
         {/* Main content area - takes remaining space */}
         <div className="flex-1 min-w-0">
-          {/* Header spacer to account for fixed header */}
+          {/* Header spacer to account for fixed header - only on desktop where header is offset */}
           <div className="h-16 flex-shrink-0"></div>
           
           <main className="w-full">
