@@ -111,7 +111,7 @@ const Clients = () => {
     <div className="flex-1 flex flex-col min-h-0">
       {/* Header */}
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Clients</h1>
             <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
@@ -136,7 +136,7 @@ const Clients = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-4 sm:p-6 overflow-auto">
-        <div className="space-y-6 max-w-7xl mx-auto">
+        <div className="space-y-6 w-full">
           {/* Filters Section */}
           <Card>
             <div className="p-4">
@@ -210,8 +210,8 @@ const Clients = () => {
           {/* Clients Display */}
           <div className="w-full">
             {viewMode === 'cards' ? (
-              // Cards View - Responsive grid with proper spacing
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              // Cards View - Responsive grid that scales beautifully across all screen widths
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-6">
                 {filteredClients.map((client) => (
                   <Card key={client.id} className="p-6 hover:shadow-lg transition-all duration-200 border-border/50 hover:border-primary/20">
                     <div className="flex items-start justify-between mb-4">
@@ -277,22 +277,22 @@ const Clients = () => {
               <div className="w-full">
                 <Card className="w-full border-border/50">
                   <div className="w-full overflow-x-auto">
-                    <table className="w-full min-w-[1200px]">
+                    <table className="w-full">
                       <thead className="border-b border-border bg-muted/30">
                         <tr>
-                          <th className="text-left p-3 font-semibold text-foreground w-[22%] min-w-[180px]">Client</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[13%] min-w-[120px]">Practice Type</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[28%] min-w-[220px]">Contact</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[17%] min-w-[140px]">Location</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[12%] min-w-[110px]">Revenue</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[8%] min-w-[80px]">Status</th>
-                          <th className="text-left p-3 font-semibold text-foreground w-[8%] min-w-[70px]">Actions</th>
+                          <th className="text-left p-3 font-semibold text-foreground">Client</th>
+                          <th className="text-left p-3 font-semibold text-foreground hidden sm:table-cell">Practice Type</th>
+                          <th className="text-left p-3 font-semibold text-foreground">Contact</th>
+                          <th className="text-left p-3 font-semibold text-foreground hidden md:table-cell">Location</th>
+                          <th className="text-left p-3 font-semibold text-foreground hidden lg:table-cell">Revenue</th>
+                          <th className="text-left p-3 font-semibold text-foreground">Status</th>
+                          <th className="text-left p-3 font-semibold text-foreground">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {filteredClients.map((client) => (
                           <tr key={client.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
-                            <td className="p-3 w-[22%] min-w-[180px]">
+                            <td className="p-3">
                               <div className="min-w-0">
                                 <Link 
                                   to={`/clients/${client.id}`}
@@ -308,12 +308,12 @@ const Clients = () => {
                                 )}
                               </div>
                             </td>
-                            <td className="p-3 text-sm text-muted-foreground w-[13%] min-w-[120px]">
+                            <td className="p-3 text-sm text-muted-foreground hidden sm:table-cell">
                               <span className="truncate block" title={client.practiceType}>
                                 {client.practiceType}
                               </span>
                             </td>
-                            <td className="p-3 w-[28%] min-w-[220px]">
+                            <td className="p-3">
                               <div className="text-sm space-y-1">
                                 <div className="flex items-center gap-2 min-w-0">
                                   <Mail className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
@@ -325,22 +325,22 @@ const Clients = () => {
                                 </div>
                               </div>
                             </td>
-                            <td className="p-3 text-sm text-muted-foreground w-[17%] min-w-[140px]">
+                            <td className="p-3 text-sm text-muted-foreground hidden md:table-cell">
                               <span className="truncate block" title={`${client.city}, ${client.state} ${client.zipCode}`}>
                                 {client.city}, {client.state} {client.zipCode}
                               </span>
                             </td>
-                            <td className="p-3 text-sm text-foreground font-semibold w-[12%] min-w-[110px]">
+                            <td className="p-3 text-sm text-foreground font-semibold hidden lg:table-cell">
                               <span className="whitespace-nowrap">
                                 ${client.monthlyRevenue.toLocaleString()}/mo
                               </span>
                             </td>
-                            <td className="p-3 w-[8%] min-w-[80px]">
+                            <td className="p-3">
                               <Badge className={`${getStatusColor(client.status)} border font-medium text-xs px-2 py-1`}>
                                 {client.status}
                               </Badge>
                             </td>
-                            <td className="p-3 w-[8%] min-w-[70px]">
+                            <td className="p-3">
                               <Link to={`/clients/${client.id}`}>
                                 <Button size="sm" variant="outline" className="whitespace-nowrap text-xs px-2 py-1">
                                   View
