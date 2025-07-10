@@ -29,12 +29,8 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-background w-full">
-      {/* Fixed header that spans full width */}
-      {isMobile ? (
-        <MobileHeader />
-      ) : (
-        <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
-      )}
+      {/* Fixed header only for mobile */}
+      {isMobile && <MobileHeader />}
       
       {/* Mobile sidebar overlay */}
       <MobileSidebar 
@@ -54,8 +50,8 @@ const Layout = () => {
 
         {/* Main content area - takes remaining space */}
         <div className="flex-1 min-w-0">
-          {/* Header spacer to account for fixed header - only on desktop where header is offset */}
-          <div className="h-16 flex-shrink-0"></div>
+          {/* Header spacer only for mobile */}
+          {isMobile && <div className="h-16 flex-shrink-0"></div>}
           
           <main className="w-full">
             <Outlet />
