@@ -32,7 +32,7 @@ const Layout = () => {
   const flatNavigation = navigationGroups.flatMap(group => group.items);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
-  const sidebarWidth = isCollapsed ? 'lg:ml-16' : 'lg:ml-64';
+  const sidebarWidth = isCollapsed ? 'lg:ml-16' : 'lg:ml-56';
 
   if (loading) {
     return (

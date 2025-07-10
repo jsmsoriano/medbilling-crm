@@ -16,7 +16,7 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { isCollapsed, toggleSidebar } = useSidebar();
-  const sidebarWidth = isCollapsed ? 'w-16' : 'w-64';
+  const sidebarWidth = isCollapsed ? 'w-16' : 'w-56';
 
   const toggleExpanded = (itemName: string) => {
     setExpandedItems(prev => 
