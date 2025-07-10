@@ -44,10 +44,10 @@ const Layout = () => {
 
       {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
-      {/* Main content - aligned with header, no side padding */}
-      <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen w-full max-w-full`}>
-        <main className="flex-1 w-full max-w-full">
-          <div className="w-full max-w-full">
+      {/* Main content - aligned with header, with max-width container */}
+      <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen`}>
+        <main className="flex-1 w-full">
+          <div className="w-full max-w-7xl mx-auto">
             <Outlet />
           </div>
         </main>
