@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, createContext, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -8,8 +8,20 @@ import MobileHeader from './layout/MobileHeader';
 import MobileSidebar from './layout/MobileSidebar';
 import DesktopSidebar from './layout/DesktopSidebar';
 
+// Create context for sidebar state
+const SidebarContext = createContext<{
+  isCollapsed: boolean;
+  toggleSidebar: () => void;
+}>({
+  isCollapsed: false,
+  toggleSidebar: () => {}
+});
+
+export const useSidebar = () => useContext(SidebarContext);
+
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
   const { subscriptionTier, loading } = useSubscription();
 
@@ -18,6 +30,9 @@ const Layout = () => {
   
   // Flatten for legacy components that expect simple array
   const flatNavigation = navigationGroups.flatMap(group => group.items);
+
+  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+  const sidebarWidth = isCollapsed ? 'lg:ml-16' : 'lg:ml-64';
 
   if (loading) {
     return (
@@ -28,34 +43,36 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
-      {/* Conditional headers based on device type */}
-      {isMobile ? (
-        <MobileHeader />
-      ) : (
-        <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
-      )}
-      
-      <MobileSidebar 
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        navigationGroups={navigationGroups}
-      />
-
-      {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
-
-      {/* Main content - properly aligned with responsive sidebar */}
-      <div className={`flex-1 flex flex-col min-h-screen w-full ${!isMobile ? 'lg:ml-64' : ''}`}>
-        {/* Header spacer */}
-        <div className="h-16 flex-shrink-0"></div>
+    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar }}>
+      <div className="min-h-screen bg-background flex w-full">
+        {/* Conditional headers based on device type */}
+        {isMobile ? (
+          <MobileHeader />
+        ) : (
+          <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
+        )}
         
-        <main className="flex-1 w-full">
-          <div className="w-full max-w-7xl mx-auto px-4 lg:px-6 py-6">
-            <Outlet />
-          </div>
-        </main>
+        <MobileSidebar 
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          navigationGroups={navigationGroups}
+        />
+
+        {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
+
+        {/* Main content - properly aligned with responsive sidebar */}
+        <div className={`flex-1 flex flex-col min-h-screen w-full transition-all duration-300 ${!isMobile ? sidebarWidth : ''}`}>
+          {/* Header spacer */}
+          <div className="h-16 flex-shrink-0"></div>
+          
+          <main className="flex-1 w-full">
+            <div className="w-full max-w-7xl mx-auto px-4 lg:px-6 py-6">
+              <Outlet />
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarContext.Provider>
   );
 };
 
