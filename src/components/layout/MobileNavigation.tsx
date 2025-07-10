@@ -43,7 +43,11 @@ const MobileNavigation = ({ onItemClick }: MobileNavigationProps) => {
             {group.items.map((item) => {
               const isActive = location.pathname === item.href;
               const hasChildren = item.children && item.children.length > 0;
-              const isChildActive = hasChildren && item.children?.some(child => location.pathname === child.href);
+              const isChildActive = hasChildren && item.children?.some(child => 
+                location.pathname === child.href || 
+                (child.href !== item.href && location.pathname.startsWith(child.href))
+              );
+              const isItemOrChildActive = isActive || isChildActive;
               
               return (
                 <Link
@@ -52,7 +56,7 @@ const MobileNavigation = ({ onItemClick }: MobileNavigationProps) => {
                   onClick={handleItemClick}
                   className={cn(
                     "group flex items-center px-3 py-4 text-base font-medium rounded-lg transition-colors min-h-[48px] touch-manipulation",
-                    isActive || isChildActive
+                    isItemOrChildActive
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80"
                   )}

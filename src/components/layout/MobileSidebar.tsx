@@ -96,7 +96,11 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                 {group.items.map((item) => {
                   const isActive = location.pathname === item.href;
                   const hasChildren = item.children && item.children.length > 0;
-                  const isChildActive = hasChildren && item.children?.some(child => location.pathname === child.href);
+                  const isChildActive = hasChildren && item.children?.some(child => 
+                    location.pathname === child.href || 
+                    (child.href !== item.href && location.pathname.startsWith(child.href))
+                  );
+                  const isItemOrChildActive = isActive || isChildActive;
                   const isItemExpanded = isExpanded(item.name);
                   
                   return (
@@ -106,7 +110,7 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                           onClick={() => toggleExpanded(item.name)}
                           className={cn(
                             "group flex items-center justify-between px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
-                            isActive || isChildActive
+                            isItemOrChildActive
                               ? "bg-primary text-primary-foreground shadow-md"
                               : "text-foreground hover:bg-muted hover:text-primary"
                           )}
