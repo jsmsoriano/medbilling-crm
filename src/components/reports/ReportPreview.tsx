@@ -86,7 +86,7 @@ const ReportPreview = ({
       
       <CardContent className="p-0">
         {filteredData.length > 0 ? (
-          <div className="space-y-6 p-6">
+          <div className="space-y-6 pl-6 pr-3 py-6">
             {reportType === 'client-performance' && (
               <ReportSummaryCards filteredData={filteredData} />
             )}
