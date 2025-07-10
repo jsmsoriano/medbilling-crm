@@ -66,9 +66,7 @@ const Layout = () => {
           <div className="h-16 flex-shrink-0"></div>
           
           <main className="flex-1 w-full">
-            <div className="w-full px-3 sm:px-4 lg:px-6 py-4 lg:py-6">
-              <Outlet />
-            </div>
+            <Outlet />
           </main>
         </div>
       </div>
