@@ -3,7 +3,7 @@ import './App.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { AuthProvider } from '@/hooks/useAuth';
 import { SubscriptionProvider } from '@/hooks/useSubscription';
-import DebugProvider from '@/components/DebugProvider';
+
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
@@ -59,82 +59,80 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <AuthProvider>
           <SubscriptionProvider>
-            <DebugProvider>
-              <Router>
+            <Router>
               <div className="App">
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/" element={isMobile ? <MobileLayout /> : <Layout />}>
-                <Route 
-                  index 
-                  element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
-                />
-                <Route 
-                  path="dashboard" 
-                  element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
-                />
-                <Route path="dashboard/performance" element={<Dashboard />} />
-                <Route path="dashboard/analytics" element={<Dashboard />} />
-                <Route 
-                  path="reports" 
-                  element={<MobileRoute mobileComponent={MobileReports} desktopComponent={Reports} />} 
-                />
-                <Route path="reports/ar-dashboard" element={<ARDashboard />} />
-                <Route path="reports/aging" element={<ARDashboard />} />
-                <Route path="reports/claims-status" element={<Reports />} />
-                <Route path="reports/denials" element={<Reports />} />
-                <Route path="reports/payments" element={<Reports />} />
-                <Route 
-                  path="data-management" 
-                  element={<MobileRoute mobileComponent={MobileDataManagement} desktopComponent={DataManagement} />} 
-                />
-                {/* Client & Provider Routes */}
-                <Route path="clients" element={<Clients />} />
-                <Route path="clients/insurance" element={<ClientInsurance />} />
-                
-                {/* Claims Routes */}
-                <Route path="claims" element={<Claims />} />
-                <Route path="claims/denials" element={<ClaimsDenials />} />
-                
-                {/* Payment Routes */}
-                <Route path="payments/posting" element={<PaymentPosting />} />
-                <Route path="payments/era" element={<PaymentERA />} />
-                <Route path="payments/reconciliation" element={<PaymentReconciliation />} />
-                
-                {/* Tasks Routes */}
-                <Route path="tasks" element={<Tasks />} />
-                <Route path="tasks/my-tasks" element={<MyTasks />} />
-                
-                {/* Credentialing Routes */}
-                <Route path="credentialing" element={<Credentialing />} />
-                <Route path="credentialing/renewals" element={<CredentialingRenewals />} />
-                
-                {/* File Vault Routes */}
-                <Route path="file-vault" element={<FileVault />} />
-                <Route path="file-vault/upload" element={<FileVaultUpload />} />
-                
-                {/* Pipeline/Sales Routes */}
-                <Route path="pipeline" element={<Pipeline />} />
-                <Route path="pipeline/leads" element={<PipelineLeads />} />
-                <Route path="pipeline/deals" element={<PipelineDeals />} />
-                <Route path="pipeline/tasks" element={<PipelineTasks />} />
-                <Route path="pipeline/reports" element={<PipelineReports />} />
-                
-                {/* Other Routes */}
-                <Route path="month-end-close" element={<MonthEndClose />} />
-                <Route path="team-dashboard" element={<TeamDashboard />} />
-                  <Route 
-                    path="settings" 
-                    element={<MobileRoute mobileComponent={MobileSettings} desktopComponent={Settings} />} 
-                  />
-                  <Route path="admin/subscriptions" element={<AdminSubscriptionManager />} />
-                  <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
+                    <Route 
+                      index 
+                      element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
+                    />
+                    <Route 
+                      path="dashboard" 
+                      element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
+                    />
+                    <Route path="dashboard/performance" element={<Dashboard />} />
+                    <Route path="dashboard/analytics" element={<Dashboard />} />
+                    <Route 
+                      path="reports" 
+                      element={<MobileRoute mobileComponent={MobileReports} desktopComponent={Reports} />} 
+                    />
+                    <Route path="reports/ar-dashboard" element={<ARDashboard />} />
+                    <Route path="reports/aging" element={<ARDashboard />} />
+                    <Route path="reports/claims-status" element={<Reports />} />
+                    <Route path="reports/denials" element={<Reports />} />
+                    <Route path="reports/payments" element={<Reports />} />
+                    <Route 
+                      path="data-management" 
+                      element={<MobileRoute mobileComponent={MobileDataManagement} desktopComponent={DataManagement} />} 
+                    />
+                    {/* Client & Provider Routes */}
+                    <Route path="clients" element={<Clients />} />
+                    <Route path="clients/insurance" element={<ClientInsurance />} />
+                    
+                    {/* Claims Routes */}
+                    <Route path="claims" element={<Claims />} />
+                    <Route path="claims/denials" element={<ClaimsDenials />} />
+                    
+                    {/* Payment Routes */}
+                    <Route path="payments/posting" element={<PaymentPosting />} />
+                    <Route path="payments/era" element={<PaymentERA />} />
+                    <Route path="payments/reconciliation" element={<PaymentReconciliation />} />
+                    
+                    {/* Tasks Routes */}
+                    <Route path="tasks" element={<Tasks />} />
+                    <Route path="tasks/my-tasks" element={<MyTasks />} />
+                    
+                    {/* Credentialing Routes */}
+                    <Route path="credentialing" element={<Credentialing />} />
+                    <Route path="credentialing/renewals" element={<CredentialingRenewals />} />
+                    
+                    {/* File Vault Routes */}
+                    <Route path="file-vault" element={<FileVault />} />
+                    <Route path="file-vault/upload" element={<FileVaultUpload />} />
+                    
+                    {/* Pipeline/Sales Routes */}
+                    <Route path="pipeline" element={<Pipeline />} />
+                    <Route path="pipeline/leads" element={<PipelineLeads />} />
+                    <Route path="pipeline/deals" element={<PipelineDeals />} />
+                    <Route path="pipeline/tasks" element={<PipelineTasks />} />
+                    <Route path="pipeline/reports" element={<PipelineReports />} />
+                    
+                    {/* Other Routes */}
+                    <Route path="month-end-close" element={<MonthEndClose />} />
+                    <Route path="team-dashboard" element={<TeamDashboard />} />
+                    <Route 
+                      path="settings" 
+                      element={<MobileRoute mobileComponent={MobileSettings} desktopComponent={Settings} />} 
+                    />
+                    <Route path="admin/subscriptions" element={<AdminSubscriptionManager />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
+                </Routes>
                 <Toaster />
               </div>
             </Router>
-            </DebugProvider>
           </SubscriptionProvider>
         </AuthProvider>
       </ThemeProvider>
