@@ -46,8 +46,8 @@ const Layout = () => {
 
       {/* Main content - aligned with header, with max-width container */}
       <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen`}>
-        <main className="flex-1 w-full">
-          <div className="w-full max-w-7xl mx-auto">
+        <main className="flex-1">
+          <div className="w-full max-w-7xl mx-auto px-4 lg:px-6">
             <Outlet />
           </div>
         </main>

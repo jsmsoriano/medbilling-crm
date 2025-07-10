@@ -1,8 +1,10 @@
 
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { NavigationGroup } from '@/config/navigation';
 import { Badge } from '@/components/ui/badge';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 interface DesktopSidebarProps {
   navigationGroups: NavigationGroup[];
@@ -10,6 +12,17 @@ interface DesktopSidebarProps {
 
 const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
   const location = useLocation();
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  const toggleExpanded = (itemName: string) => {
+    setExpandedItems(prev => 
+      prev.includes(itemName) 
+        ? prev.filter(name => name !== itemName)
+        : [...prev, itemName]
+    );
+  };
+
+  const isExpanded = (itemName: string) => expandedItems.includes(itemName);
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:top-16 lg:flex lg:w-64 lg:flex-col lg:h-[calc(100vh-4rem)] lg:z-30">
@@ -30,26 +43,89 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                 </div>
                 {group.items.map((item) => {
                   const isActive = location.pathname === item.href;
+                  const hasChildren = item.children && item.children.length > 0;
+                  const isItemExpanded = isExpanded(item.name);
+                  
                   return (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      className={cn(
-                        "group flex items-center justify-start px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full min-w-0",
-                        isActive
-                          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
-                          : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                    <div key={item.href} className="space-y-1">
+                      {hasChildren ? (
+                        <button
+                          onClick={() => toggleExpanded(item.name)}
+                          className={cn(
+                            "group flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full min-w-0",
+                            isActive || item.children?.some(child => location.pathname === child.href)
+                              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
+                              : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                          )}
+                        >
+                          <div className="flex items-center min-w-0 flex-1">
+                            <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                            <span className="flex-1 text-left truncate">{item.name}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {item.subscriptionRequired && (
+                              <Badge variant="outline" className="text-xs">
+                                {item.subscriptionRequired}
+                              </Badge>
+                            )}
+                            {isItemExpanded ? (
+                              <ChevronDown className="h-4 w-4" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4" />
+                            )}
+                          </div>
+                        </button>
+                      ) : (
+                        <Link
+                          to={item.href}
+                          className={cn(
+                            "group flex items-center justify-start px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full min-w-0",
+                            isActive
+                              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
+                              : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                          )}
+                          title={item.description}
+                        >
+                          <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                          <span className="flex-1 text-left truncate">{item.name}</span>
+                          {item.subscriptionRequired && (
+                            <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
+                              {item.subscriptionRequired}
+                            </Badge>
+                          )}
+                        </Link>
                       )}
-                      title={item.description}
-                    >
-                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                      <span className="flex-1 text-left truncate">{item.name}</span>
-                      {item.subscriptionRequired && (
-                        <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
-                          {item.subscriptionRequired}
-                        </Badge>
+                      
+                      {/* Submenu items */}
+                      {hasChildren && isItemExpanded && (
+                        <div className="ml-6 space-y-1">
+                          {item.children?.map((child) => {
+                            const isChildActive = location.pathname === child.href;
+                            return (
+                              <Link
+                                key={child.href}
+                                to={child.href}
+                                className={cn(
+                                  "group flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 w-full min-w-0",
+                                  isChildActive
+                                    ? "bg-primary text-primary-foreground shadow-sm"
+                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                )}
+                                title={child.description}
+                              >
+                                <child.icon className="mr-3 h-4 w-4 flex-shrink-0" />
+                                <span className="flex-1 text-left truncate">{child.name}</span>
+                                {child.subscriptionRequired && (
+                                  <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
+                                    {child.subscriptionRequired}
+                                  </Badge>
+                                )}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       )}
-                    </Link>
+                    </div>
                   );
                 })}
               </div>

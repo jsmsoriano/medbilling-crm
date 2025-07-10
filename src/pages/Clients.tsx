@@ -105,12 +105,12 @@ const Clients = () => {
   const practiceTypes = [...new Set(clients.map(client => client.practiceType))];
 
   return (
-    <div className="w-full max-w-full">
-      {/* Header Section - Full width alignment */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 w-full max-w-full px-4 lg:px-6">
-        <div className="flex-1 min-w-0 max-w-full">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">Clients</h1>
-          <p className="text-muted-foreground mt-1 sm:mt-2 break-words">Manage your client relationships and billing accounts</p>
+    <div className="w-full">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Clients</h1>
+          <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
         </div>
         <div className="flex-shrink-0">
           <Button className="w-full sm:w-auto">
@@ -120,25 +120,25 @@ const Clients = () => {
         </div>
       </div>
 
-      {/* Filters Section - Full width alignment */}
-      <Card className="mb-6 w-full max-w-full mx-4 lg:mx-6">
-        <div className="p-4 w-full max-w-full">
-          <div className="flex flex-col gap-4 w-full max-w-full">
-            {/* Search Input - Full width, overflow-safe */}
-            <div className="w-full max-w-full">
-              <div className="relative w-full max-w-full">
+      {/* Filters Section */}
+      <Card className="mb-6">
+        <div className="p-4">
+          <div className="flex flex-col gap-4">
+            {/* Search Input */}
+            <div className="w-full">
+              <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 z-10" />
                 <Input
                   placeholder="Search clients by name, email, or city..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full max-w-full"
+                  className="pl-10"
                 />
               </div>
             </div>
             
-            {/* Filter Controls - Responsive layout */}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full max-w-full">
+            {/* Filter Controls */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
               <div className="w-full sm:w-auto sm:min-w-32">
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-full">
@@ -191,8 +191,8 @@ const Clients = () => {
         </div>
       </Card>
 
-      {/* Clients Display - Full width alignment */}
-      <div className="w-full max-w-full px-4 lg:px-6">
+      {/* Clients Display */}
+      <div className="w-full">
         {viewMode === 'cards' ? (
           // Cards View - Responsive grid with proper spacing
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 w-full max-w-full">
@@ -343,17 +343,15 @@ const Clients = () => {
 
       {/* No Results State */}
       {filteredClients.length === 0 && (
-        <div className="px-4 lg:px-6">
-          <Card className="p-8 sm:p-12 w-full max-w-full">
-            <div className="text-center">
-              <Filter className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-foreground mb-2">No clients found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your search terms or filters to find the clients you're looking for.
-              </p>
-            </div>
-          </Card>
-        </div>
+        <Card className="p-8 sm:p-12">
+          <div className="text-center">
+            <Filter className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">No clients found</h3>
+            <p className="text-muted-foreground">
+              Try adjusting your search terms or filters to find the clients you're looking for.
+            </p>
+          </div>
+        </Card>
       )}
     </div>
   );
