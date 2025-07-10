@@ -17,7 +17,10 @@ import {
   Target,
   UserPlus,
   Building2,
-  Shield
+  Shield,
+  Home,
+  PieChart,
+  Activity
 } from 'lucide-react';
 
 export interface NavigationItem {
@@ -36,6 +39,29 @@ export interface NavigationGroup {
 }
 
 export const navigationConfig: NavigationGroup[] = [
+  {
+    name: 'DASHBOARD',
+    items: [
+      { 
+        name: 'Overview', 
+        href: '/dashboard', 
+        icon: Home,
+        description: 'Main dashboard overview'
+      },
+      { 
+        name: 'Performance', 
+        href: '/dashboard/performance', 
+        icon: Activity,
+        description: 'Performance metrics and KPIs'
+      },
+      { 
+        name: 'Analytics', 
+        href: '/dashboard/analytics', 
+        icon: PieChart,
+        description: 'Detailed analytics and insights'
+      },
+    ]
+  },
   {
     name: 'OPERATIONS',
     items: [
