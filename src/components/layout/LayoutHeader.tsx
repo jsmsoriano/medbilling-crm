@@ -27,10 +27,10 @@ const LayoutHeader = ({ onMobileMenuToggle }: LayoutHeaderProps) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-50">
-      <div className="flex items-center justify-between h-16 px-4 lg:px-6">
+    <header className="bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-50 w-full max-w-full">
+      <div className="flex items-center justify-between h-16 px-4 lg:px-6 w-full max-w-full">
         {/* Left side - Logo and Menu Button */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 min-w-0">
           <Button
             variant="ghost"
             size="icon"

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -29,7 +28,7 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
+    <div className="min-h-screen bg-background flex w-full max-w-full">
       {/* Conditional headers based on device type */}
       {isMobile ? (
         <MobileHeader />
@@ -45,10 +44,10 @@ const Layout = () => {
 
       {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
-      {/* Main content - proper layout with overflow handling */}
-      <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen w-full max-w-full overflow-x-hidden`}>
-        <main className={`flex-1 ${isMobile ? 'px-3 pb-4' : 'px-6 py-6'} w-full max-w-full overflow-x-hidden`}>
-          <div className="w-full max-w-full overflow-x-hidden">
+      {/* Main content - aligned with header, no side padding */}
+      <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen w-full max-w-full`}>
+        <main className="flex-1 w-full max-w-full">
+          <div className="w-full max-w-full">
             <Outlet />
           </div>
         </main>

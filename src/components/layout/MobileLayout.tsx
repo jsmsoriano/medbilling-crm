@@ -12,12 +12,12 @@ const MobileLayout = () => {
   }
 
   return (
-    <div className="h-screen bg-background overflow-hidden w-full">
+    <div className="h-screen bg-background w-full max-w-full">
       <MobileHeader />
       
-      {/* Main content with mobile padding and proper overflow handling */}
-      <main className="pt-16 pb-4 h-full overflow-y-auto overflow-x-hidden w-full">
-        <div className="px-3 w-full max-w-full">
+      {/* Main content with proper alignment */}
+      <main className="pt-16 pb-4 h-full w-full max-w-full">
+        <div className="w-full max-w-full">
           <Outlet />
         </div>
       </main>
