@@ -2,11 +2,29 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Eye, EyeOff } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Card } from '@/components/ui/card';
+import { 
+  Eye, 
+  EyeOff, 
+  Grid, 
+  Settings, 
+  X, 
+  AlignCenter, 
+  AlignLeft, 
+  AlignRight, 
+  MousePointer2, 
+  RotateCcw,
+  Move3D 
+} from 'lucide-react';
 
 interface DebugContextType {
   debugMode: boolean;
   toggleDebug: () => void;
+  showGrid: boolean;
+  toggleGrid: () => void;
+  devMode: boolean;
+  toggleDevMode: () => void;
   visibilitySettings: {
     containers: boolean;
     padding: boolean;
@@ -18,6 +36,10 @@ interface DebugContextType {
 const DebugContext = createContext<DebugContextType>({
   debugMode: false,
   toggleDebug: () => {},
+  showGrid: false,
+  toggleGrid: () => {},
+  devMode: false,
+  toggleDevMode: () => {},
   visibilitySettings: {
     containers: true,
     padding: true,
@@ -30,6 +52,8 @@ export const useDebug = () => useContext(DebugContext);
 
 export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [debugMode, setDebugMode] = useState(false);
+  const [showGrid, setShowGrid] = useState(false);
+  const [devMode, setDevMode] = useState(false);
   const [visibilitySettings, setVisibilitySettings] = useState({
     containers: true,
     padding: true,
@@ -38,6 +62,14 @@ export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const toggleDebug = () => {
     setDebugMode(!debugMode);
+  };
+
+  const toggleGrid = () => {
+    setShowGrid(!showGrid);
+  };
+
+  const toggleDevMode = () => {
+    setDevMode(!devMode);
   };
 
   const updateVisibility = (type: 'containers' | 'padding' | 'margins', visible: boolean) => {
@@ -56,7 +88,16 @@ export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [debugMode]);
 
   return (
-    <DebugContext.Provider value={{ debugMode, toggleDebug, visibilitySettings, updateVisibility }}>
+    <DebugContext.Provider value={{ 
+      debugMode, 
+      toggleDebug, 
+      showGrid, 
+      toggleGrid, 
+      devMode, 
+      toggleDevMode, 
+      visibilitySettings, 
+      updateVisibility 
+    }}>
       {children}
       {debugMode && (
         <>
@@ -64,16 +105,18 @@ export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           <DebugLegend />
         </>
       )}
+      {devMode && <DevModeControls />}
+      {showGrid && <GridOverlay />}
       <DebugToggle />
     </DebugContext.Provider>
   );
 };
 
 const DebugToggle: React.FC = () => {
-  const { debugMode, toggleDebug } = useDebug();
+  const { debugMode, toggleDebug, devMode, toggleDevMode, showGrid, toggleGrid } = useDebug();
 
   return (
-    <div className="fixed bottom-4 right-4 z-[9999]">
+    <div className="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2">
       <Button
         onClick={toggleDebug}
         variant={debugMode ? "destructive" : "outline"}
@@ -82,6 +125,26 @@ const DebugToggle: React.FC = () => {
       >
         {debugMode ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
         Debug {debugMode ? 'ON' : 'OFF'}
+      </Button>
+      
+      <Button
+        onClick={toggleDevMode}
+        variant={devMode ? "default" : "outline"}
+        size="sm"
+        className="shadow-lg"
+      >
+        <Settings className="w-4 h-4 mr-2" />
+        Dev Mode
+      </Button>
+
+      <Button
+        onClick={toggleGrid}
+        variant={showGrid ? "default" : "outline"}
+        size="sm"
+        className="shadow-lg"
+      >
+        <Grid className="w-4 h-4 mr-2" />
+        Grid
       </Button>
     </div>
   );
@@ -351,6 +414,251 @@ const DebugLegend: React.FC = () => {
         <div>M: margin (top|right|bottom|left)</div>
       </div>
     </div>
+  );
+};
+
+// Grid Overlay Component
+const GridOverlay: React.FC = () => {
+  return (
+    <div 
+      className="fixed inset-0 pointer-events-none z-[9998]"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+        `,
+        backgroundSize: '20px 20px'
+      }}
+    />
+  );
+};
+
+// Dev Mode Controls Component
+const DevModeControls: React.FC = () => {
+  const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(null);
+  const [elementStyles, setElementStyles] = useState<any>({});
+  const { devMode, toggleDevMode } = useDebug();
+
+  useEffect(() => {
+    if (!devMode) {
+      setSelectedElement(null);
+      return;
+    }
+
+    const handleElementClick = (e: MouseEvent) => {
+      if (!devMode) return;
+      
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const target = e.target as HTMLElement;
+      
+      // Skip if clicking on dev mode controls
+      if (target.closest('.dev-mode-controls') || target.closest('.dev-mode-overlay')) {
+        return;
+      }
+      
+      setSelectedElement(target);
+      
+      // Get current styles
+      const computedStyles = window.getComputedStyle(target);
+      setElementStyles({
+        display: computedStyles.display,
+        justifyContent: computedStyles.justifyContent,
+        alignItems: computedStyles.alignItems,
+        textAlign: computedStyles.textAlign,
+        margin: computedStyles.margin,
+        padding: computedStyles.padding,
+        width: computedStyles.width,
+        height: computedStyles.height,
+      });
+    };
+
+    document.addEventListener('click', handleElementClick, true);
+    
+    return () => {
+      document.removeEventListener('click', handleElementClick, true);
+    };
+  }, [devMode]);
+
+  const applyAlignment = (alignment: string) => {
+    if (!selectedElement) return;
+    
+    // Remove existing alignment classes
+    selectedElement.className = selectedElement.className
+      .replace(/\b(text-left|text-center|text-right|justify-start|justify-center|justify-end|items-start|items-center|items-end)\b/g, '');
+    
+    // Apply new alignment
+    switch (alignment) {
+      case 'center':
+        selectedElement.classList.add('text-center', 'justify-center', 'items-center');
+        if (selectedElement.style.display === 'flex' || selectedElement.classList.contains('flex')) {
+          selectedElement.classList.add('justify-center', 'items-center');
+        }
+        break;
+      case 'left':
+        selectedElement.classList.add('text-left', 'justify-start', 'items-start');
+        break;
+      case 'right':
+        selectedElement.classList.add('text-right', 'justify-end', 'items-end');
+        break;
+    }
+  };
+
+  const makeFlexContainer = () => {
+    if (!selectedElement) return;
+    
+    if (!selectedElement.classList.contains('flex')) {
+      selectedElement.classList.add('flex');
+    }
+  };
+
+  const resetElement = () => {
+    if (!selectedElement) return;
+    
+    // Remove common utility classes
+    const classesToRemove = [
+      'text-left', 'text-center', 'text-right',
+      'justify-start', 'justify-center', 'justify-end',
+      'items-start', 'items-center', 'items-end',
+      'flex', 'grid', 'block', 'inline-block'
+    ];
+    
+    classesToRemove.forEach(cls => {
+      selectedElement.classList.remove(cls);
+    });
+  };
+
+  if (!devMode) return null;
+
+  return (
+    <>
+      {/* Element Highlight */}
+      {selectedElement && (
+        <div
+          className="fixed pointer-events-none z-[9999] border-2 border-blue-500 bg-blue-500/10"
+          style={{
+            left: selectedElement.getBoundingClientRect().left + window.scrollX,
+            top: selectedElement.getBoundingClientRect().top + window.scrollY,
+            width: selectedElement.getBoundingClientRect().width,
+            height: selectedElement.getBoundingClientRect().height,
+          }}
+        />
+      )}
+
+      {/* Dev Controls Panel */}
+      <Card className="fixed top-4 right-4 z-[10000] p-4 bg-card/95 backdrop-blur-md border dev-mode-controls">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Settings className="h-4 w-4" />
+            <span className="font-semibold text-sm">Dev Mode</span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => toggleDevMode()}
+            className="h-6 w-6 p-0"
+          >
+            <X className="h-3 w-3" />
+          </Button>
+        </div>
+
+        <div className="space-y-4 min-w-[200px]">
+          {/* Selected Element Info */}
+          {selectedElement && (
+            <div className="space-y-3 border-t pt-3">
+              <div className="text-sm font-medium text-primary">
+                Selected: {selectedElement.tagName.toLowerCase()}
+                {selectedElement.className && (
+                  <div className="text-xs text-muted-foreground mt-1 break-all">
+                    .{selectedElement.className.split(' ').slice(0, 3).join(' .')}
+                  </div>
+                )}
+              </div>
+
+              {/* Alignment Controls */}
+              <div>
+                <label className="text-xs font-medium block mb-2">Alignment</label>
+                <div className="flex gap-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => applyAlignment('left')}
+                    className="p-1 h-7 w-7"
+                  >
+                    <AlignLeft className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => applyAlignment('center')}
+                    className="p-1 h-7 w-7"
+                  >
+                    <AlignCenter className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => applyAlignment('right')}
+                    className="p-1 h-7 w-7"
+                  >
+                    <AlignRight className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Layout Controls */}
+              <div>
+                <label className="text-xs font-medium block mb-2">Layout</label>
+                <div className="flex gap-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={makeFlexContainer}
+                    className="p-1 h-7 text-xs"
+                  >
+                    Flex
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={resetElement}
+                    className="p-1 h-7 w-7"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Quick Info */}
+              <div className="text-xs text-muted-foreground space-y-1">
+                <div>Display: {elementStyles.display}</div>
+                {elementStyles.textAlign && (
+                  <div>Text: {elementStyles.textAlign}</div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {!selectedElement && (
+            <div className="text-xs text-muted-foreground text-center py-4">
+              <MousePointer2 className="h-8 w-8 mx-auto mb-2 opacity-50" />
+              Click any element to select and modify it
+            </div>
+          )}
+        </div>
+      </Card>
+
+      {/* Instructions */}
+      <Card className="fixed bottom-4 left-4 z-[10000] p-3 bg-card/95 backdrop-blur-md border dev-mode-controls">
+        <div className="text-xs text-muted-foreground max-w-[200px]">
+          <div className="font-medium mb-1">Dev Mode Active</div>
+          <div>• Click elements to select</div>
+          <div>• Use controls to modify layout</div>
+          <div>• Grid helps with alignment</div>
+        </div>
+      </Card>
+    </>
   );
 };
 

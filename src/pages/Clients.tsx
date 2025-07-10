@@ -5,9 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign, Grid2X2, List, Settings } from 'lucide-react';
+import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign, Grid2X2, List } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import DevModeControls from '@/components/DevModeControls';
 
 // Mock client data
 const mockClients = [
@@ -79,8 +78,6 @@ const Clients = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [practiceTypeFilter, setPracticeTypeFilter] = useState('all');
   const [viewMode, setViewMode] = useState<'cards' | 'list'>('cards');
-  const [devModeEnabled, setDevModeEnabled] = useState(false);
-  const [showGrid, setShowGrid] = useState(false);
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -117,15 +114,6 @@ const Clients = () => {
             <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setDevModeEnabled(!devModeEnabled)}
-              className={devModeEnabled ? 'border-primary text-primary' : ''}
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Dev Mode
-            </Button>
             <Button className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Client
@@ -370,13 +358,6 @@ const Clients = () => {
             </Card>
           )}
 
-          {/* Dev Mode Controls */}
-          <DevModeControls
-            isEnabled={devModeEnabled}
-            onToggle={setDevModeEnabled}
-            onGridToggle={setShowGrid}
-            showGrid={showGrid}
-          />
         </div>
       </div>
     </div>
