@@ -92,13 +92,13 @@ const Clients = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-success/10 text-success border-success/20';
       case 'inactive':
-        return 'bg-red-100 text-red-800';
+        return 'bg-destructive/10 text-destructive border-destructive/20';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning/10 text-warning border-warning/20';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -195,60 +195,60 @@ const Clients = () => {
       <div className="w-full">
         {viewMode === 'cards' ? (
           // Cards View - Responsive grid with proper spacing
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 w-full max-w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredClients.map((client) => (
-              <Card key={client.id} className="p-4 sm:p-6 hover:shadow-lg transition-shadow w-full max-w-full overflow-hidden">
-                <div className="flex items-start justify-between mb-4 w-full max-w-full">
-                  <div className="flex-1 min-w-0 max-w-full pr-2">
+              <Card key={client.id} className="p-6 hover:shadow-lg transition-all duration-200 border-border/50 hover:border-primary/20">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1 min-w-0 pr-2">
                     <Link 
                       to={`/clients/${client.id}`}
                       className="text-lg font-semibold text-foreground hover:text-primary transition-colors block truncate"
                     >
                       {client.name}
                     </Link>
-                    <p className="text-sm text-muted-foreground mt-1 truncate">{client.practiceType}</p>
+                    <p className="text-sm text-muted-foreground mt-1 truncate font-medium">{client.practiceType}</p>
                   </div>
-                  <Badge className={`${getStatusColor(client.status)} flex-shrink-0`} variant="secondary">
+                  <Badge className={`${getStatusColor(client.status)} flex-shrink-0 border font-medium`}>
                     {client.status}
                   </Badge>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center text-sm text-muted-foreground min-w-0">
-                    <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <Mail className="w-4 h-4 mr-3 flex-shrink-0 text-primary/60" />
                     <span className="truncate">{client.email}</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-muted-foreground">
-                    <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <Phone className="w-4 h-4 mr-3 flex-shrink-0 text-primary/60" />
                     <span>{client.phone}</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-muted-foreground min-w-0">
-                    <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <MapPin className="w-4 h-4 mr-3 flex-shrink-0 text-primary/60" />
                     <span className="truncate">{client.city}, {client.state} {client.zipCode}</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <Calendar className="w-4 h-4 mr-3 flex-shrink-0 text-primary/60" />
                     <span>Contract: {new Date(client.contractStartDate).toLocaleDateString()}</span>
                   </div>
                   
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <DollarSign className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <div className="flex items-center text-sm text-foreground font-semibold">
+                    <DollarSign className="w-4 h-4 mr-3 flex-shrink-0 text-success" />
                     <span>${client.monthlyRevenue.toLocaleString()}/month</span>
                   </div>
                 </div>
 
                 {client.notes && (
-                  <div className="mt-4 p-3 bg-muted rounded-md">
+                  <div className="mt-4 p-3 bg-muted/50 rounded-md border border-border/30">
                     <p className="text-sm text-muted-foreground line-clamp-3">{client.notes}</p>
                   </div>
                 )}
 
-                <div className="mt-4 pt-4 border-t border-border">
+                <div className="mt-6 pt-4 border-t border-border/50">
                   <Link to={`/clients/${client.id}`} className="block">
-                    <Button className="w-full" variant="outline">
+                    <Button className="w-full font-medium" variant="outline">
                       View Details
                     </Button>
                   </Link>
@@ -259,23 +259,23 @@ const Clients = () => {
         ) : (
           // List View - Responsive table with proper horizontal scroll
           <div className="w-full">
-            <Card className="w-full overflow-hidden">
+            <Card className="w-full overflow-hidden border-border/50">
               <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-background">
                 <table className="w-full min-w-[1200px] table-fixed">
-                  <thead className="border-b border-border bg-muted/20">
+                  <thead className="border-b border-border bg-muted/30">
                     <tr>
-                      <th className="text-left p-4 font-medium text-foreground w-[200px]">Client</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[140px]">Practice Type</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[220px]">Contact</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[180px]">Location</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[140px]">Revenue</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[100px]">Status</th>
-                      <th className="text-left p-4 font-medium text-foreground w-[120px]">Actions</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[200px]">Client</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[140px]">Practice Type</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[220px]">Contact</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[180px]">Location</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[140px]">Revenue</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[100px]">Status</th>
+                      <th className="text-left p-4 font-semibold text-foreground w-[120px]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredClients.map((client) => (
-                      <tr key={client.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                      <tr key={client.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
                         <td className="p-4 w-[200px]">
                           <div className="min-w-0">
                             <Link 
@@ -314,13 +314,13 @@ const Clients = () => {
                             {client.city}, {client.state} {client.zipCode}
                           </span>
                         </td>
-                        <td className="p-4 text-sm text-muted-foreground w-[140px]">
+                        <td className="p-4 text-sm text-foreground font-semibold w-[140px]">
                           <span className="whitespace-nowrap">
                             ${client.monthlyRevenue.toLocaleString()}/month
                           </span>
                         </td>
                         <td className="p-4 w-[100px]">
-                          <Badge className={getStatusColor(client.status)} variant="secondary">
+                          <Badge className={`${getStatusColor(client.status)} border font-medium`}>
                             {client.status}
                           </Badge>
                         </td>

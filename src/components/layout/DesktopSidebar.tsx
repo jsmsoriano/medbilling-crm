@@ -101,8 +101,8 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                             "group flex items-center rounded-lg transition-all duration-200 min-w-0",
                             isCollapsed ? "justify-center p-3" : "justify-start px-3 py-3",
                             isActive
-                              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
-                              : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "text-foreground hover:bg-muted hover:text-primary"
                           )}
                           title={item.description}
                         >
