@@ -66,7 +66,7 @@ const MobileDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="text-center">
+      <div className="text-left mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600 text-sm mt-1">Your billing overview</p>
       </div>

@@ -132,7 +132,7 @@ const Credentialing = () => {
     <div className="space-y-6 p-4 sm:p-6 max-w-full overflow-x-hidden">
       <div className="flex justify-between items-center">
         <div className="text-center w-full">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Provider Credentialing</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Provider Credentialing</h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base">Manage provider credentials and insurance applications</p>
         </div>
       </div>

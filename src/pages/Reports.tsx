@@ -51,10 +51,10 @@ const Reports = () => {
     <div className="flex-1 flex flex-col min-h-0">
       {/* Header */}
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
-        <div className="max-w-7xl mx-auto">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">Reports</h1>
-            <p className="text-muted-foreground">Generate and analyze comprehensive billing reports</p>
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="space-y-1 sm:space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Reports</h1>
+            <p className="text-sm text-muted-foreground">Generate and analyze comprehensive billing reports</p>
           </div>
         </div>
       </header>

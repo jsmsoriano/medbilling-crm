@@ -25,10 +25,10 @@ const Claims = () => {
     <div className="flex-1 flex flex-col min-h-0">
       {/* Header */}
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-7xl mx-auto">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-left">Claims Management</h1>
-            <p className="text-muted-foreground">Track and manage insurance claims</p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-7xl mx-auto w-full">
+          <div className="space-y-1 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-left">Claims Management</h1>
+            <p className="text-sm text-muted-foreground">Track and manage insurance claims</p>
           </div>
         </div>
       </header>
@@ -54,12 +54,12 @@ const Claims = () => {
             </CardHeader>
             <CardContent className="p-0">
               <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-                <div className="px-6 pt-6">
-                  <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="0-30">0-30 Days</TabsTrigger>
-                    <TabsTrigger value="31-60">31-60 Days</TabsTrigger>
-                    <TabsTrigger value="61-90">61-90 Days</TabsTrigger>
-                    <TabsTrigger value="90+">90+ Days</TabsTrigger>
+                <div className="px-4 sm:px-6 pt-4 sm:pt-6">
+                  <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm">
+                    <TabsTrigger value="0-30" className="text-xs sm:text-sm">0-30 Days</TabsTrigger>
+                    <TabsTrigger value="31-60" className="text-xs sm:text-sm">31-60 Days</TabsTrigger>
+                    <TabsTrigger value="61-90" className="text-xs sm:text-sm">61-90 Days</TabsTrigger>
+                    <TabsTrigger value="90+" className="text-xs sm:text-sm">90+ Days</TabsTrigger>
                   </TabsList>
                 </div>
                 

@@ -28,21 +28,28 @@ const MobileHeader = () => {
               <MobileNavigation onItemClick={handleNavigationClick} />
             </SheetContent>
           </Sheet>
-          <div className="flex flex-col min-w-0 flex-1">
-            <h1 className="text-lg font-semibold text-gray-900 truncate">
-              MedBilling CRM
-            </h1>
-            <SubscriptionBadge showIcon={false} className="text-xs self-start" />
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <img
+              src={logoGradient}
+              alt="Excel Medical Billing"
+              className="h-6 w-6 flex-shrink-0"
+            />
+            <div className="flex flex-col min-w-0 flex-1">
+              <h1 className="text-sm font-semibold text-gray-900 truncate">
+                MedBilling CRM
+              </h1>
+              <SubscriptionBadge showIcon={false} className="text-xs self-start" />
+            </div>
           </div>
         </div>
         
         <div className="flex items-center gap-1 flex-shrink-0">
           <Button variant="ghost" size="sm" className="p-2 relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
+            <Bell className="h-4 w-4" />
+            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-red-500 rounded-full"></span>
           </Button>
           <Button variant="ghost" size="sm" className="p-2">
-            <User className="h-5 w-5" />
+            <User className="h-4 w-4" />
           </Button>
         </div>
       </div>
