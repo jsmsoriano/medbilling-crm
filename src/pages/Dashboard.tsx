@@ -62,315 +62,286 @@ const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('7d');
 
   return (
-    <div className="w-full max-w-7xl mx-auto padding-page-responsive space-y-6">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard Overview</h1>
-          <p className="text-muted-foreground mt-1">
-            Monitor your medical billing performance and key metrics
-          </p>
+    <div className="flex-1 flex flex-col min-h-0">
+      {/* Header */}
+      <header className="border-b border-border bg-background px-6 py-5 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Welcome back, Admin User • Your Business
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2" />
+              Export
+            </Button>
+            <Button variant="outline" size="sm">
+              <AlertTriangle className="h-4 w-4 mr-2" />
+              Alerts
+            </Button>
+            <Button variant="outline" size="sm">
+              <Eye className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+            <Button size="sm">
+              <Activity className="h-4 w-4 mr-2" />
+              Refresh
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            Filter
-          </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
-          <Button size="sm">
-            <Eye className="h-4 w-4 mr-2" />
-            View Reports
-          </Button>
-        </div>
-      </div>
+      </header>
 
-      {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Revenue */}
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$358,420</div>
-            <div className="flex items-center text-xs text-green-600 mt-1">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              +12.5% from last month
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Collection Rate */}
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Collection Rate</CardTitle>
-            <BarChart3 className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">94.2%</div>
-            <div className="flex items-center text-xs text-green-600 mt-1">
-              <ArrowUpRight className="h-3 w-3 mr-1" />
-              +2.1% from last month
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Claims Processed */}
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Claims Processed</CardTitle>
-            <FileText className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,847</div>
-            <div className="flex items-center text-xs text-green-600 mt-1">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              +8.3% from last month
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Denial Rate */}
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Denial Rate</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-red-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">5.8%</div>
-            <div className="flex items-center text-xs text-red-600 mt-1">
-              <ArrowDownRight className="h-3 w-3 mr-1" />
-              -1.2% from last month
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Secondary Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Outstanding A/R</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold mb-2">$89,340</div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>0-30 days</span>
-                <span className="font-medium">$35,420</span>
+      {/* Main Content */}
+      <div className="flex-1 px-6 py-6 overflow-auto">
+        <div className="space-y-6">
+          {/* Key Metrics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Total Revenue */}
+            <Card className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-muted-foreground">Total Revenue</span>
+                <DollarSign className="h-5 w-5 text-muted-foreground" />
               </div>
-              <Progress value={65} className="h-2" />
-              <div className="flex justify-between text-sm">
-                <span>31-60 days</span>
-                <span className="font-medium">$28,910</span>
-              </div>
-              <Progress value={45} className="h-2" />
-              <div className="flex justify-between text-sm">
-                <span>61+ days</span>
-                <span className="font-medium">$25,010</span>
-              </div>
-              <Progress value={30} className="h-2" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Today's Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Claims Approved</span>
+              <div className="space-y-1">
+                <div className="text-2xl font-bold">$485,360</div>
+                <div className="flex items-center text-xs text-green-600">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  +12.5% from last month
                 </div>
-                <span className="font-semibold">47</span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-yellow-600" />
-                  <span className="text-sm">Claims Pending</span>
-                </div>
-                <span className="font-semibold">23</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-red-600" />
-                  <span className="text-sm">Claims Denied</span>
-                </div>
-                <span className="font-semibold">8</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Payments Posted</span>
-                </div>
-                <span className="font-semibold">$12,450</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Performance Goals</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Monthly Collection Goal</span>
-                  <span>87%</span>
-                </div>
-                <Progress value={87} className="h-2" />
+            {/* Active Clients */}
+            <Card className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-muted-foreground">Active Clients</span>
+                <Users className="h-5 w-5 text-muted-foreground" />
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Claims Processing Target</span>
-                  <span>92%</span>
+              <div className="space-y-1">
+                <div className="text-2xl font-bold">24</div>
+                <div className="flex items-center text-xs text-green-600">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  +3 new this month
                 </div>
-                <Progress value={92} className="h-2" />
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Denial Rate Target</span>
-                  <span>95%</span>
-                </div>
-                <Progress value={95} className="h-2" />
+            </Card>
+
+            {/* Projects */}
+            <Card className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-muted-foreground">Projects</span>
+                <FileText className="h-5 w-5 text-muted-foreground" />
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Trends */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Revenue & Collections Trend</CardTitle>
-            <CardDescription>Monthly revenue vs collections over time</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={revenueData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} />
-                <Area 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stackId="1"
-                  stroke="hsl(var(--primary))" 
-                  fill="hsl(var(--primary))" 
-                  fillOpacity={0.3}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="collections" 
-                  stackId="2"
-                  stroke="hsl(var(--success))" 
-                  fill="hsl(var(--success))" 
-                  fillOpacity={0.3}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        {/* Claims Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Weekly Claims Status</CardTitle>
-            <CardDescription>Claims submitted, approved, and denied by day</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={claimsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="submitted" fill="hsl(var(--muted-foreground))" />
-                <Bar dataKey="approved" fill="hsl(var(--success))" />
-                <Bar dataKey="denied" fill="hsl(var(--destructive))" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* A/R Aging Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>A/R Aging Distribution</CardTitle>
-            <CardDescription>Outstanding receivables by aging bucket</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={agingData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={80}
-                  dataKey="value"
-                >
-                  {agingData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="grid grid-cols-2 gap-2 mt-4">
-              {agingData.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-xs">
-                  <div 
-                    className="w-3 h-3 rounded" 
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span>{item.name}</span>
+              <div className="space-y-1">
+                <div className="text-2xl font-bold">1847</div>
+                <div className="flex items-center text-xs text-green-600">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  +8.2% from last month
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </Card>
 
-        {/* Recent Activity */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Latest updates and notifications</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivities.map((activity) => (
-                <div key={activity.id} className="flex items-start gap-3">
-                  <div className={`p-2 rounded-full bg-muted ${activity.color}`}>
-                    <activity.icon className="h-4 w-4" />
+            {/* Pending Tasks */}
+            <Card className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-muted-foreground">Pending Tasks</span>
+                <Clock className="h-5 w-5 text-muted-foreground" />
+              </div>
+              <div className="space-y-1">
+                <div className="text-2xl font-bold">23</div>
+                <div className="flex items-center text-xs text-red-600">
+                  <TrendingDown className="h-3 w-3 mr-1" />
+                  -2.1% from last week
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Main Dashboard Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Revenue Trend Chart */}
+            <Card className="lg:col-span-2 p-6">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold">Revenue Trend</h3>
+              </div>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={revenueData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']} />
+                    <Area 
+                      type="monotone" 
+                      dataKey="revenue" 
+                      stroke="hsl(var(--primary))" 
+                      fill="hsl(var(--primary))" 
+                      fillOpacity={0.3}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card className="p-6">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold">Quick Actions</h3>
+              </div>
+              <div className="space-y-3">
+                <Button className="w-full justify-start h-auto p-3" variant="outline">
+                  <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center mr-3">
+                    <Users className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <span>Add New Client</span>
+                </Button>
+                
+                <Button className="w-full justify-start h-auto p-3" variant="outline">
+                  <div className="w-8 h-8 rounded bg-green-100 flex items-center justify-center mr-3">
+                    <FileText className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span>Generate Report</span>
+                </Button>
+                
+                <Button className="w-full justify-start h-auto p-3" variant="outline">
+                  <div className="w-8 h-8 rounded bg-purple-100 flex items-center justify-center mr-3">
+                    <Calendar className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <span>Schedule Meeting</span>
+                </Button>
+                
+                <Button className="w-full justify-start h-auto p-3" variant="outline">
+                  <div className="w-8 h-8 rounded bg-orange-100 flex items-center justify-center mr-3">
+                    <BarChart3 className="h-4 w-4 text-orange-600" />
+                  </div>
+                  <span>View Analytics</span>
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Recent Activity */}
+            <Card className="p-6">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold">Recent Activity</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-sm font-medium">DM</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">{activity.message}</p>
-                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-medium">Downtown Medical Center</p>
+                        <p className="text-xs text-muted-foreground">Claim batch submitted</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-semibold">$12,450.00</p>
+                        <Badge variant="secondary" className="text-xs">Pending</Badge>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">2 hours ago</p>
                   </div>
                 </div>
-              ))}
-            </div>
-            <Button variant="outline" className="w-full mt-4">
-              View All Activity
-            </Button>
-          </CardContent>
-        </Card>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-sm font-medium">RF</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-medium">Riverside Family Practice</p>
+                        <p className="text-xs text-muted-foreground">Payment received</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-semibold">$8,900.50</p>
+                        <Badge variant="default" className="text-xs bg-green-100 text-green-700">Completed</Badge>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">4 hours ago</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-sm font-medium">MC</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-medium">Metro Cardiology</p>
+                        <p className="text-xs text-muted-foreground">Claim batch rejected</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-semibold">$5,670.00</p>
+                        <Badge variant="destructive" className="text-xs">Rejected</Badge>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">6 hours ago</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Recent Projects */}
+            <Card className="p-6">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold">Recent Projects</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium">CLM-2024-001234</p>
+                    <p className="text-xs text-muted-foreground">Riverside Family Practice</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold">$450</p>
+                    <Badge variant="default" className="text-xs bg-green-100 text-green-700">PAID</Badge>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium">CLM-2024-001235</p>
+                    <p className="text-xs text-muted-foreground">Downtown Medical Center</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold">$275</p>
+                    <Badge variant="secondary" className="text-xs">PENDING</Badge>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium">CLM-2024-001236</p>
+                    <p className="text-xs text-muted-foreground">Westside Pediatrics</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold">$650</p>
+                    <Badge variant="default" className="text-xs bg-green-100 text-green-700">PAID</Badge>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium">CLM-2024-001237</p>
+                    <p className="text-xs text-muted-foreground">Sunrise Orthopedics</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold">$185</p>
+                    <Badge variant="outline" className="text-xs">SUBMITTED</Badge>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
