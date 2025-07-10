@@ -67,6 +67,10 @@ function App() {
                   element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
                 />
                 <Route 
+                  path="dashboard" 
+                  element={<MobileRoute mobileComponent={MobileDashboard} desktopComponent={Dashboard} />} 
+                />
+                <Route 
                   path="reports" 
                   element={<MobileRoute mobileComponent={MobileReports} desktopComponent={Reports} />} 
                 />
