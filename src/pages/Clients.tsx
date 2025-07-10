@@ -269,26 +269,26 @@ const Clients = () => {
             ))}
           </div>
         ) : (
-          // List View - Improved responsive table with better column allocation
+          // List View - Full width table with proper scrolling
           <div className="w-full">
-            <Card className="w-full overflow-hidden border-border/50">
-              <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-background">
-                <table className="w-full min-w-[1400px] table-auto">
+            <Card className="w-full border-border/50">
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[1200px]">
                   <thead className="border-b border-border bg-muted/30">
                     <tr>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[200px] w-[20%]">Client</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[140px] w-[12%]">Practice Type</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[250px] w-[25%]">Contact</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[180px] w-[15%]">Location</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[140px] w-[12%]">Revenue</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[120px] w-[10%]">Status</th>
-                      <th className="text-left p-4 font-semibold text-foreground min-w-[100px] w-[6%]">Actions</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[22%] min-w-[180px]">Client</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[13%] min-w-[120px]">Practice Type</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[28%] min-w-[220px]">Contact</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[17%] min-w-[140px]">Location</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[12%] min-w-[110px]">Revenue</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[8%] min-w-[80px]">Status</th>
+                      <th className="text-left p-3 font-semibold text-foreground w-[8%] min-w-[70px]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredClients.map((client) => (
                       <tr key={client.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
-                        <td className="p-4 min-w-[200px] w-[20%]">
+                        <td className="p-3 w-[22%] min-w-[180px]">
                           <div className="min-w-0">
                             <Link 
                               to={`/clients/${client.id}`}
@@ -304,41 +304,41 @@ const Clients = () => {
                             )}
                           </div>
                         </td>
-                        <td className="p-4 text-sm text-muted-foreground min-w-[140px] w-[12%]">
+                        <td className="p-3 text-sm text-muted-foreground w-[13%] min-w-[120px]">
                           <span className="truncate block" title={client.practiceType}>
                             {client.practiceType}
                           </span>
                         </td>
-                        <td className="p-4 min-w-[250px] w-[25%]">
+                        <td className="p-3 w-[28%] min-w-[220px]">
                           <div className="text-sm space-y-1">
-                            <div className="flex items-center gap-1 min-w-0">
+                            <div className="flex items-center gap-2 min-w-0">
                               <Mail className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
                               <span className="truncate" title={client.email}>{client.email}</span>
                             </div>
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                               <Phone className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
                               <span className="truncate" title={client.phone}>{client.phone}</span>
                             </div>
                           </div>
                         </td>
-                        <td className="p-4 text-sm text-muted-foreground min-w-[180px] w-[15%]">
+                        <td className="p-3 text-sm text-muted-foreground w-[17%] min-w-[140px]">
                           <span className="truncate block" title={`${client.city}, ${client.state} ${client.zipCode}`}>
                             {client.city}, {client.state} {client.zipCode}
                           </span>
                         </td>
-                        <td className="p-4 text-sm text-foreground font-semibold min-w-[140px] w-[12%]">
+                        <td className="p-3 text-sm text-foreground font-semibold w-[12%] min-w-[110px]">
                           <span className="whitespace-nowrap">
-                            ${client.monthlyRevenue.toLocaleString()}/month
+                            ${client.monthlyRevenue.toLocaleString()}/mo
                           </span>
                         </td>
-                        <td className="p-4 min-w-[120px] w-[10%]">
-                          <Badge className={`${getStatusColor(client.status)} border font-medium`}>
+                        <td className="p-3 w-[8%] min-w-[80px]">
+                          <Badge className={`${getStatusColor(client.status)} border font-medium text-xs px-2 py-1`}>
                             {client.status}
                           </Badge>
                         </td>
-                        <td className="p-4 min-w-[100px] w-[6%]">
+                        <td className="p-3 w-[8%] min-w-[70px]">
                           <Link to={`/clients/${client.id}`}>
-                            <Button size="sm" variant="outline" className="whitespace-nowrap w-full">
+                            <Button size="sm" variant="outline" className="whitespace-nowrap text-xs px-2 py-1">
                               View
                             </Button>
                           </Link>
