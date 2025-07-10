@@ -1,25 +1,50 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface DebugContextType {
   debugMode: boolean;
   toggleDebug: () => void;
+  visibilitySettings: {
+    containers: boolean;
+    padding: boolean;
+    margins: boolean;
+  };
+  updateVisibility: (type: 'containers' | 'padding' | 'margins', visible: boolean) => void;
 }
 
 const DebugContext = createContext<DebugContextType>({
   debugMode: false,
-  toggleDebug: () => {}
+  toggleDebug: () => {},
+  visibilitySettings: {
+    containers: true,
+    padding: true,
+    margins: true,
+  },
+  updateVisibility: () => {}
 });
 
 export const useDebug = () => useContext(DebugContext);
 
 export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [debugMode, setDebugMode] = useState(false);
+  const [visibilitySettings, setVisibilitySettings] = useState({
+    containers: true,
+    padding: true,
+    margins: true,
+  });
 
   const toggleDebug = () => {
     setDebugMode(!debugMode);
+  };
+
+  const updateVisibility = (type: 'containers' | 'padding' | 'margins', visible: boolean) => {
+    setVisibilitySettings(prev => ({
+      ...prev,
+      [type]: visible
+    }));
   };
 
   useEffect(() => {
@@ -31,7 +56,7 @@ export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [debugMode]);
 
   return (
-    <DebugContext.Provider value={{ debugMode, toggleDebug }}>
+    <DebugContext.Provider value={{ debugMode, toggleDebug, visibilitySettings, updateVisibility }}>
       {children}
       {debugMode && (
         <>
@@ -48,7 +73,7 @@ const DebugToggle: React.FC = () => {
   const { debugMode, toggleDebug } = useDebug();
 
   return (
-    <div className="fixed top-4 right-4 z-[9999]">
+    <div className="fixed bottom-4 right-4 z-[9999]">
       <Button
         onClick={toggleDebug}
         variant={debugMode ? "destructive" : "outline"}
@@ -114,6 +139,7 @@ const DebugOverlay: React.FC = () => {
 const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) => {
   const [rect, setRect] = useState<DOMRect | null>(null);
   const [styles, setStyles] = useState<CSSStyleDeclaration | null>(null);
+  const { visibilitySettings } = useDebug();
 
   useEffect(() => {
     const updateRect = () => {
@@ -172,7 +198,7 @@ const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) =>
       }}
     >
       {/* Container Outline */}
-      {isContainer && (
+      {isContainer && visibilitySettings.containers && (
         <div 
           className="absolute inset-0 border-2 border-red-500"
           style={{ 
@@ -183,7 +209,7 @@ const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) =>
       )}
 
       {/* Padding Visualization */}
-      {hasSignificantPadding && (
+      {hasSignificantPadding && visibilitySettings.padding && (
         <>
           {/* Padding Areas */}
           {padding.top > 0 && (
@@ -214,7 +240,7 @@ const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) =>
       )}
 
       {/* Margin Visualization */}
-      {hasSignificantMargin && (
+      {hasSignificantMargin && visibilitySettings.margins && (
         <>
           {margin.top > 0 && (
             <div 
@@ -256,19 +282,22 @@ const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) =>
       )}
 
       {/* Labels */}
-      {(hasSignificantPadding || hasSignificantMargin || isContainer) && rect.width > 100 && rect.height > 40 && (
+      {((isContainer && visibilitySettings.containers) || 
+        (hasSignificantPadding && visibilitySettings.padding) || 
+        (hasSignificantMargin && visibilitySettings.margins)) && 
+        rect.width > 100 && rect.height > 40 && (
         <div className="absolute top-2 left-2 space-y-1">
-          {isContainer && (
+          {isContainer && visibilitySettings.containers && (
             <Badge variant="destructive" className="text-xs pointer-events-auto">
               {styles.display.toUpperCase()}
             </Badge>
           )}
-          {hasSignificantPadding && (
+          {hasSignificantPadding && visibilitySettings.padding && (
             <Badge variant="secondary" className="text-xs pointer-events-auto bg-blue-100 text-blue-800">
               P: {padding.top}|{padding.right}|{padding.bottom}|{padding.left}
             </Badge>
           )}
-          {hasSignificantMargin && (
+          {hasSignificantMargin && visibilitySettings.margins && (
             <Badge variant="secondary" className="text-xs pointer-events-auto bg-orange-100 text-orange-800">
               M: {margin.top}|{margin.right}|{margin.bottom}|{margin.left}
             </Badge>
@@ -280,22 +309,44 @@ const DebugElementOverlay: React.FC<{ element: HTMLElement }> = ({ element }) =>
 };
 
 const DebugLegend: React.FC = () => {
+  const { visibilitySettings, updateVisibility } = useDebug();
+
   return (
     <div className="debug-legend">
-      <h4 className="font-bold mb-2 text-sm">Debug Mode Legend</h4>
-      <div className="debug-legend-item">
-        <div className="debug-legend-color bg-red-200 border-red-400"></div>
-        <span>Containers (Flex/Grid)</span>
+      <h4 className="font-bold mb-3 text-sm">Debug Mode Legend</h4>
+      <div className="space-y-2">
+        <div className="debug-legend-item">
+          <Checkbox 
+            id="containers"
+            checked={visibilitySettings.containers}
+            onCheckedChange={(checked) => updateVisibility('containers', checked as boolean)}
+            className="mr-2"
+          />
+          <div className="debug-legend-color bg-red-200 border-red-400"></div>
+          <label htmlFor="containers" className="cursor-pointer">Containers (Flex/Grid)</label>
+        </div>
+        <div className="debug-legend-item">
+          <Checkbox 
+            id="padding"
+            checked={visibilitySettings.padding}
+            onCheckedChange={(checked) => updateVisibility('padding', checked as boolean)}
+            className="mr-2"
+          />
+          <div className="debug-legend-color bg-blue-200 border-blue-400"></div>
+          <label htmlFor="padding" className="cursor-pointer">Padding Areas</label>
+        </div>
+        <div className="debug-legend-item">
+          <Checkbox 
+            id="margins"
+            checked={visibilitySettings.margins}
+            onCheckedChange={(checked) => updateVisibility('margins', checked as boolean)}
+            className="mr-2"
+          />
+          <div className="debug-legend-color bg-orange-200 border-orange-400"></div>
+          <label htmlFor="margins" className="cursor-pointer">Margin Areas</label>
+        </div>
       </div>
-      <div className="debug-legend-item">
-        <div className="debug-legend-color bg-blue-200 border-blue-400"></div>
-        <span>Padding Areas</span>
-      </div>
-      <div className="debug-legend-item">
-        <div className="debug-legend-color bg-orange-200 border-orange-400"></div>
-        <span>Margin Areas</span>
-      </div>
-      <div className="text-xs mt-2 text-gray-600">
+      <div className="text-xs mt-3 text-gray-600 border-t pt-2">
         <div>P: padding (top|right|bottom|left)</div>
         <div>M: margin (top|right|bottom|left)</div>
       </div>
