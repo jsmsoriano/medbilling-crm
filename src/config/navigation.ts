@@ -1,17 +1,23 @@
 import { 
-  LayoutDashboard, 
   Users, 
   TrendingUp, 
   FileText,
   Settings,
-  Database,
-  UserCheck,
-  CheckSquare,
-  UsersIcon,
-  FolderOpen,
-  CalendarCheck,
   DollarSign,
-  BarChart3
+  BarChart3,
+  CheckSquare,
+  UserCheck,
+  FolderOpen,
+  CreditCard,
+  Upload,
+  RefreshCw,
+  ClipboardList,
+  Calendar,
+  AlertCircle,
+  Target,
+  UserPlus,
+  Building2,
+  Shield
 } from 'lucide-react';
 
 export interface NavigationItem {
@@ -20,6 +26,7 @@ export interface NavigationItem {
   icon: React.ComponentType<{ className?: string }>;
   description?: string;
   subscriptionRequired?: 'starter' | 'professional' | 'growth';
+  children?: NavigationItem[];
 }
 
 export interface NavigationGroup {
@@ -30,112 +37,113 @@ export interface NavigationGroup {
 
 export const navigationConfig: NavigationGroup[] = [
   {
-    name: 'Core Operations',
+    name: 'OPERATIONS',
     items: [
       { 
-        name: 'Dashboard', 
-        href: '/', 
-        icon: LayoutDashboard,
-        description: 'Overview of your billing operations'
-      },
-      { 
-        name: 'Reports', 
-        href: '/reports', 
-        icon: BarChart3,
-        description: 'Financial and operational reports'
-      },
-    ]
-  },
-  {
-    name: 'Client Management',
-    items: [
-      { 
-        name: 'Clients', 
+        name: 'Clients & Providers', 
         href: '/clients', 
         icon: Users,
-        description: 'Manage your client practices'
+        description: 'Manage clients and providers',
+        children: [
+          { name: 'All Clients', href: '/clients', icon: Users, description: 'View all clients' },
+          { name: 'Patient Insurance', href: '/clients/insurance', icon: Shield, description: 'Manage patient insurance information' }
+        ]
       },
       { 
         name: 'Claims', 
         href: '/claims', 
         icon: FileText,
-        description: 'Track and manage insurance claims'
+        description: 'Track and manage insurance claims',
+        children: [
+          { name: 'All Claims', href: '/claims', icon: FileText, description: 'View all claims' },
+          { name: 'Denials Management', href: '/claims/denials', icon: AlertCircle, description: 'Manage denied claims' }
+        ]
       },
       { 
-        name: 'Pipeline', 
-        href: '/pipeline', 
-        icon: TrendingUp,
-        description: 'Sales pipeline and prospects',
-        subscriptionRequired: 'professional'
+        name: 'Payments', 
+        href: '/payments', 
+        icon: CreditCard,
+        description: 'Payment processing and reconciliation',
+        children: [
+          { name: 'Payment Posting', href: '/payments/posting', icon: CreditCard, description: 'Post payments' },
+          { name: 'ERA Upload', href: '/payments/era', icon: Upload, description: 'Upload ERA files' },
+          { name: 'Reconciliation', href: '/payments/reconciliation', icon: RefreshCw, description: 'Reconcile payments' }
+        ]
       },
-    ]
-  },
-  {
-    name: 'Operations',
-    items: [
+      { 
+        name: 'AR & Reports', 
+        href: '/reports', 
+        icon: BarChart3,
+        description: 'Accounts receivable and reporting',
+        children: [
+          { name: 'AR Dashboard', href: '/reports/ar-dashboard', icon: BarChart3, description: 'AR overview dashboard' },
+          { name: 'Aging Buckets', href: '/reports/aging', icon: Calendar, description: 'Aging analysis' },
+          { name: 'Claims Status Reports', href: '/reports/claims-status', icon: ClipboardList, description: 'Claims status reporting' },
+          { name: 'Denials Reports', href: '/reports/denials', icon: AlertCircle, description: 'Denials analysis' },
+          { name: 'Payments Report', href: '/reports/payments', icon: CreditCard, description: 'Payment reporting' }
+        ]
+      },
       { 
         name: 'Tasks', 
         href: '/tasks', 
         icon: CheckSquare,
-        description: 'Manage workflow and follow-ups'
+        description: 'Task management',
+        children: [
+          { name: 'All Tasks', href: '/tasks', icon: CheckSquare, description: 'View all tasks' },
+          { name: 'My Tasks', href: '/tasks/my-tasks', icon: CheckSquare, description: 'View my assigned tasks' }
+        ]
       },
-      { 
-        name: 'Data Management', 
-        href: '/data-management', 
-        icon: Database,
-        description: 'Import and manage data'
-      },
-      { 
-        name: 'Month-End Close', 
-        href: '/month-end-close', 
-        icon: CalendarCheck,
-        description: 'Month-end procedures and sign-offs',
-        subscriptionRequired: 'professional'
-      },
-    ]
-  },
-  {
-    name: 'Advanced Features',
-    subscriptionRequired: 'professional',
-    items: [
       { 
         name: 'Credentialing', 
         href: '/credentialing', 
         icon: UserCheck,
         description: 'Provider credentialing management',
-        subscriptionRequired: 'professional'
-      },
-      { 
-        name: 'Team Dashboard', 
-        href: '/team-dashboard', 
-        icon: UsersIcon,
-        description: 'Team performance and assignments',
-        subscriptionRequired: 'growth'
+        subscriptionRequired: 'professional',
+        children: [
+          { name: 'Applications', href: '/credentialing', icon: UserCheck, description: 'Credentialing applications' },
+          { name: 'Renewals', href: '/credentialing/renewals', icon: RefreshCw, description: 'Credential renewals' }
+        ]
       },
       { 
         name: 'File Vault', 
         href: '/file-vault', 
         icon: FolderOpen,
         description: 'Secure document storage',
-        subscriptionRequired: 'professional'
+        subscriptionRequired: 'professional',
+        children: [
+          { name: 'All Files', href: '/file-vault', icon: FolderOpen, description: 'View all files' },
+          { name: 'Upload Files', href: '/file-vault/upload', icon: Upload, description: 'Upload documents' }
+        ]
       },
     ]
   },
   {
-    name: 'Administration',
+    name: 'GROWTH & SALES',
+    items: [
+      { 
+        name: 'Sales Pipeline', 
+        href: '/pipeline', 
+        icon: TrendingUp,
+        description: 'Sales pipeline management',
+        subscriptionRequired: 'professional',
+        children: [
+          { name: 'Pipeline Board', href: '/pipeline', icon: TrendingUp, description: 'Visual pipeline board' },
+          { name: 'Leads & Prospects', href: '/pipeline/leads', icon: UserPlus, description: 'Manage leads and prospects' },
+          { name: 'Deals', href: '/pipeline/deals', icon: Target, description: 'Manage deals' },
+          { name: 'Sales Tasks', href: '/pipeline/tasks', icon: CheckSquare, description: 'Sales-related tasks' },
+          { name: 'Conversion Reports', href: '/pipeline/reports', icon: BarChart3, description: 'Sales conversion analytics' }
+        ]
+      },
+    ]
+  },
+  {
+    name: 'ADMIN',
     items: [
       { 
         name: 'Settings', 
         href: '/settings', 
         icon: Settings,
         description: 'Account and system settings'
-      },
-      { 
-        name: 'Subscription Admin', 
-        href: '/admin/subscriptions', 
-        icon: DollarSign,
-        description: 'Manage subscription features and limits',
-        subscriptionRequired: 'growth'
       },
     ]
   }
