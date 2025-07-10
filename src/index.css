@@ -236,4 +236,12 @@
   .hover-scale {
     @apply transition-transform duration-200 hover:scale-105;
   }
+
+  /* Text truncation utilities */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

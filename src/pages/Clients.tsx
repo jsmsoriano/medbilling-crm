@@ -105,222 +105,232 @@ const Clients = () => {
   const practiceTypes = [...new Set(clients.map(client => client.practiceType))];
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <div className="text-center w-full">
-          <h1 className="text-3xl font-bold text-gray-900">Clients</h1>
-          <p className="text-gray-600 mt-2">Manage your client relationships and billing accounts</p>
+    <div className="max-w-full overflow-hidden">
+      {/* Header Section - Fixed width to match application layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">Clients</h1>
+          <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
         </div>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          Add Client
-        </Button>
+        <div className="flex-shrink-0">
+          <Button className="w-full sm:w-auto">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Client
+          </Button>
+        </div>
       </div>
 
-      {/* Filters */}
-      <Card className="p-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search clients by name, email, or city..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+      {/* Filters Section - Responsive and non-overflowing */}
+      <Card className="mb-6">
+        <div className="p-4">
+          <div className="flex flex-col gap-4">
+            {/* Search Input - Full width on mobile, constrained on desktop */}
+            <div className="w-full">
+              <div className="relative max-w-full">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder="Search clients by name, email, or city..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full"
+                />
+              </div>
             </div>
-          </div>
-          
-          <div className="flex gap-2">
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-              </SelectContent>
-            </Select>
             
-            <Select value={practiceTypeFilter} onValueChange={setPracticeTypeFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Practice Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                {practiceTypes.map(type => (
-                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {/* Filter Controls - Stack on mobile, flex on desktop */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-32">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent className="bg-card border border-border shadow-lg z-50">
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select value={practiceTypeFilter} onValueChange={setPracticeTypeFilter}>
+                <SelectTrigger className="w-full sm:w-40">
+                  <SelectValue placeholder="Practice Type" />
+                </SelectTrigger>
+                <SelectContent className="bg-card border border-border shadow-lg z-50">
+                  <SelectItem value="all">All Types</SelectItem>
+                  {practiceTypes.map(type => (
+                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-            {/* View Mode Toggle */}
-            <div className="flex border rounded-md">
-              <Button
-                variant={viewMode === 'cards' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('cards')}
-                className="rounded-r-none"
-              >
-                <Grid2X2 className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className="rounded-l-none"
-              >
-                <List className="w-4 h-4" />
-              </Button>
+              {/* View Mode Toggle */}
+              <div className="flex border rounded-md self-start">
+                <Button
+                  variant={viewMode === 'cards' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('cards')}
+                  className="rounded-r-none"
+                >
+                  <Grid2X2 className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className="rounded-l-none"
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </Card>
 
-      {/* Clients Display */}
-      {viewMode === 'cards' ? (
-        /* Cards View */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredClients.map((client) => (
-            <Card key={client.id} className="p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <Link 
-                    to={`/clients/${client.id}`}
-                    className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-                  >
-                    {client.name}
+      {/* Clients Display - Responsive and overflow-safe */}
+      <div className="w-full overflow-hidden">
+        {viewMode === 'cards' ? (
+          /* Cards View - Responsive grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {filteredClients.map((client) => (
+              <Card key={client.id} className="p-4 sm:p-6 hover:shadow-lg transition-shadow overflow-hidden">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1 min-w-0">
+                    <Link 
+                      to={`/clients/${client.id}`}
+                      className="text-lg font-semibold text-foreground hover:text-primary transition-colors block truncate"
+                    >
+                      {client.name}
+                    </Link>
+                    <p className="text-sm text-muted-foreground mt-1 truncate">{client.practiceType}</p>
+                  </div>
+                  <Badge className={getStatusColor(client.status)} variant="secondary">
+                    {client.status}
+                  </Badge>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center text-sm text-muted-foreground min-w-0">
+                    <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span className="truncate">{client.email}</span>
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>{client.phone}</span>
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground min-w-0">
+                    <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span className="truncate">{client.city}, {client.state} {client.zipCode}</span>
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Calendar className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>Contract: {new Date(client.contractStartDate).toLocaleDateString()}</span>
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <DollarSign className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>${client.monthlyRevenue.toLocaleString()}/month</span>
+                  </div>
+                </div>
+
+                {client.notes && (
+                  <div className="mt-4 p-3 bg-muted rounded-md">
+                    <p className="text-sm text-muted-foreground line-clamp-3">{client.notes}</p>
+                  </div>
+                )}
+
+                <div className="mt-4 pt-4 border-t border-border">
+                  <Link to={`/clients/${client.id}`} className="block">
+                    <Button className="w-full" variant="outline">
+                      View Details
+                    </Button>
                   </Link>
-                  <p className="text-sm text-gray-600 mt-1">{client.practiceType}</p>
                 </div>
-                <Badge className={getStatusColor(client.status)}>
-                  {client.status}
-                </Badge>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Mail className="w-4 h-4 mr-2" />
-                  {client.email}
-                </div>
-                
-                <div className="flex items-center text-sm text-gray-600">
-                  <Phone className="w-4 h-4 mr-2" />
-                  {client.phone}
-                </div>
-                
-                <div className="flex items-center text-sm text-gray-600">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  {client.city}, {client.state} {client.zipCode}
-                </div>
-                
-                <div className="flex items-center text-sm text-gray-600">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Contract: {new Date(client.contractStartDate).toLocaleDateString()}
-                </div>
-                
-                <div className="flex items-center text-sm text-gray-600">
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  ${client.monthlyRevenue.toLocaleString()}/month
-                </div>
-              </div>
-
-              {client.notes && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                  <p className="text-sm text-gray-600">{client.notes}</p>
-                </div>
-              )}
-
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <Link to={`/clients/${client.id}`}>
-                  <Button className="w-full" variant="outline">
-                    View Details
-                  </Button>
-                </Link>
-              </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        /* List View */
-        <Card>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="border-b">
-                <tr>
-                  <th className="text-left p-4 font-medium">Client</th>
-                  <th className="text-left p-4 font-medium">Practice Type</th>
-                  <th className="text-left p-4 font-medium">Contact</th>
-                  <th className="text-left p-4 font-medium">Location</th>
-                  <th className="text-left p-4 font-medium">Revenue</th>
-                  <th className="text-left p-4 font-medium">Status</th>
-                  <th className="text-left p-4 font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredClients.map((client) => (
-                  <tr key={client.id} className="border-b hover:bg-gray-50">
-                    <td className="p-4">
-                      <div>
-                        <Link 
-                          to={`/clients/${client.id}`}
-                          className="font-medium text-gray-900 hover:text-blue-600 transition-colors"
-                        >
-                          {client.name}
-                        </Link>
-                        {client.notes && (
-                          <p className="text-sm text-gray-500 mt-1">{client.notes}</p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-4 text-sm text-gray-600">{client.practiceType}</td>
-                    <td className="p-4">
-                      <div className="text-sm">
-                        <div className="flex items-center gap-1">
-                          <Mail className="w-3 h-3" />
-                          {client.email}
-                        </div>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Phone className="w-3 h-3" />
-                          {client.phone}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4 text-sm text-gray-600">
-                      {client.city}, {client.state} {client.zipCode}
-                    </td>
-                    <td className="p-4 text-sm text-gray-600">
-                      ${client.monthlyRevenue.toLocaleString()}/month
-                    </td>
-                    <td className="p-4">
-                      <Badge className={getStatusColor(client.status)}>
-                        {client.status}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <Link to={`/clients/${client.id}`}>
-                        <Button size="sm" variant="outline">
-                          View Details
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              </Card>
+            ))}
           </div>
-        </Card>
-      )}
+        ) : (
+          /* List View - Responsive table with horizontal scroll */
+          <Card className="overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[800px]">
+                <thead className="border-b border-border">
+                  <tr>
+                    <th className="text-left p-4 font-medium text-foreground">Client</th>
+                    <th className="text-left p-4 font-medium text-foreground">Practice Type</th>
+                    <th className="text-left p-4 font-medium text-foreground">Contact</th>
+                    <th className="text-left p-4 font-medium text-foreground">Location</th>
+                    <th className="text-left p-4 font-medium text-foreground">Revenue</th>
+                    <th className="text-left p-4 font-medium text-foreground">Status</th>
+                    <th className="text-left p-4 font-medium text-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredClients.map((client) => (
+                    <tr key={client.id} className="border-b border-border hover:bg-muted/50">
+                      <td className="p-4 max-w-[200px]">
+                        <div className="min-w-0">
+                          <Link 
+                            to={`/clients/${client.id}`}
+                            className="font-medium text-foreground hover:text-primary transition-colors block truncate"
+                          >
+                            {client.name}
+                          </Link>
+                          {client.notes && (
+                            <p className="text-sm text-muted-foreground mt-1 truncate">{client.notes}</p>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4 text-sm text-muted-foreground">{client.practiceType}</td>
+                      <td className="p-4 min-w-[180px]">
+                        <div className="text-sm space-y-1">
+                          <div className="flex items-center gap-1 min-w-0">
+                            <Mail className="w-3 h-3 flex-shrink-0" />
+                            <span className="truncate">{client.email}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Phone className="w-3 h-3 flex-shrink-0" />
+                            <span>{client.phone}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4 text-sm text-muted-foreground min-w-[150px]">
+                        <span className="truncate block">{client.city}, {client.state} {client.zipCode}</span>
+                      </td>
+                      <td className="p-4 text-sm text-muted-foreground">
+                        ${client.monthlyRevenue.toLocaleString()}/month
+                      </td>
+                      <td className="p-4">
+                        <Badge className={getStatusColor(client.status)} variant="secondary">
+                          {client.status}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <Link to={`/clients/${client.id}`}>
+                          <Button size="sm" variant="outline">
+                            View Details
+                          </Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
+      </div>
 
+      {/* No Results State */}
       {filteredClients.length === 0 && (
-        <Card className="p-12">
+        <Card className="p-8 sm:p-12">
           <div className="text-center">
-            <Filter className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No clients found</h3>
-            <p className="text-gray-600">
+            <Filter className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">No clients found</h3>
+            <p className="text-muted-foreground">
               Try adjusting your search terms or filters to find the clients you're looking for.
             </p>
           </div>
