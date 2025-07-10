@@ -48,11 +48,11 @@ const Reports = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto space-y-8 p-6">
+    <div className="page-container">
+      <div className="content-wrapper space-y-8">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Reports</h1>
           <p className="text-muted-foreground">Generate and analyze comprehensive billing reports</p>
         </div>
         

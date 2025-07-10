@@ -105,7 +105,8 @@ const Clients = () => {
   const practiceTypes = [...new Set(clients.map(client => client.practiceType))];
 
   return (
-    <div className="max-w-full overflow-hidden">
+    <div className="page-container">
+      <div className="content-wrapper">
       {/* Header Section - Fixed width to match application layout */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex-1 min-w-0">
@@ -336,6 +337,7 @@ const Clients = () => {
           </div>
         </Card>
       )}
+      </div>
     </div>
   );
 };

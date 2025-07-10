@@ -29,7 +29,7 @@ const Layout = () => {
   }
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div className="h-screen bg-background flex overflow-hidden w-full">
       {/* Conditional headers based on device type */}
       {isMobile ? (
         <MobileHeader />
@@ -46,9 +46,9 @@ const Layout = () => {
       {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
       {/* Main content - full height with proper overflow handling */}
-      <div className={`flex-1 flex flex-col ${!isMobile ? 'pt-16' : 'pt-16'} overflow-hidden`}>
-        <main className={`flex-1 ${isMobile ? 'px-4 pb-4' : 'p-6'} overflow-y-auto`}>
-          <div className="w-full h-full">
+      <div className={`flex-1 flex flex-col ${!isMobile ? 'pt-16' : 'pt-16'} overflow-hidden w-full`}>
+        <main className={`flex-1 ${isMobile ? 'px-3 pb-4' : 'px-6 py-6'} overflow-y-auto overflow-x-hidden w-full`}>
+          <div className="w-full h-full max-w-full">
             <Outlet />
           </div>
         </main>
