@@ -61,11 +61,11 @@ const Layout = () => {
         {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
         {/* Main content - properly aligned with responsive sidebar */}
-        <div className={`flex-1 flex flex-col min-h-screen w-full transition-all duration-300 ${!isMobile ? sidebarWidth : ''}`}>
+        <div className={`flex-1 flex flex-col min-h-0 w-full transition-all duration-300 ${!isMobile ? sidebarWidth : ''}`}>
           {/* Header spacer */}
           <div className="h-16 flex-shrink-0"></div>
           
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full min-h-0">
             <Outlet />
           </main>
         </div>

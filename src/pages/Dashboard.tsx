@@ -62,9 +62,9 @@ const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('7d');
 
   return (
-    <div className="flex-1 flex flex-col min-h-0" style={{ border: '2px solid red' }}>
-      {/* Header - Debug styling */}
-      <header className="border-b border-border bg-background px-6 py-5 flex-shrink-0" style={{ backgroundColor: 'lightblue', border: '2px solid blue' }}>
+    <div className="flex-1 flex flex-col min-h-0">
+      {/* Header */}
+      <header className="border-b border-border bg-background px-6 py-5 flex-shrink-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
@@ -93,8 +93,8 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Main Content - Debug styling */}
-      <div className="flex-1 px-6 py-6 overflow-auto" style={{ backgroundColor: 'lightgreen', border: '2px solid green' }}>
+      {/* Main Content */}
+      <div className="flex-1 px-6 py-6 overflow-auto">
         <div className="space-y-6">
           {/* Key Metrics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
