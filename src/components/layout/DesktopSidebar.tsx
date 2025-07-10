@@ -21,7 +21,18 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
     );
   };
 
-  const isExpanded = (itemName: string) => expandedItems.includes(itemName);
+  const isExpanded = (itemName: string) => {
+    // Check if manually expanded
+    if (expandedItems.includes(itemName)) return true;
+    
+    // Auto-expand if this group contains the active route
+    const group = navigationGroups.flatMap(g => g.items).find(item => item.name === itemName);
+    if (group && group.children) {
+      return group.children.some(child => location.pathname === child.href);
+    }
+    
+    return false;
+  };
 
   return (
     <div className="flex flex-col h-screen pt-16 bg-card border-r border-border shadow-sm w-full">
@@ -42,6 +53,7 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
               {group.items.map((item) => {
                 const isActive = location.pathname === item.href;
                 const hasChildren = item.children && item.children.length > 0;
+                const isChildActive = hasChildren && item.children?.some(child => location.pathname === child.href);
                 const isItemExpanded = isExpanded(item.name);
                 
                 return (
@@ -51,9 +63,9 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                         onClick={() => toggleExpanded(item.name)}
                         className={cn(
                           "group flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full min-w-0",
-                          isActive || item.children?.some(child => location.pathname === child.href)
-                            ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
-                            : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                          isActive || isChildActive
+                            ? "bg-primary text-primary-foreground shadow-md"
+                            : "text-foreground hover:bg-muted hover:text-primary"
                         )}
                         title={item.description}
                       >

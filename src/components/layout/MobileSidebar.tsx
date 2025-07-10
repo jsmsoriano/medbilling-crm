@@ -27,7 +27,18 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
     );
   };
 
-  const isExpanded = (itemName: string) => expandedItems.includes(itemName);
+  const isExpanded = (itemName: string) => {
+    // Check if manually expanded
+    if (expandedItems.includes(itemName)) return true;
+    
+    // Auto-expand if this group contains the active route
+    const group = navigationGroups.flatMap(g => g.items).find(item => item.name === itemName);
+    if (group && group.children) {
+      return group.children.some(child => location.pathname === child.href);
+    }
+    
+    return false;
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -85,6 +96,7 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                 {group.items.map((item) => {
                   const isActive = location.pathname === item.href;
                   const hasChildren = item.children && item.children.length > 0;
+                  const isChildActive = hasChildren && item.children?.some(child => location.pathname === child.href);
                   const isItemExpanded = isExpanded(item.name);
                   
                   return (
@@ -94,9 +106,9 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                           onClick={() => toggleExpanded(item.name)}
                           className={cn(
                             "group flex items-center justify-between px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
-                            isActive || item.children?.some(child => location.pathname === child.href)
-                              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
-                              : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                            isActive || isChildActive
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "text-foreground hover:bg-muted hover:text-primary"
                           )}
                         >
                           <div className="flex items-center min-w-0 flex-1">
@@ -122,8 +134,8 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                           className={cn(
                             "group flex items-center justify-start px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
                             isActive
-                              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
-                              : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "text-foreground hover:bg-muted hover:text-primary"
                           )}
                           onClick={onClose}
                           title={item.description}
