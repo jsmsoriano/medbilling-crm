@@ -13,6 +13,7 @@ import Layout from '@/components/Layout';
 import Dashboard from '@/pages/Dashboard';
 import MobileDashboard from '@/components/dashboard/MobileDashboard';
 import Reports from '@/pages/Reports';
+import ARDashboard from '@/pages/ARDashboard';
 import DataManagement from '@/pages/DataManagement';
 import MobileDataManagement from '@/components/data-management/MobileDataManagement';
 import MobileReports from '@/components/reports/MobileReports';
@@ -74,6 +75,11 @@ function App() {
                   path="reports" 
                   element={<MobileRoute mobileComponent={MobileReports} desktopComponent={Reports} />} 
                 />
+                <Route path="reports/ar-dashboard" element={<ARDashboard />} />
+                <Route path="reports/aging" element={<ARDashboard />} />
+                <Route path="reports/claims-status" element={<Reports />} />
+                <Route path="reports/denials" element={<Reports />} />
+                <Route path="reports/payments" element={<Reports />} />
                 <Route 
                   path="data-management" 
                   element={<MobileRoute mobileComponent={MobileDataManagement} desktopComponent={DataManagement} />} 
