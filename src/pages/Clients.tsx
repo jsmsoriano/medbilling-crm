@@ -114,9 +114,10 @@ const Clients = () => {
             <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            <Button className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto whitespace-nowrap">
               <Plus className="w-4 h-4 mr-2" />
-              Add Client
+              <span className="hidden xs:inline">Add Client</span>
+              <span className="xs:hidden">Add</span>
             </Button>
           </div>
         </div>
@@ -235,7 +236,7 @@ const Clients = () => {
                       
                       <div className="flex items-center text-sm text-muted-foreground">
                         <Calendar className="w-4 h-4 mr-3 flex-shrink-0 text-primary/60" />
-                        <span>Contract: {new Date(client.contractStartDate).toLocaleDateString()}</span>
+                        <span className="truncate">Contract: {new Date(client.contractStartDate).toLocaleDateString()}</span>
                       </div>
                       
                       <div className="flex items-center text-sm text-foreground font-semibold">

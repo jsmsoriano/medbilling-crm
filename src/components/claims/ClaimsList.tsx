@@ -104,56 +104,74 @@ const ClaimsList = ({ agingBucket, onPostPayment }: ClaimsListProps) => {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <Table>
+    <div className="w-full overflow-x-auto">
+      <Table className="min-w-full">
         <TableHeader>
           <TableRow>
-            <TableHead>Claim #</TableHead>
-            <TableHead>Patient</TableHead>
-            <TableHead>Insurance</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Balance Due</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Aging</TableHead>
-            <TableHead>Submit Date</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="min-w-[120px]">Claim #</TableHead>
+            <TableHead className="min-w-[150px]">Patient</TableHead>
+            <TableHead className="min-w-[140px] hidden sm:table-cell">Insurance</TableHead>
+            <TableHead className="min-w-[100px] text-right">Amount</TableHead>
+            <TableHead className="min-w-[100px] text-right hidden md:table-cell">Balance Due</TableHead>
+            <TableHead className="min-w-[80px]">Status</TableHead>
+            <TableHead className="min-w-[80px] hidden lg:table-cell">Aging</TableHead>
+            <TableHead className="min-w-[100px] hidden xl:table-cell">Submit Date</TableHead>
+            <TableHead className="min-w-[100px] text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {claims.map((claim) => (
             <TableRow key={claim.id} className="hover:bg-muted/50">
-              <TableCell className="font-medium">{claim.claim_number}</TableCell>
+              <TableCell className="font-medium">
+                <span className="truncate block max-w-[120px]" title={claim.claim_number}>
+                  {claim.claim_number}
+                </span>
+              </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  {claim.patient_name}
+                <div className="flex items-center gap-2 min-w-0">
+                  <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="truncate max-w-[120px]" title={claim.patient_name}>
+                    {claim.patient_name}
+                  </span>
                 </div>
               </TableCell>
-              <TableCell>{claim.insurance_company}</TableCell>
-              <TableCell>${claim.amount.toLocaleString()}</TableCell>
-              <TableCell className="font-medium">
-                ${claim.balance_due?.toLocaleString() || '0'}
+              <TableCell className="hidden sm:table-cell">
+                <span className="truncate block max-w-[130px]" title={claim.insurance_company}>
+                  {claim.insurance_company}
+                </span>
+              </TableCell>
+              <TableCell className="text-right">
+                <span className="whitespace-nowrap font-medium">
+                  ${claim.amount.toLocaleString()}
+                </span>
+              </TableCell>
+              <TableCell className="text-right hidden md:table-cell">
+                <span className="whitespace-nowrap font-medium">
+                  ${claim.balance_due?.toLocaleString() || '0'}
+                </span>
               </TableCell>
               <TableCell>{getStatusBadge(claim.status)}</TableCell>
-              <TableCell>{getAgingBadge(claim.aging_bucket || '0-30')}</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-muted-foreground" />
-                  {format(new Date(claim.submission_date), 'MMM dd, yyyy')}
+              <TableCell className="hidden lg:table-cell">{getAgingBadge(claim.aging_bucket || '0-30')}</TableCell>
+              <TableCell className="hidden xl:table-cell">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Calendar className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="text-sm whitespace-nowrap">
+                    {format(new Date(claim.submission_date), 'MMM dd, yyyy')}
+                  </span>
                 </div>
               </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => onPostPayment(claim.id)}
-                    disabled={claim.status === 'paid'}
-                  >
-                    <Plus className="w-4 h-4 mr-1" />
-                    Payment
-                  </Button>
-                </div>
+              <TableCell className="text-center">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => onPostPayment(claim.id)}
+                  disabled={claim.status === 'paid'}
+                  className="text-xs px-2 py-1 whitespace-nowrap"
+                >
+                  <Plus className="w-3 h-3 mr-1" />
+                  <span className="hidden sm:inline">Payment</span>
+                  <span className="sm:hidden">Pay</span>
+                </Button>
               </TableCell>
             </TableRow>
           ))}

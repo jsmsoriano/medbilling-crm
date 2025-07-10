@@ -246,13 +246,13 @@ const Dashboard = () => {
                     <span className="text-sm font-medium">DM</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-sm font-medium">Downtown Medical Center</p>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate" title="Downtown Medical Center">Downtown Medical Center</p>
                         <p className="text-xs text-muted-foreground">Claim batch submitted</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-semibold">$12,450.00</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-sm font-semibold whitespace-nowrap">$12,450.00</p>
                         <Badge variant="secondary" className="text-xs">Pending</Badge>
                       </div>
                     </div>
@@ -265,13 +265,13 @@ const Dashboard = () => {
                     <span className="text-sm font-medium">RF</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-sm font-medium">Riverside Family Practice</p>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate" title="Riverside Family Practice">Riverside Family Practice</p>
                         <p className="text-xs text-muted-foreground">Payment received</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-semibold">$8,900.50</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-sm font-semibold whitespace-nowrap">$8,900.50</p>
                         <Badge variant="default" className="text-xs bg-green-100 text-green-700">Completed</Badge>
                       </div>
                     </div>
@@ -284,13 +284,13 @@ const Dashboard = () => {
                     <span className="text-sm font-medium">MC</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-sm font-medium">Metro Cardiology</p>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate" title="Metro Cardiology">Metro Cardiology</p>
                         <p className="text-xs text-muted-foreground">Claim batch rejected</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-semibold">$5,670.00</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-sm font-semibold whitespace-nowrap">$5,670.00</p>
                         <Badge variant="destructive" className="text-xs">Rejected</Badge>
                       </div>
                     </div>
@@ -307,45 +307,45 @@ const Dashboard = () => {
               </div>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium">CLM-2024-001234</p>
-                    <p className="text-xs text-muted-foreground">Riverside Family Practice</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">CLM-2024-001234</p>
+                    <p className="text-xs text-muted-foreground truncate">Riverside Family Practice</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">$450</p>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-sm font-semibold whitespace-nowrap">$450</p>
                     <Badge variant="default" className="text-xs bg-green-100 text-green-700">PAID</Badge>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium">CLM-2024-001235</p>
-                    <p className="text-xs text-muted-foreground">Downtown Medical Center</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">CLM-2024-001235</p>
+                    <p className="text-xs text-muted-foreground truncate">Downtown Medical Center</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">$275</p>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-sm font-semibold whitespace-nowrap">$275</p>
                     <Badge variant="secondary" className="text-xs">PENDING</Badge>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium">CLM-2024-001236</p>
-                    <p className="text-xs text-muted-foreground">Westside Pediatrics</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">CLM-2024-001236</p>
+                    <p className="text-xs text-muted-foreground truncate">Westside Pediatrics</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">$650</p>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-sm font-semibold whitespace-nowrap">$650</p>
                     <Badge variant="default" className="text-xs bg-green-100 text-green-700">PAID</Badge>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium">CLM-2024-001237</p>
-                    <p className="text-xs text-muted-foreground">Sunrise Orthopedics</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">CLM-2024-001237</p>
+                    <p className="text-xs text-muted-foreground truncate">Sunrise Orthopedics</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">$185</p>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-sm font-semibold whitespace-nowrap">$185</p>
                     <Badge variant="outline" className="text-xs">SUBMITTED</Badge>
                   </div>
                 </div>
