@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign, Grid2X2, List } from 'lucide-react';
+import { Plus, Search, Filter, MapPin, Phone, Mail, Calendar, DollarSign, Grid2X2, List, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import DevModeControls from '@/components/DevModeControls';
 
 // Mock client data
 const mockClients = [
@@ -78,6 +79,8 @@ const Clients = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [practiceTypeFilter, setPracticeTypeFilter] = useState('all');
   const [viewMode, setViewMode] = useState<'cards' | 'list'>('cards');
+  const [devModeEnabled, setDevModeEnabled] = useState(false);
+  const [showGrid, setShowGrid] = useState(false);
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -112,7 +115,16 @@ const Clients = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Clients</h1>
           <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
         </div>
-        <div className="flex-shrink-0">
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDevModeEnabled(!devModeEnabled)}
+            className={devModeEnabled ? 'border-primary text-primary' : ''}
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Dev Mode
+          </Button>
           <Button className="w-full sm:w-auto">
             <Plus className="w-4 h-4 mr-2" />
             Add Client
@@ -257,26 +269,26 @@ const Clients = () => {
             ))}
           </div>
         ) : (
-          // List View - Responsive table with proper horizontal scroll
+          // List View - Improved responsive table with better column allocation
           <div className="w-full">
             <Card className="w-full overflow-hidden border-border/50">
               <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-background">
-                <table className="w-full min-w-[1200px] table-fixed">
+                <table className="w-full min-w-[1400px] table-auto">
                   <thead className="border-b border-border bg-muted/30">
                     <tr>
-                      <th className="text-left p-4 font-semibold text-foreground w-[200px]">Client</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[140px]">Practice Type</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[220px]">Contact</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[180px]">Location</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[140px]">Revenue</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[100px]">Status</th>
-                      <th className="text-left p-4 font-semibold text-foreground w-[120px]">Actions</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[200px] w-[20%]">Client</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[140px] w-[12%]">Practice Type</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[250px] w-[25%]">Contact</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[180px] w-[15%]">Location</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[140px] w-[12%]">Revenue</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[120px] w-[10%]">Status</th>
+                      <th className="text-left p-4 font-semibold text-foreground min-w-[100px] w-[6%]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredClients.map((client) => (
                       <tr key={client.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
-                        <td className="p-4 w-[200px]">
+                        <td className="p-4 min-w-[200px] w-[20%]">
                           <div className="min-w-0">
                             <Link 
                               to={`/clients/${client.id}`}
@@ -292,12 +304,12 @@ const Clients = () => {
                             )}
                           </div>
                         </td>
-                        <td className="p-4 text-sm text-muted-foreground w-[140px]">
+                        <td className="p-4 text-sm text-muted-foreground min-w-[140px] w-[12%]">
                           <span className="truncate block" title={client.practiceType}>
                             {client.practiceType}
                           </span>
                         </td>
-                        <td className="p-4 w-[220px]">
+                        <td className="p-4 min-w-[250px] w-[25%]">
                           <div className="text-sm space-y-1">
                             <div className="flex items-center gap-1 min-w-0">
                               <Mail className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
@@ -309,22 +321,22 @@ const Clients = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="p-4 text-sm text-muted-foreground w-[180px]">
+                        <td className="p-4 text-sm text-muted-foreground min-w-[180px] w-[15%]">
                           <span className="truncate block" title={`${client.city}, ${client.state} ${client.zipCode}`}>
                             {client.city}, {client.state} {client.zipCode}
                           </span>
                         </td>
-                        <td className="p-4 text-sm text-foreground font-semibold w-[140px]">
+                        <td className="p-4 text-sm text-foreground font-semibold min-w-[140px] w-[12%]">
                           <span className="whitespace-nowrap">
                             ${client.monthlyRevenue.toLocaleString()}/month
                           </span>
                         </td>
-                        <td className="p-4 w-[100px]">
+                        <td className="p-4 min-w-[120px] w-[10%]">
                           <Badge className={`${getStatusColor(client.status)} border font-medium`}>
                             {client.status}
                           </Badge>
                         </td>
-                        <td className="p-4 w-[120px]">
+                        <td className="p-4 min-w-[100px] w-[6%]">
                           <Link to={`/clients/${client.id}`}>
                             <Button size="sm" variant="outline" className="whitespace-nowrap w-full">
                               View
@@ -353,6 +365,14 @@ const Clients = () => {
           </div>
         </Card>
       )}
+
+      {/* Dev Mode Controls */}
+      <DevModeControls
+        isEnabled={devModeEnabled}
+        onToggle={setDevModeEnabled}
+        onGridToggle={setShowGrid}
+        showGrid={showGrid}
+      />
     </div>
   );
 };
