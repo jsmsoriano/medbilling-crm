@@ -48,42 +48,49 @@ const Reports = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="content-wrapper space-y-8">
-        {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Reports</h1>
-          <p className="text-muted-foreground">Generate and analyze comprehensive billing reports</p>
+    <div className="flex-1 flex flex-col min-h-0">
+      {/* Header */}
+      <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Reports</h1>
+            <p className="text-muted-foreground">Generate and analyze comprehensive billing reports</p>
+          </div>
         </div>
-        
-        {/* Configuration */}
-        <ReportConfiguration 
-          selectedReportType={selectedReportType}
-          setSelectedReportType={setSelectedReportType}
-          selectedClient={selectedClient}
-          setSelectedClient={setSelectedClient}
-          selectedPracticeGroup={selectedPracticeGroup}
-          setSelectedPracticeGroup={setSelectedPracticeGroup}
-          availableClients={availableClients}
-          availablePracticeGroups={availablePracticeGroups}
-          reportTypes={reportTypes}
-          onGeneratePDF={handleGeneratePDF}
-          isGenerating={isGenerating}
-          hasData={filteredData.length > 0}
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-        />
+      </header>
+      
+      {/* Main Content */}
+      <div className="flex-1 p-4 sm:p-6 overflow-auto">
+        <div className="space-y-6 max-w-7xl mx-auto">
+          {/* Configuration */}
+          <ReportConfiguration 
+            selectedReportType={selectedReportType}
+            setSelectedReportType={setSelectedReportType}
+            selectedClient={selectedClient}
+            setSelectedClient={setSelectedClient}
+            selectedPracticeGroup={selectedPracticeGroup}
+            setSelectedPracticeGroup={setSelectedPracticeGroup}
+            availableClients={availableClients}
+            availablePracticeGroups={availablePracticeGroups}
+            reportTypes={reportTypes}
+            onGeneratePDF={handleGeneratePDF}
+            isGenerating={isGenerating}
+            hasData={filteredData.length > 0}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+          />
 
-        {/* Results */}
-        <ReportPreview 
-          filteredData={filteredData}
-          onGeneratePDF={handleGeneratePDF}
-          onExportData={handleExportData}
-          isGenerating={isGenerating}
-          hasData={filteredData.length > 0}
-          reportType={selectedReportType}
-          dateRange={dateRange}
-        />
+          {/* Results */}
+          <ReportPreview 
+            filteredData={filteredData}
+            onGeneratePDF={handleGeneratePDF}
+            onExportData={handleExportData}
+            isGenerating={isGenerating}
+            hasData={filteredData.length > 0}
+            reportType={selectedReportType}
+            dateRange={dateRange}
+          />
+        </div>
       </div>
     </div>
   );
