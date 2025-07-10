@@ -257,74 +257,87 @@ const Clients = () => {
             ))}
           </div>
         ) : (
-          // List View - Responsive table with horizontal scroll
-          <Card className="w-full max-w-full overflow-hidden">
-            <div className="w-full overflow-x-auto">
-              <table className="w-full min-w-[800px]">
-                <thead className="border-b border-border">
-                  <tr>
-                    <th className="text-left p-4 font-medium text-foreground">Client</th>
-                    <th className="text-left p-4 font-medium text-foreground">Practice Type</th>
-                    <th className="text-left p-4 font-medium text-foreground">Contact</th>
-                    <th className="text-left p-4 font-medium text-foreground">Location</th>
-                    <th className="text-left p-4 font-medium text-foreground">Revenue</th>
-                    <th className="text-left p-4 font-medium text-foreground">Status</th>
-                    <th className="text-left p-4 font-medium text-foreground">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredClients.map((client) => (
-                    <tr key={client.id} className="border-b border-border hover:bg-muted/50">
-                      <td className="p-4 max-w-[200px]">
-                        <div className="min-w-0 max-w-full">
-                          <Link 
-                            to={`/clients/${client.id}`}
-                            className="font-medium text-foreground hover:text-primary transition-colors block truncate"
-                          >
-                            {client.name}
-                          </Link>
-                          {client.notes && (
-                            <p className="text-sm text-muted-foreground mt-1 truncate">{client.notes}</p>
-                          )}
-                        </div>
-                      </td>
-                      <td className="p-4 text-sm text-muted-foreground max-w-[120px] truncate">{client.practiceType}</td>
-                      <td className="p-4 min-w-[180px] max-w-[200px]">
-                        <div className="text-sm space-y-1">
-                          <div className="flex items-center gap-1 min-w-0">
-                            <Mail className="w-3 h-3 flex-shrink-0" />
-                            <span className="truncate">{client.email}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Phone className="w-3 h-3 flex-shrink-0" />
-                            <span className="truncate">{client.phone}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="p-4 text-sm text-muted-foreground min-w-[150px] max-w-[180px]">
-                        <span className="truncate block">{client.city}, {client.state} {client.zipCode}</span>
-                      </td>
-                      <td className="p-4 text-sm text-muted-foreground whitespace-nowrap">
-                        ${client.monthlyRevenue.toLocaleString()}/month
-                      </td>
-                      <td className="p-4">
-                        <Badge className={getStatusColor(client.status)} variant="secondary">
-                          {client.status}
-                        </Badge>
-                      </td>
-                      <td className="p-4">
-                        <Link to={`/clients/${client.id}`}>
-                          <Button size="sm" variant="outline" className="whitespace-nowrap">
-                            View Details
-                          </Button>
-                        </Link>
-                      </td>
+          // List View - Responsive table with proper horizontal scroll
+          <div className="w-full">
+            <Card className="w-full overflow-hidden">
+              <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-background">
+                <table className="w-full min-w-[1200px] table-fixed">
+                  <thead className="border-b border-border bg-muted/20">
+                    <tr>
+                      <th className="text-left p-4 font-medium text-foreground w-[200px]">Client</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[140px]">Practice Type</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[220px]">Contact</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[180px]">Location</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[140px]">Revenue</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[100px]">Status</th>
+                      <th className="text-left p-4 font-medium text-foreground w-[120px]">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
+                  </thead>
+                  <tbody>
+                    {filteredClients.map((client) => (
+                      <tr key={client.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                        <td className="p-4 w-[200px]">
+                          <div className="min-w-0">
+                            <Link 
+                              to={`/clients/${client.id}`}
+                              className="font-medium text-foreground hover:text-primary transition-colors block truncate"
+                              title={client.name}
+                            >
+                              {client.name}
+                            </Link>
+                            {client.notes && (
+                              <p className="text-sm text-muted-foreground mt-1 truncate" title={client.notes}>
+                                {client.notes}
+                              </p>
+                            )}
+                          </div>
+                        </td>
+                        <td className="p-4 text-sm text-muted-foreground w-[140px]">
+                          <span className="truncate block" title={client.practiceType}>
+                            {client.practiceType}
+                          </span>
+                        </td>
+                        <td className="p-4 w-[220px]">
+                          <div className="text-sm space-y-1">
+                            <div className="flex items-center gap-1 min-w-0">
+                              <Mail className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
+                              <span className="truncate" title={client.email}>{client.email}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Phone className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
+                              <span className="truncate" title={client.phone}>{client.phone}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4 text-sm text-muted-foreground w-[180px]">
+                          <span className="truncate block" title={`${client.city}, ${client.state} ${client.zipCode}`}>
+                            {client.city}, {client.state} {client.zipCode}
+                          </span>
+                        </td>
+                        <td className="p-4 text-sm text-muted-foreground w-[140px]">
+                          <span className="whitespace-nowrap">
+                            ${client.monthlyRevenue.toLocaleString()}/month
+                          </span>
+                        </td>
+                        <td className="p-4 w-[100px]">
+                          <Badge className={getStatusColor(client.status)} variant="secondary">
+                            {client.status}
+                          </Badge>
+                        </td>
+                        <td className="p-4 w-[120px]">
+                          <Link to={`/clients/${client.id}`}>
+                            <Button size="sm" variant="outline" className="whitespace-nowrap w-full">
+                              View
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
         )}
       </div>
 
