@@ -77,16 +77,16 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
                       key={item.href}
                       to={item.href}
                       className={cn(
-                        "group flex items-center px-3 py-3 text-base font-medium rounded-md transition-colors",
+                        "group flex items-center justify-start px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
                         isActive
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
+                          : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
                       )}
                       onClick={onClose}
                       title={item.description}
                     >
                       <item.icon className="mr-4 h-5 w-5 flex-shrink-0" />
-                      <span className="flex-1">{item.name}</span>
+                      <span className="flex-1 text-left">{item.name}</span>
                       {item.subscriptionRequired && (
                         <Badge variant="outline" className="text-xs ml-2">
                           {item.subscriptionRequired}

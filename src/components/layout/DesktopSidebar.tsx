@@ -12,14 +12,14 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
   const location = useLocation();
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:top-16 lg:flex lg:w-64 lg:flex-col">
-      <div className="flex flex-col flex-grow bg-white border-r border-gray-200 shadow-sm">
-        <div className="flex flex-col flex-grow">
-          <nav className="flex-1 px-4 py-6 space-y-6">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:top-16 lg:flex lg:w-64 lg:flex-col lg:h-[calc(100vh-4rem)]">
+      <div className="flex flex-col flex-grow bg-card border-r border-border shadow-sm">
+        <div className="flex flex-col flex-grow h-full">
+          <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
             {navigationGroups.map((group) => (
               <div key={group.name} className="space-y-1">
-                <div className="flex items-center gap-2 px-3 mb-2">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <div className="flex items-center gap-2 px-3 mb-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {group.name}
                   </h3>
                   {group.subscriptionRequired && (
@@ -35,15 +35,15 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                       key={item.href}
                       to={item.href}
                       className={cn(
-                        "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                        "group flex items-center justify-start px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full",
                         isActive
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md"
+                          : "text-foreground hover:bg-blue-50 hover:text-blue-600 hover:shadow-sm"
                       )}
                       title={item.description}
                     >
-                      <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
-                      <span className="flex-1">{item.name}</span>
+                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                      <span className="flex-1 text-left">{item.name}</span>
                       {item.subscriptionRequired && (
                         <Badge variant="outline" className="text-xs ml-2">
                           {item.subscriptionRequired}
@@ -57,8 +57,8 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
           </nav>
           
           {/* Version number at the bottom */}
-          <div className="px-4 py-3 border-t border-gray-200">
-            <div className="text-xs text-gray-500 text-center">
+          <div className="px-4 py-3 border-t border-border bg-muted/30">
+            <div className="text-xs text-muted-foreground text-center">
               Version 1.0.0
             </div>
           </div>
