@@ -3,6 +3,7 @@ import './App.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { AuthProvider } from '@/hooks/useAuth';
 import { SubscriptionProvider } from '@/hooks/useSubscription';
+import DebugProvider from '@/components/DebugProvider';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
@@ -58,7 +59,8 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <AuthProvider>
           <SubscriptionProvider>
-            <Router>
+            <DebugProvider>
+              <Router>
               <div className="App">
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
@@ -130,6 +132,7 @@ function App() {
                 <Toaster />
               </div>
             </Router>
+            </DebugProvider>
           </SubscriptionProvider>
         </AuthProvider>
       </ThemeProvider>
