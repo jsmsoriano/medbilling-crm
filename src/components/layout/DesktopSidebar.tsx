@@ -25,8 +25,8 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
   const isExpanded = (itemName: string) => expandedItems.includes(itemName);
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:top-16 lg:flex lg:w-64 lg:flex-col lg:h-[calc(100vh-4rem)] lg:z-30">
-      <div className="flex flex-col flex-grow bg-card border-r border-border shadow-sm overflow-hidden">
+    <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:top-16 lg:left-0 lg:z-30">
+      <div className="flex flex-col flex-grow bg-card border-r border-border shadow-sm overflow-hidden h-[calc(100vh-4rem)]">
         <div className="flex flex-col flex-grow h-full overflow-hidden">
           <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto overflow-x-hidden">
             {navigationGroups.map((group) => (

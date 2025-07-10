@@ -28,7 +28,7 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex w-full max-w-full">
+    <div className="min-h-screen bg-background flex w-full">
       {/* Conditional headers based on device type */}
       {isMobile ? (
         <MobileHeader />
@@ -44,10 +44,13 @@ const Layout = () => {
 
       {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
 
-      {/* Main content - aligned with header, with max-width container */}
-      <div className={`flex-1 flex flex-col ${!isMobile ? 'ml-64 pt-16' : 'pt-16'} min-h-screen`}>
-        <main className="flex-1">
-          <div className="w-full max-w-7xl mx-auto px-4 lg:px-6">
+      {/* Main content - properly aligned with responsive sidebar */}
+      <div className={`flex-1 flex flex-col min-h-screen w-full ${!isMobile ? 'lg:ml-64' : ''}`}>
+        {/* Header spacer */}
+        <div className="h-16 flex-shrink-0"></div>
+        
+        <main className="flex-1 w-full">
+          <div className="w-full max-w-7xl mx-auto px-4 lg:px-6 py-6">
             <Outlet />
           </div>
         </main>
