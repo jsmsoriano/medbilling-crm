@@ -105,13 +105,13 @@ const Clients = () => {
   const practiceTypes = [...new Set(clients.map(client => client.practiceType))];
 
   return (
-    <div className="page-container">
-      <div className="content-wrapper">
-      {/* Header Section - Fixed width to match application layout */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex-1 min-w-0">
+    <div className="w-full max-w-full overflow-x-hidden">
+      <div className="w-full max-w-full">
+      {/* Header Section - Responsive and overflow-safe */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 w-full max-w-full">
+        <div className="flex-1 min-w-0 max-w-full">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">Clients</h1>
-          <p className="text-muted-foreground mt-1 sm:mt-2">Manage your client relationships and billing accounts</p>
+          <p className="text-muted-foreground mt-1 sm:mt-2 break-words">Manage your client relationships and billing accounts</p>
         </div>
         <div className="flex-shrink-0">
           <Button className="w-full sm:w-auto">
@@ -121,51 +121,55 @@ const Clients = () => {
         </div>
       </div>
 
-      {/* Filters Section - Responsive and non-overflowing */}
-      <Card className="mb-6">
-        <div className="p-4">
-          <div className="flex flex-col gap-4">
-            {/* Search Input - Full width on mobile, constrained on desktop */}
-            <div className="w-full">
-              <div className="relative max-w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+      {/* Filters Section - Responsive and overflow-safe */}
+      <Card className="mb-6 w-full max-w-full">
+        <div className="p-4 w-full max-w-full">
+          <div className="flex flex-col gap-4 w-full max-w-full">
+            {/* Search Input - Full width, overflow-safe */}
+            <div className="w-full max-w-full">
+              <div className="relative w-full max-w-full">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 z-10" />
                 <Input
                   placeholder="Search clients by name, email, or city..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full"
+                  className="pl-10 w-full max-w-full"
                 />
               </div>
             </div>
             
-            {/* Filter Controls - Stack on mobile, flex on desktop */}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full sm:w-32">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent className="bg-card border border-border shadow-lg z-50">
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Filter Controls - Responsive layout */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full max-w-full">
+              <div className="w-full sm:w-auto sm:min-w-32">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border border-border shadow-lg z-50">
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
-              <Select value={practiceTypeFilter} onValueChange={setPracticeTypeFilter}>
-                <SelectTrigger className="w-full sm:w-40">
-                  <SelectValue placeholder="Practice Type" />
-                </SelectTrigger>
-                <SelectContent className="bg-card border border-border shadow-lg z-50">
-                  <SelectItem value="all">All Types</SelectItem>
-                  {practiceTypes.map(type => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="w-full sm:w-auto sm:min-w-40">
+                <Select value={practiceTypeFilter} onValueChange={setPracticeTypeFilter}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Practice Type" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border border-border shadow-lg z-50">
+                    <SelectItem value="all">All Types</SelectItem>
+                    {practiceTypes.map(type => (
+                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
               {/* View Mode Toggle */}
-              <div className="flex border rounded-md self-start">
+              <div className="flex border rounded-md self-start flex-shrink-0">
                 <Button
                   variant={viewMode === 'cards' ? 'default' : 'ghost'}
                   size="sm"
@@ -189,14 +193,14 @@ const Clients = () => {
       </Card>
 
       {/* Clients Display - Responsive and overflow-safe */}
-      <div className="w-full overflow-hidden">
+      <div className="w-full max-w-full overflow-x-hidden">
         {viewMode === 'cards' ? (
-          /* Cards View - Responsive grid */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          /* Cards View - Responsive grid with proper spacing */
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 w-full max-w-full">
             {filteredClients.map((client) => (
-              <Card key={client.id} className="p-4 sm:p-6 hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1 min-w-0">
+              <Card key={client.id} className="p-4 sm:p-6 hover:shadow-lg transition-shadow w-full max-w-full overflow-hidden">
+                <div className="flex items-start justify-between mb-4 w-full max-w-full">
+                  <div className="flex-1 min-w-0 max-w-full pr-2">
                     <Link 
                       to={`/clients/${client.id}`}
                       className="text-lg font-semibold text-foreground hover:text-primary transition-colors block truncate"
@@ -205,7 +209,7 @@ const Clients = () => {
                     </Link>
                     <p className="text-sm text-muted-foreground mt-1 truncate">{client.practiceType}</p>
                   </div>
-                  <Badge className={getStatusColor(client.status)} variant="secondary">
+                  <Badge className={`${getStatusColor(client.status)} flex-shrink-0`} variant="secondary">
                     {client.status}
                   </Badge>
                 </div>
@@ -255,8 +259,8 @@ const Clients = () => {
           </div>
         ) : (
           /* List View - Responsive table with horizontal scroll */
-          <Card className="overflow-hidden">
-            <div className="overflow-x-auto">
+          <Card className="w-full max-w-full overflow-hidden">
+            <div className="w-full overflow-x-auto">
               <table className="w-full min-w-[800px]">
                 <thead className="border-b border-border">
                   <tr>
@@ -273,7 +277,7 @@ const Clients = () => {
                   {filteredClients.map((client) => (
                     <tr key={client.id} className="border-b border-border hover:bg-muted/50">
                       <td className="p-4 max-w-[200px]">
-                        <div className="min-w-0">
+                        <div className="min-w-0 max-w-full">
                           <Link 
                             to={`/clients/${client.id}`}
                             className="font-medium text-foreground hover:text-primary transition-colors block truncate"
@@ -285,8 +289,8 @@ const Clients = () => {
                           )}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-muted-foreground">{client.practiceType}</td>
-                      <td className="p-4 min-w-[180px]">
+                      <td className="p-4 text-sm text-muted-foreground max-w-[120px] truncate">{client.practiceType}</td>
+                      <td className="p-4 min-w-[180px] max-w-[200px]">
                         <div className="text-sm space-y-1">
                           <div className="flex items-center gap-1 min-w-0">
                             <Mail className="w-3 h-3 flex-shrink-0" />
@@ -294,14 +298,14 @@ const Clients = () => {
                           </div>
                           <div className="flex items-center gap-1">
                             <Phone className="w-3 h-3 flex-shrink-0" />
-                            <span>{client.phone}</span>
+                            <span className="truncate">{client.phone}</span>
                           </div>
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-muted-foreground min-w-[150px]">
+                      <td className="p-4 text-sm text-muted-foreground min-w-[150px] max-w-[180px]">
                         <span className="truncate block">{client.city}, {client.state} {client.zipCode}</span>
                       </td>
-                      <td className="p-4 text-sm text-muted-foreground">
+                      <td className="p-4 text-sm text-muted-foreground whitespace-nowrap">
                         ${client.monthlyRevenue.toLocaleString()}/month
                       </td>
                       <td className="p-4">
@@ -311,7 +315,7 @@ const Clients = () => {
                       </td>
                       <td className="p-4">
                         <Link to={`/clients/${client.id}`}>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" className="whitespace-nowrap">
                             View Details
                           </Button>
                         </Link>

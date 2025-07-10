@@ -193,11 +193,20 @@
   
   /* Container classes for consistent layouts */
   .page-container {
-    @apply w-full max-w-full overflow-x-hidden;
+    @apply w-full max-w-full overflow-x-hidden min-h-0;
   }
   
   .content-wrapper {
-    @apply w-full max-w-full px-0 overflow-x-hidden;
+    @apply w-full max-w-full px-0 overflow-x-hidden min-h-0;
+  }
+
+  /* Layout utilities */
+  .layout-main {
+    @apply w-full max-w-full overflow-x-hidden;
+  }
+
+  .layout-content {
+    @apply w-full max-w-full overflow-x-hidden min-h-0;
   }
   
   /* Responsive utilities for consistent spacing */
