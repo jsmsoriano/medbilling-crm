@@ -28,30 +28,39 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
-      {/* Conditional headers based on device type */}
+    <div className="min-h-screen bg-background w-full">
+      {/* Fixed header that spans full width */}
       {isMobile ? (
         <MobileHeader />
       ) : (
         <LayoutHeader onMobileMenuToggle={() => setSidebarOpen(true)} />
       )}
       
+      {/* Mobile sidebar overlay */}
       <MobileSidebar 
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         navigationGroups={navigationGroups}
       />
 
-      {!isMobile && <DesktopSidebar navigationGroups={navigationGroups} />}
+      {/* Main layout container - flexbox for sidebar and content */}
+      <div className="flex w-full">
+        {/* Desktop sidebar - fixed width, not positioned */}
+        {!isMobile && (
+          <div className="w-64 flex-shrink-0">
+            <DesktopSidebar navigationGroups={navigationGroups} />
+          </div>
+        )}
 
-      {/* Main content - properly aligned with sidebar */}
-      <div className={`flex-1 flex flex-col min-h-0 w-full transition-all duration-300 ${!isMobile ? 'lg:ml-64' : ''}`}>
-        {/* Header spacer */}
-        <div className="h-16 flex-shrink-0"></div>
-        
-        <main className="flex-1 w-full min-h-0">
-          <Outlet />
-        </main>
+        {/* Main content area - takes remaining space */}
+        <div className="flex-1 min-w-0">
+          {/* Header spacer to account for fixed header */}
+          <div className="h-16 flex-shrink-0"></div>
+          
+          <main className="w-full">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );
