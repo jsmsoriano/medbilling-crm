@@ -84,7 +84,7 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                         className={cn(
                           "group flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 w-full min-w-0",
                           isItemOrChildActive
-                            ? "bg-primary text-primary-foreground shadow-md"
+                            ? "nav-active-parent"
                             : "text-foreground hover:bg-muted hover:text-primary"
                         )}
                         title={item.description}
@@ -112,7 +112,7 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                         className={cn(
                           "group flex items-center rounded-lg transition-all duration-200 min-w-0 justify-start px-3 py-3",
                           isActive
-                            ? "bg-primary text-primary-foreground shadow-md"
+                            ? "nav-active-parent"
                             : "text-foreground hover:bg-muted hover:text-primary"
                         )}
                         title={item.description}
@@ -139,7 +139,7 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                               className={cn(
                                 "group flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 w-full min-w-0",
                                 isChildActive
-                                  ? "bg-primary text-primary-foreground shadow-sm"
+                                  ? "nav-active-child"
                                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
                               )}
                               title={child.description}

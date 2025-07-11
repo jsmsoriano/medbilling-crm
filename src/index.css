@@ -73,6 +73,11 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 262 83% 58%;
+    
+    /* Navigation gradient colors */
+    --nav-gradient-from: 221 83% 53%; /* Blue */
+    --nav-gradient-to: 262 83% 58%;   /* Purple */
+    --nav-active-blue: 221 83% 53%;   /* Blue for submenu active state */
 
     /* SPACING SCALE - 8px System */
     --space-px: 1px;
@@ -163,6 +168,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 224.3 76.3% 48%;
+    
+    /* Navigation gradient colors for dark mode */
+    --nav-gradient-from: 224.3 76.3% 48%; /* Blue */
+    --nav-gradient-to: 263 70% 50.4%;     /* Purple */
+    --nav-active-blue: 224.3 76.3% 48%;   /* Blue for submenu active state */
   }
 
   /* RESPONSIVE SPACING ADJUSTMENTS */
@@ -479,6 +489,15 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Navigation active states */
+  .nav-active-parent {
+    @apply bg-gradient-to-r from-[hsl(var(--nav-gradient-from))] to-[hsl(var(--nav-gradient-to))] text-white shadow-md;
+  }
+  
+  .nav-active-child {
+    @apply bg-[hsl(var(--nav-active-blue))] text-white shadow-sm;
   }
 }
 

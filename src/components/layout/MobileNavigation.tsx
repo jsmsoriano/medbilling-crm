@@ -57,7 +57,7 @@ const MobileNavigation = ({ onItemClick }: MobileNavigationProps) => {
                   className={cn(
                     "group flex items-center px-3 py-4 text-base font-medium rounded-lg transition-colors min-h-[48px] touch-manipulation",
                     isItemOrChildActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "nav-active-parent"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80"
                   )}
                   title={item.description}

@@ -67,7 +67,7 @@ const MobileSidebarNavigation = ({ navigationGroups, onClose }: MobileSidebarNav
                     className={cn(
                       "group flex items-center justify-between px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
                       isItemOrChildActive
-                        ? "bg-primary text-primary-foreground shadow-md"
+                        ? "nav-active-parent"
                         : "text-foreground hover:bg-muted hover:text-primary"
                     )}
                   >
@@ -89,12 +89,12 @@ const MobileSidebarNavigation = ({ navigationGroups, onClose }: MobileSidebarNav
                     </div>
                   </button>
                 ) : (
-                  <Link
+                    <Link
                     to={item.href}
                     className={cn(
                       "group flex items-center justify-start px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-md"
+                        ? "nav-active-parent"
                         : "text-foreground hover:bg-muted hover:text-primary"
                     )}
                     onClick={onClose}
@@ -122,7 +122,7 @@ const MobileSidebarNavigation = ({ navigationGroups, onClose }: MobileSidebarNav
                           className={cn(
                             "group flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 w-full",
                             isChildActive
-                              ? "bg-primary text-primary-foreground shadow-sm"
+                              ? "nav-active-child"
                               : "text-muted-foreground hover:bg-muted hover:text-foreground"
                           )}
                           onClick={onClose}

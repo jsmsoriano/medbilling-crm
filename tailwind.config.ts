@@ -85,6 +85,11 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        "nav-gradient": {
+          from: "hsl(var(--nav-gradient-from))",
+          to: "hsl(var(--nav-gradient-to))",
+        },
+        "nav-active": "hsl(var(--nav-active-blue))",
       },
       borderRadius: {
         lg: "var(--radius)",
