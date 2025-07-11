@@ -81,25 +81,25 @@ const ClaimsStats = () => {
       title: 'Total Claims',
       value: stats.totalClaims.toString(),
       icon: FileText,
-      color: 'text-blue-600',
+      color: 'text-info',
     },
     {
       title: 'Submitted',
       value: stats.submittedClaims.toString(),
       icon: Clock,
-      color: 'text-yellow-600',
+      color: 'text-status-pending',
     },
     {
       title: 'Paid',
       value: stats.paidClaims.toString(),
       icon: CheckCircle,
-      color: 'text-green-600',
+      color: 'text-success',
     },
     {
       title: 'Denied',
       value: stats.deniedClaims.toString(),
       icon: AlertTriangle,
-      color: 'text-red-600',
+      color: 'text-destructive',
     },
   ];
 
@@ -112,10 +112,10 @@ const ClaimsStats = () => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {[...Array(5)].map((_, i) => (
           <Card key={i} className="animate-pulse">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="h-8 bg-muted rounded mb-2"></div>
               <div className="h-6 bg-muted rounded w-16"></div>
             </CardContent>
@@ -128,16 +128,16 @@ const ClaimsStats = () => {
   return (
     <div className="space-y-6">
       {/* Main Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {statsCards.map((stat, index) => (
-          <Card key={index} className="hover-scale">
-            <CardContent className="p-6">
+          <Card key={index} className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                  <p className="text-2xl font-bold">{stat.value}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{stat.title}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-foreground truncate">{stat.value}</p>
                 </div>
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${stat.color} flex-shrink-0`} />
               </div>
             </CardContent>
           </Card>
@@ -150,11 +150,11 @@ const ClaimsStats = () => {
           <CardTitle>AR Aging Buckets</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {agingCards.map((aging, index) => (
-              <div key={index} className="text-center p-4 bg-muted/30 rounded-lg">
+              <div key={index} className="text-center p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
                 <p className="text-sm font-medium text-muted-foreground">{aging.title}</p>
-                <p className="text-xl font-bold">{aging.value}</p>
+                <p className="text-lg sm:text-xl font-bold text-foreground">{aging.value}</p>
               </div>
             ))}
           </div>

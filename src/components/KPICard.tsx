@@ -17,32 +17,32 @@ interface KPICardProps {
 
 const KPICard = ({ title, value, change, trend, icon: Icon, color, description }: KPICardProps) => {
   const colorClasses = {
-    green: 'text-green-600 bg-green-50 border-green-200',
-    blue: 'text-blue-600 bg-blue-50 border-blue-200',
-    purple: 'text-purple-600 bg-purple-50 border-purple-200',
-    emerald: 'text-emerald-600 bg-emerald-50 border-emerald-200',
-    orange: 'text-orange-600 bg-orange-50 border-orange-200',
-    red: 'text-red-600 bg-red-50 border-red-200',
-    indigo: 'text-indigo-600 bg-indigo-50 border-indigo-200'
+    green: 'text-success bg-success-light border-success/20',
+    blue: 'text-primary bg-primary-light border-primary/20',
+    purple: 'text-status-review bg-status-review/10 border-status-review/20',
+    emerald: 'text-status-approved bg-status-approved/10 border-status-approved/20',
+    orange: 'text-warning bg-warning-light border-warning/20',
+    red: 'text-destructive bg-destructive-light border-destructive/20',
+    indigo: 'text-info bg-info-light border-info/20'
   };
 
   return (
-    <Card className="p-6 hover:shadow-lg transition-all duration-200 border-l-4 border-l-transparent hover:border-l-current">
+    <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-200 border-l-4 border-l-transparent hover:border-l-primary group">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center justify-between w-full">
-          <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+          <h3 className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{title}</h3>
           <div className="flex items-center gap-2">
             <div className={cn(
-              "w-10 h-10 rounded-lg flex items-center justify-center border",
+              "w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center border",
               colorClasses[color as keyof typeof colorClasses] || colorClasses.blue
             )}>
-              <Icon className="w-5 h-5" />
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             {description && (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Info className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                    <Info className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="max-w-xs">{description}</p>
@@ -55,15 +55,15 @@ const KPICard = ({ title, value, change, trend, icon: Icon, color, description }
       </div>
       
       <div className="space-y-2">
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-        <div className="flex items-center">
+        <p className="text-xl sm:text-2xl font-bold text-foreground">{value}</p>
+        <div className="flex items-center flex-wrap gap-1">
           <span className={cn(
             "text-sm font-medium",
-            trend === 'up' ? 'text-green-600' : 'text-red-600'
+            trend === 'up' ? 'text-success' : 'text-destructive'
           )}>
             {change}
           </span>
-          <span className="text-sm text-gray-500 ml-1">vs last month</span>
+          <span className="text-sm text-muted-foreground">vs last month</span>
         </div>
       </div>
     </Card>
