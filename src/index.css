@@ -9,75 +9,98 @@
 
 @layer base {
   :root {
-    /* COLOR SYSTEM - Purple Theme */
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    /* ========================================
+       PROFESSIONAL HEALTHCARE COLOR SYSTEM
+       ======================================== */
     
-    /* Primary purple brand color */
-    --primary: 262 83% 58%;
-    --primary-foreground: 210 20% 98%;
+    /* Core Foundation Colors */
+    --background: 0 0% 100%;                    /* Pure white */
+    --foreground: 220 15% 12%;                  /* Dark gray #1F2937 */
+    --card: 0 0% 100%;                         /* White cards */
+    --card-foreground: 220 15% 12%;            /* Dark gray text */
+    --popover: 0 0% 100%;                      /* White popovers */
+    --popover-foreground: 220 15% 12%;         /* Dark gray text */
     
-    /* Secondary grays */
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
+    /* PRIMARY HEALTHCARE COLORS */
+    --primary: 217 91% 60%;                    /* Professional Blue #2563EB */
+    --primary-foreground: 0 0% 100%;           /* White text on primary */
+    --primary-hover: 217 91% 55%;              /* Slightly darker for hover */
+    --primary-light: 217 91% 95%;              /* Light blue backgrounds */
     
-    /* Muted backgrounds */
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    /* Secondary Teal */
+    --secondary: 188 85% 35%;                  /* Medical Teal #0891B2 */
+    --secondary-foreground: 0 0% 100%;         /* White text on secondary */
+    --secondary-hover: 188 85% 30%;            /* Darker teal for hover */
+    --secondary-light: 188 85% 95%;            /* Light teal backgrounds */
     
-    /* Accent colors */
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    /* STATUS COLORS - Medical Context */
+    --success: 158 64% 35%;                    /* Success Green #059669 */
+    --success-foreground: 0 0% 100%;           /* White text on success */
+    --success-light: 158 64% 95%;              /* Light green backgrounds */
     
-    /* Destructive (red) */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
+    --warning: 32 95% 44%;                     /* Warning Orange #D97706 */
+    --warning-foreground: 0 0% 100%;           /* White text on warning */
+    --warning-light: 32 95% 95%;               /* Light orange backgrounds */
     
-    /* Success (green) */
-    --success: 142 76% 36%;
-    --success-foreground: 355 100% 97%;
+    --destructive: 0 84% 60%;                  /* Error Red #DC2626 */
+    --destructive-foreground: 0 0% 100%;       /* White text on destructive */
+    --destructive-light: 0 84% 95%;            /* Light red backgrounds */
     
-    /* Warning (orange) */
-    --warning: 32 95% 44%;
-    --warning-foreground: 210 20% 98%;
+    /* NEUTRAL GRAYS - Professional Hierarchy */
+    --text-primary: 220 15% 12%;               /* Dark Gray #1F2937 - Headers */
+    --text-secondary: 220 9% 46%;              /* Medium Gray #6B7280 - Secondary text */
+    --background-light: 220 14% 96%;           /* Light Gray #F3F4F6 - Backgrounds */
+    --border-color: 220 13% 91%;               /* Border Gray #E5E7EB */
     
-    /* Info (blue) */
-    --info: 221 83% 53%;
-    --info-foreground: 210 20% 98%;
+    /* CLAIM STATUS INDICATORS */
+    --status-submitted: 217 91% 60%;           /* Blue #3B82F6 */
+    --status-approved: 142 71% 45%;            /* Green #10B981 */
+    --status-pending: 45 93% 47%;              /* Amber #F59E0B */
+    --status-denied: 0 72% 51%;                /* Red #EF4444 */
+    --status-review: 258 90% 66%;              /* Purple #8B5CF6 */
+    --status-resubmitted: 188 95% 39%;         /* Cyan #06B6D4 */
     
-    /* Border and inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262 83% 58%;
+    /* MUTED & ACCENT VARIANTS */
+    --muted: 220 14% 96%;                      /* Light background */
+    --muted-foreground: 220 9% 46%;            /* Medium gray text */
+    --accent: 217 91% 95%;                     /* Light blue accent */
+    --accent-foreground: 217 91% 25%;          /* Dark blue text */
     
-    /* Chart colors */
-    --chart-1: 262 83% 58%;
-    --chart-2: 221 83% 53%;
-    --chart-3: 142 76% 36%;
-    --chart-4: 32 95% 44%;
-    --chart-5: 0 84.2% 60.2%;
+    /* INTERACTIVE ELEMENTS */
+    --border: 220 13% 91%;                     /* Standard borders */
+    --input: 220 13% 91%;                      /* Input borders */
+    --ring: 217 91% 60%;                       /* Focus rings - primary blue */
+    
+    /* INFORMATION COLORS */
+    --info: 217 91% 60%;                       /* Info Blue - same as primary */
+    --info-foreground: 0 0% 100%;              /* White text on info */
+    --info-light: 217 91% 95%;                 /* Light info backgrounds */
+    
+    /* CHART COLORS - Healthcare Data Visualization */
+    --chart-1: 217 91% 60%;                    /* Primary Blue */
+    --chart-2: 188 85% 35%;                    /* Secondary Teal */
+    --chart-3: 158 64% 35%;                    /* Success Green */
+    --chart-4: 32 95% 44%;                     /* Warning Orange */
+    --chart-5: 0 84% 60%;                      /* Error Red */
+    --chart-6: 258 90% 66%;                    /* Purple */
     
     /* Radius */
     --radius: 0.5rem;
     
-    /* Sidebar colors */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 262 83% 58%;
+    /* SIDEBAR - Professional Healthcare Theme */
+    --sidebar-background: 0 0% 98%;             /* Very light gray */
+    --sidebar-foreground: 220 15% 12%;          /* Dark gray text */
+    --sidebar-primary: 217 91% 60%;             /* Primary blue */
+    --sidebar-primary-foreground: 0 0% 100%;    /* White text */
+    --sidebar-accent: 217 91% 95%;              /* Light blue accent */
+    --sidebar-accent-foreground: 217 91% 25%;   /* Dark blue text */
+    --sidebar-border: 220 13% 91%;              /* Light border */
+    --sidebar-ring: 217 91% 60%;                /* Primary blue focus */
     
-    /* Navigation gradient colors */
-    --nav-gradient-from: 221 83% 53%; /* Blue */
-    --nav-gradient-to: 262 83% 58%;   /* Purple */
-    --nav-active-blue: 221 83% 53%;   /* Blue for submenu active state */
+    /* NAVIGATION - Healthcare Professional Gradient */
+    --nav-gradient-from: 217 91% 60%;           /* Primary Blue */
+    --nav-gradient-to: 188 85% 35%;             /* Secondary Teal */
+    --nav-active-blue: 217 91% 60%;             /* Primary blue for active states */
 
     /* SPACING SCALE - 8px System */
     --space-px: 1px;
@@ -128,51 +151,95 @@
     --widget-gap-lg: var(--space-8);                        /* 32px */
   }
 
-  /* DARK MODE COLORS */
+  /* ========================================
+     DARK MODE - Professional Healthcare Theme
+     ======================================== */
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --success: 142 76% 36%;
-    --success-foreground: 355 100% 97%;
-    --warning: 32 95% 44%;
-    --warning-foreground: 210 20% 98%;
-    --info: 221 83% 53%;
-    --info-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263 70% 50.4%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 224.3 76.3% 48%;
+    /* Core Foundation */
+    --background: 220 15% 8%;                   /* Very dark gray */
+    --foreground: 0 0% 98%;                     /* Near white text */
+    --card: 220 15% 10%;                        /* Dark gray cards */
+    --card-foreground: 0 0% 98%;                /* White text on cards */
+    --popover: 220 15% 10%;                     /* Dark popover */
+    --popover-foreground: 0 0% 98%;             /* White popover text */
     
-    /* Navigation gradient colors for dark mode */
-    --nav-gradient-from: 224.3 76.3% 48%; /* Blue */
-    --nav-gradient-to: 263 70% 50.4%;     /* Purple */
-    --nav-active-blue: 224.3 76.3% 48%;   /* Blue for submenu active state */
+    /* Primary Healthcare Colors - Dark Mode */
+    --primary: 217 91% 65%;                     /* Brighter blue for contrast */
+    --primary-foreground: 220 15% 8%;           /* Dark text on primary */
+    --primary-hover: 217 91% 70%;               /* Lighter for hover */
+    --primary-light: 217 91% 15%;               /* Dark blue backgrounds */
+    
+    /* Secondary Teal - Dark Mode */
+    --secondary: 188 85% 40%;                   /* Brighter teal */
+    --secondary-foreground: 220 15% 8%;         /* Dark text on secondary */
+    --secondary-hover: 188 85% 45%;             /* Lighter teal for hover */
+    --secondary-light: 188 85% 15%;             /* Dark teal backgrounds */
+    
+    /* Status Colors - Dark Mode Enhanced */
+    --success: 158 64% 40%;                     /* Brighter green */
+    --success-foreground: 220 15% 8%;           /* Dark text on success */
+    --success-light: 158 64% 15%;               /* Dark green backgrounds */
+    
+    --warning: 32 95% 50%;                      /* Brighter orange */
+    --warning-foreground: 220 15% 8%;           /* Dark text on warning */
+    --warning-light: 32 95% 15%;                /* Dark orange backgrounds */
+    
+    --destructive: 0 84% 65%;                   /* Brighter red */
+    --destructive-foreground: 220 15% 8%;       /* Dark text on destructive */
+    --destructive-light: 0 84% 15%;             /* Dark red backgrounds */
+    
+    /* Neutral Grays - Dark Mode */
+    --text-primary: 0 0% 98%;                   /* White text */
+    --text-secondary: 220 9% 70%;               /* Light gray secondary text */
+    --background-light: 220 15% 12%;            /* Dark backgrounds */
+    --border-color: 220 13% 20%;                /* Dark borders */
+    
+    /* Claim Status - Dark Mode */
+    --status-submitted: 217 91% 65%;            /* Brighter blue */
+    --status-approved: 142 71% 50%;             /* Brighter green */
+    --status-pending: 45 93% 55%;               /* Brighter amber */
+    --status-denied: 0 72% 60%;                 /* Brighter red */
+    --status-review: 258 90% 70%;               /* Brighter purple */
+    --status-resubmitted: 188 95% 45%;          /* Brighter cyan */
+    
+    /* Interface Elements */
+    --muted: 220 15% 12%;                       /* Dark muted backgrounds */
+    --muted-foreground: 220 9% 70%;             /* Light muted text */
+    --accent: 217 91% 15%;                      /* Dark blue accent */
+    --accent-foreground: 217 91% 80%;           /* Light blue text */
+    
+    /* Interactive Elements */
+    --border: 220 13% 20%;                      /* Dark borders */
+    --input: 220 13% 20%;                       /* Dark input borders */
+    --ring: 217 91% 65%;                        /* Bright blue focus rings */
+    
+    /* Information Colors */
+    --info: 217 91% 65%;                        /* Bright info blue */
+    --info-foreground: 220 15% 8%;              /* Dark text on info */
+    --info-light: 217 91% 15%;                  /* Dark info backgrounds */
+    
+    /* Chart Colors - Dark Mode */
+    --chart-1: 217 91% 65%;                     /* Bright primary blue */
+    --chart-2: 188 85% 45%;                     /* Bright teal */
+    --chart-3: 158 64% 45%;                     /* Bright green */
+    --chart-4: 32 95% 55%;                      /* Bright orange */
+    --chart-5: 0 84% 65%;                       /* Bright red */
+    --chart-6: 258 90% 70%;                     /* Bright purple */
+    
+    /* Sidebar - Dark Mode */
+    --sidebar-background: 220 15% 6%;           /* Very dark sidebar */
+    --sidebar-foreground: 0 0% 98%;             /* White sidebar text */
+    --sidebar-primary: 217 91% 65%;             /* Bright blue */
+    --sidebar-primary-foreground: 220 15% 8%;   /* Dark text */
+    --sidebar-accent: 217 91% 15%;              /* Dark blue accent */
+    --sidebar-accent-foreground: 217 91% 80%;   /* Light blue text */
+    --sidebar-border: 220 13% 20%;              /* Dark borders */
+    --sidebar-ring: 217 91% 65%;                /* Bright blue focus */
+    
+    /* Navigation - Dark Mode */
+    --nav-gradient-from: 217 91% 65%;           /* Bright primary blue */
+    --nav-gradient-to: 188 85% 45%;             /* Bright teal */
+    --nav-active-blue: 217 91% 65%;             /* Bright blue for active */
   }
 
   /* RESPONSIVE SPACING ADJUSTMENTS */
