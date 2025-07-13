@@ -48,7 +48,8 @@ const ARDashboard = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-h-0">
+    <TooltipProvider>
+      <div className="flex-1 flex flex-col min-h-0">
       {/* Header */}
       <header className="border-b border-border bg-background px-4 sm:px-6 py-4 flex-shrink-0">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-7xl mx-auto">
@@ -72,7 +73,6 @@ const ARDashboard = () => {
       {/* Summary Cards Section */}
       <div className="p-4 sm:p-6 border-b border-border flex-shrink-0">
         <div className="max-w-7xl mx-auto">
-          <TooltipProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
               <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
                 <CardHeader className="pb-3 px-4 pt-4">
@@ -179,7 +179,6 @@ const ARDashboard = () => {
                 </CardContent>
               </Card>
             </div>
-          </TooltipProvider>
         </div>
       </div>
 
@@ -280,7 +279,8 @@ const ARDashboard = () => {
           </Card>
         </div>
       </div>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 };
 
