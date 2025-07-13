@@ -459,6 +459,39 @@ export type Database = {
           },
         ]
       }
+      data_sources: {
+        Row: {
+          configuration: Json
+          created_at: string
+          created_by: string
+          id: string
+          is_active: boolean
+          name: string
+          source_type: string
+          updated_at: string
+        }
+        Insert: {
+          configuration?: Json
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          source_type: string
+          updated_at?: string
+        }
+        Update: {
+          configuration?: Json
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          source_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       file_vault: {
         Row: {
           client_id: string

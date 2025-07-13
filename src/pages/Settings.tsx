@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import DataSourceConfiguration from '@/components/settings/DataSourceConfiguration';
 import { 
   User, 
   Building2, 
@@ -21,7 +22,8 @@ import {
   MapPin,
   Calendar,
   Check,
-  X
+  X,
+  Database
 } from 'lucide-react';
 
 const Settings = () => {
@@ -125,7 +127,7 @@ const Settings = () => {
 
       <Tabs defaultValue="profile" className="space-y-6">
         <div className="overflow-x-auto">
-          <TabsList className="grid w-full min-w-max grid-cols-5 h-auto md:h-10">
+          <TabsList className="grid w-full min-w-max grid-cols-6 h-auto md:h-10">
             <TabsTrigger value="profile" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
               <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
               <span>Profile</span>
@@ -133,6 +135,11 @@ const Settings = () => {
             <TabsTrigger value="company" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
               <Building2 className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
               <span>Company</span>
+            </TabsTrigger>
+            <TabsTrigger value="data-sources" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
+              <Database className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+              <span className="hidden md:inline">Data Sources</span>
+              <span className="md:hidden">Data</span>
             </TabsTrigger>
             <TabsTrigger value="notifications" className="flex flex-col md:flex-row items-center gap-1 md:gap-2 py-2 md:py-0 text-xs md:text-sm px-2">
               <Bell className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
@@ -299,6 +306,10 @@ const Settings = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="data-sources">
+          <DataSourceConfiguration />
         </TabsContent>
 
         <TabsContent value="notifications">
