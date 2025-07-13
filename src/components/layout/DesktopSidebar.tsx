@@ -69,10 +69,12 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
               {group.items.map((item) => {
                 const isActive = location.pathname === item.href;
                 const hasChildren = item.children && item.children.length > 0;
-                const isChildActive = hasChildren && item.children?.some(child => 
-                  location.pathname === child.href || 
-                  (child.href !== item.href && location.pathname.startsWith(child.href))
-                );
+                const isChildActive = hasChildren && item.children?.some(child => {
+                  if (child.href === item.href) {
+                    return location.pathname === child.href;
+                  }
+                  return location.pathname === child.href || location.pathname.startsWith(child.href + '/');
+                });
                 const isItemOrChildActive = isActive || isChildActive;
                 const isItemExpanded = isExpanded(item.name);
                 
@@ -131,7 +133,8 @@ const DesktopSidebar = ({ navigationGroups }: DesktopSidebarProps) => {
                     {hasChildren && isItemExpanded && (
                       <div className="ml-6 space-y-1">
                         {item.children?.map((child) => {
-                          const isChildActive = location.pathname === child.href;
+                          const isChildActive = location.pathname === child.href || 
+                            (child.href !== item.href && location.pathname.startsWith(child.href + '/'));
                           return (
                             <Link
                               key={child.href}

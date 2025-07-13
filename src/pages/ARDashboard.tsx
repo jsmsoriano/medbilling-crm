@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { 
   DollarSign, 
   TrendingUp, 
@@ -11,6 +12,7 @@ import {
   Calendar,
   Users
 } from 'lucide-react';
+import { formatCurrencyAbbreviated, getFullCurrencyAmount, formatPercentage } from '@/utils/formatters';
 
 const ARDashboard = () => {
   // Mock AR data
@@ -70,85 +72,114 @@ const ARDashboard = () => {
       {/* Summary Cards Section */}
       <div className="p-4 sm:p-6 border-b border-border flex-shrink-0">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  Total AR
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">${arMetrics.totalAR.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground mt-1">All outstanding receivables</p>
-              </CardContent>
-            </Card>
+          <TooltipProvider>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Total AR</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="text-xl sm:text-2xl font-bold truncate cursor-help">
+                        {formatCurrencyAbbreviated(arMetrics.totalAR)}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{getFullCurrencyAmount(arMetrics.totalAR)}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">All outstanding receivables</p>
+                </CardContent>
+              </Card>
 
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  Current AR
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-success">${arMetrics.currentAR.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground mt-1">0-30 days outstanding</p>
-              </CardContent>
-            </Card>
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Current AR</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="text-xl sm:text-2xl font-bold text-success truncate cursor-help">
+                        {formatCurrencyAbbreviated(arMetrics.currentAR)}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{getFullCurrencyAmount(arMetrics.currentAR)}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">0-30 days outstanding</p>
+                </CardContent>
+              </Card>
 
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <AlertTriangle className="w-4 h-4 mr-2" />
-                  Past Due
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-destructive">${arMetrics.pastDue.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground mt-1">30+ days outstanding</p>
-              </CardContent>
-            </Card>
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Past Due</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="text-xl sm:text-2xl font-bold text-destructive truncate cursor-help">
+                        {formatCurrencyAbbreviated(arMetrics.pastDue)}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{getFullCurrencyAmount(arMetrics.pastDue)}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">30+ days outstanding</p>
+                </CardContent>
+              </Card>
 
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <Clock className="w-4 h-4 mr-2" />
-                  Days in AR
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{arMetrics.daysInAR}</div>
-                <p className="text-xs text-muted-foreground mt-1">Average collection time</p>
-              </CardContent>
-            </Card>
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <Clock className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Days in AR</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <div className="text-xl sm:text-2xl font-bold">{arMetrics.daysInAR}</div>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Average collection time</p>
+                </CardContent>
+              </Card>
 
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  Collection Rate
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-success">{arMetrics.collectionRate}%</div>
-                <p className="text-xs text-muted-foreground mt-1">Overall collection efficiency</p>
-              </CardContent>
-            </Card>
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Collection Rate</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <div className="text-xl sm:text-2xl font-bold text-success">{formatPercentage(arMetrics.collectionRate)}</div>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Overall collection efficiency</p>
+                </CardContent>
+              </Card>
 
-            <Card className="border-border/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-                  <AlertTriangle className="w-4 h-4 mr-2" />
-                  Denial Rate
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-warning">{arMetrics.denialRate}%</div>
-                <p className="text-xs text-muted-foreground mt-1">Claims denied percentage</p>
-              </CardContent>
-            </Card>
-          </div>
+              <Card className="border-border/50 transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">Denial Rate</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <div className="text-xl sm:text-2xl font-bold text-warning">{formatPercentage(arMetrics.denialRate)}</div>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Claims denied percentage</p>
+                </CardContent>
+              </Card>
+            </div>
+          </TooltipProvider>
         </div>
       </div>
 
@@ -177,8 +208,17 @@ const ARDashboard = () => {
                     </div>
                     <div className="flex items-center space-x-6">
                       <div className="text-right">
-                        <div className="text-lg font-semibold">${bucket.amount.toLocaleString()}</div>
-                        <div className="text-sm text-muted-foreground">{bucket.percentage}%</div>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="text-lg font-semibold cursor-help">
+                              {formatCurrencyAbbreviated(bucket.amount)}
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{getFullCurrencyAmount(bucket.amount)}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <div className="text-sm text-muted-foreground">{formatPercentage(bucket.percentage)}</div>
                       </div>
                       <div className="w-32 bg-muted rounded-full h-2">
                         <div 

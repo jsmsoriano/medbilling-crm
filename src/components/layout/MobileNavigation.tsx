@@ -43,10 +43,12 @@ const MobileNavigation = ({ onItemClick }: MobileNavigationProps) => {
             {group.items.map((item) => {
               const isActive = location.pathname === item.href;
               const hasChildren = item.children && item.children.length > 0;
-              const isChildActive = hasChildren && item.children?.some(child => 
-                location.pathname === child.href || 
-                (child.href !== item.href && location.pathname.startsWith(child.href))
-              );
+              const isChildActive = hasChildren && item.children?.some(child => {
+                if (child.href === item.href) {
+                  return location.pathname === child.href;
+                }
+                return location.pathname === child.href || location.pathname.startsWith(child.href + '/');
+              });
               const isItemOrChildActive = isActive || isChildActive;
               
               return (
