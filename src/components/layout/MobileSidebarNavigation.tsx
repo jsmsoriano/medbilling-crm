@@ -62,32 +62,43 @@ const MobileSidebarNavigation = ({ navigationGroups, onClose }: MobileSidebarNav
             return (
               <div key={item.href} className="space-y-1">
                 {hasChildren ? (
-                  <button
-                    onClick={() => toggleExpanded(item.name)}
-                    className={cn(
-                      "group flex items-center justify-between px-3 py-3 text-base font-medium rounded-lg transition-all duration-200 w-full",
-                      isItemOrChildActive
-                        ? "nav-active-parent"
-                        : "text-foreground hover:bg-muted hover:text-primary"
-                    )}
-                  >
-                    <div className="flex items-center min-w-0 flex-1">
+                  <div className="flex">
+                    <Link
+                      to={item.href}
+                      className={cn(
+                        "group flex items-center justify-start px-3 py-3 text-base font-medium rounded-l-lg transition-all duration-200 flex-1 min-w-0",
+                        isItemOrChildActive
+                          ? "nav-active-parent"
+                          : "text-foreground hover:bg-muted hover:text-primary"
+                      )}
+                      onClick={onClose}
+                      title={item.description}
+                    >
                       <item.icon className="mr-4 h-5 w-5 flex-shrink-0" />
                       <span className="flex-1 text-left">{item.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
                       {item.subscriptionRequired && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs ml-2">
                           {item.subscriptionRequired}
                         </Badge>
                       )}
+                    </Link>
+                    <button
+                      onClick={() => toggleExpanded(item.name)}
+                      className={cn(
+                        "flex items-center justify-center px-3 py-3 rounded-r-lg transition-all duration-200 border-l border-border/50",
+                        isItemOrChildActive
+                          ? "nav-active-parent"
+                          : "text-foreground hover:bg-muted hover:text-primary"
+                      )}
+                      title={`Toggle ${item.name} submenu`}
+                    >
                       {isItemExpanded ? (
                         <ChevronDown className="h-4 w-4" />
                       ) : (
                         <ChevronRight className="h-4 w-4" />
                       )}
-                    </div>
-                  </button>
+                    </button>
+                  </div>
                 ) : (
                     <Link
                     to={item.href}
