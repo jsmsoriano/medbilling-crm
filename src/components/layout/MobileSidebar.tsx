@@ -16,9 +16,9 @@ const MobileSidebar = ({ isOpen, onClose, navigationGroups }: MobileSidebarProps
 
   return (
     <div className="fixed inset-0 z-40 lg:hidden">
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={onClose} />
-      <div className="relative flex w-full max-w-xs flex-col bg-white h-full">
-        <div className="flex flex-col h-full">
+      <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative flex w-full max-w-xs flex-col bg-gradient-to-b from-white to-gray-50/50 h-full shadow-2xl">
+        <div className="flex flex-col h-full backdrop-blur-sm">
           <MobileSidebarHeader onClose={onClose} />
           <MobileSidebarAccountInfo />
           <MobileSidebarNavigation 
